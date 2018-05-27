@@ -1,17 +1,17 @@
 <?xml version="1.0"?>
-<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-05-27T08:07:26" id="0" hostname="Anemoi" tests="9" errors="0" failures="0" time="0.013">
+<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-05-27T08:26:43" id="0" hostname="Anemoi" tests="9" errors="0" failures="0" time="0.014">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"/>
   </properties>
-  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0.003" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing VueJS Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Jasmine Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing jQuery Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.006" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing VueJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing jQuery Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Jasmine Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Exists" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <system-out>
     <![CDATA[
 ]]>

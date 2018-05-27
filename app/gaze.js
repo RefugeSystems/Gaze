@@ -69230,5 +69230,5 @@ new Vue({
 	}
 });
 
-Gaze.version = "0.0.1";
+Gaze.version = "V0.0.1";
 //# sourceMappingURL=gaze.js.map
