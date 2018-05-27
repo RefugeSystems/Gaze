@@ -54,6 +54,17 @@
         }
     },
     "elements": {},
-    "classitems": [],
+    "classitems": [
+        {
+            "file": "lib\\gaze.js",
+            "line": 21,
+            "description": "The version of Gaze running.",
+            "itemtype": "property",
+            "name": "version",
+            "type": "String",
+            "class": "Gaze",
+            "module": "Gaze"
+        }
+    ],
     "warnings": []
 }

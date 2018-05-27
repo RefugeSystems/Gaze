@@ -12,13 +12,15 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-mkdir");
 	grunt.loadNpmTasks("grunt-karma");
 
+	var pkg = grunt.file.readJSON("package.json");
 	var config = {
-		"pkg": grunt.file.readJSON("package.json"),
+		"pkg": pkg,
 		"eslint": {
 			"options": {
 				"globals": [
 					"sessionStorage",
 					"localStorage",
+					"_gazeVersion",
 					"cytoscape",
 					"location",
 					"document",
@@ -91,11 +93,46 @@ module.exports = function(grunt) {
 			}
 		},
 		"concat": {
-			"app": {
+			"appCSS": {
 				"src": [
 					"lib/**/*.css"
 				],
 				"dest": "app/gaze.css"
+			},
+			"appJS": {
+				"options": {
+					"sourceMap": true,
+					"footer": "\nGaze.version = \"V" + pkg.version + "\";",
+				},
+				"src": [
+					"node_modules/angular/angular.js",
+					"node_modules/angular-mocks/angular-mocks.js",
+					"node_modules/vue/dist/vue.min.js",
+					"node_modules/jquery/dist/jquery.min.js",
+
+					"node_modules/cytoscape/dist/cytoscape.js",
+					"node_modules/cytoscape-cola/cola.js",
+					"node_modules/cytoscape-cola/cytoscape-cola.js",
+
+					"lib/gaze.js",
+					"lib/common/*.js",
+					
+					"build/templates-angular.js",
+					"lib/scripts-angular/**/*configuration.js",
+					"lib/scripts-angular/**/*module.js",
+					"lib/scripts-angular/**/*provider.js",
+					"lib/scripts-angular/**/*filter.js",
+					"lib/scripts-angular/**/*factory.js",
+					"lib/scripts-angular/**/*directive.js",
+					"lib/scripts-angular/**/*controller.js",
+					"lib/scripts-angular/**/*service.js",
+					
+					"build/templates-vue.js",
+					"lib/scripts-vue/*/**/*.js",
+					"lib/scripts-vue/index.js",
+					"lib/scripts-vue/add-*.js"
+				],
+				"dest": "app/gaze.js"
 			},
 			"css": {
 				"src": [
@@ -108,7 +145,7 @@ module.exports = function(grunt) {
 			"server": {
 				"options": {
 					"port": 3080,
-					"base": "client/",
+					"base": "app/",
 					"hostname": "*",
 					"livereload": 3081,
 					"middleware": function(connect, options, middlewares) {
@@ -182,6 +219,17 @@ module.exports = function(grunt) {
 				"files": ["lib/**/*.js", "lib/**/*.js", "lib/**/*.css", "lib/**/*.html"],
 				"tasks": ["dev"]
 			},
+			"beta": {
+				"options": {
+					"livereload": {
+						"host": "0.0.0.0",
+						"port": 3081
+					},
+					"livereloadOnError": false
+				},
+				"files": ["lib/**/*.js", "lib/**/*.js", "lib/**/*.css", "lib/**/*.html"],
+				"tasks": ["beta"]
+			},
 			"docs": {
 				"files": ["lib/**/*.js", "lib/**/*.js", "lib/**/*.css", "lib/**/*.html"],
 				"tasks": ["yuidoc"]
@@ -191,7 +239,8 @@ module.exports = function(grunt) {
 			"app": {
 				"options": {
 					"sourceMap": true,
-					"sourceMapName": "./app/gaze.min.js.map"
+					"sourceMapName": "./app/gaze.min.js.map",
+					"footer": "\nGaze.version = \"V" + pkg.version + "\";",
 				},
 				"files": {
 					"./app/gaze.min.js": [
@@ -414,14 +463,15 @@ module.exports = function(grunt) {
 	grunt.registerTask("default", ["mkdir:build", "lint", "concurrent:development"]);
 
 	grunt.registerTask("lint", ["eslint:lib"]);
-	grunt.registerTask("dev", ["eslint:lib", "templify:vue", "templify:angular", "concat:app", "uglify:app"]);
+	grunt.registerTask("dev", ["eslint:lib", "templify:vue", "templify:angular", "concat:appCSS", "concat:appJS"]);
+	grunt.registerTask("beta", ["eslint:lib", "templify:vue", "templify:angular", "concat:appCSS", "uglify:app"]);
 
 	grunt.registerTask("document", ["yuidoc", "connect:docs", "open:docs", "watch:docs"]);
 	grunt.registerTask("testing", ["templify:vue", "templify:angular", "open:karma", "karma:continuous"]);
 	grunt.registerTask("general", ["dev", "connect:server", "open:app", "watch:app"]);
-	
-	grunt.registerTask("test", ["eslint:client", "templify:testing", "karma:deployment"]);
 
-//	grunt.registerTask("distribute", ["concat:angularjs", "concat:vuejs", "uglify:distribution", "concat:distributeAngular", "concat:distributeVue", "concat:distributeCSS"]);
+	grunt.registerTask("beta-test", ["beta", "connect:server", "open:app", "watch:beta"]);
+	grunt.registerTask("test", ["eslint:client", "templify:testing", "karma:deployment"]);
+	
 	grunt.registerTask("distribute", ["mkdir:build", "templify:vue", "uglify:angular", "uglify:vue", "concat:css"]);
 };

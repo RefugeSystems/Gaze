@@ -1,4 +1,4 @@
-if(!window.Promise) {
+if(!window.Promise)
 	(function (root) {
 
 		// Store setTimeout reference so promise-polyfill will be unaffected by
@@ -15,8 +15,8 @@ if(!window.Promise) {
 		}
 
 		function Promise(fn) {
-			if (typeof this !== 'object') throw new TypeError('Promises must be constructed via new');
-			if (typeof fn !== 'function') throw new TypeError('not a function');
+			if (typeof this !== "object") throw new TypeError("Promises must be constructed via new");
+			if (typeof fn !== "function") throw new TypeError("not a function");
 			this._state = 0;
 			this._handled = false;
 			this._value = undefined;
@@ -26,9 +26,8 @@ if(!window.Promise) {
 		}
 
 		function handle(self, deferred) {
-			while (self._state === 3) {
+			while (self._state === 3)
 				self = self._value;
-			}
 			if (self._state === 0) {
 				self._deferreds.push(deferred);
 				return;
@@ -54,15 +53,15 @@ if(!window.Promise) {
 		function resolve(self, newValue) {
 			try {
 				// Promise Resolution Procedure: https://github.com/promises-aplus/promises-spec#the-promise-resolution-procedure
-				if (newValue === self) throw new TypeError('A promise cannot be resolved with itself.');
-				if (newValue && (typeof newValue === 'object' || typeof newValue === 'function')) {
+				if (newValue === self) throw new TypeError("A promise cannot be resolved with itself.");
+				if (newValue && (typeof newValue === "object" || typeof newValue === "function")) {
 					var then = newValue.then;
 					if (newValue instanceof Promise) {
 						self._state = 3;
 						self._value = newValue;
 						finale(self);
 						return;
-					} else if (typeof then === 'function') {
+					} else if (typeof then === "function") {
 						doResolve(bind(then, newValue), self);
 						return;
 					}
@@ -82,23 +81,20 @@ if(!window.Promise) {
 		}
 
 		function finale(self) {
-			if (self._state === 2 && self._deferreds.length === 0) {
+			if (self._state === 2 && self._deferreds.length === 0)
 				Promise._immediateFn(function() {
-					if (!self._handled) {
+					if (!self._handled)
 						Promise._unhandledRejectionFn(self._value);
-					}
 				});
-			}
-
-			for (var i = 0, len = self._deferreds.length; i < len; i++) {
+			
+			for (var i = 0, len = self._deferreds.length; i < len; i++)
 				handle(self, self._deferreds[i]);
-			}
 			self._deferreds = null;
 		}
 
 		function Handler(onFulfilled, onRejected, promise) {
-			this.onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : null;
-			this.onRejected = typeof onRejected === 'function' ? onRejected : null;
+			this.onFulfilled = typeof onFulfilled === "function" ? onFulfilled : null;
+			this.onRejected = typeof onRejected === "function" ? onRejected : null;
 			this.promise = promise;
 		}
 
@@ -112,11 +108,13 @@ if(!window.Promise) {
 			var done = false;
 			try {
 				fn(function (value) {
-					if (done) return;
+					if (done)
+						return;
 					done = true;
 					resolve(self, value);
 				}, function (reason) {
-					if (done) return;
+					if (done)
+						return;
 					done = true;
 					reject(self, reason);
 				});
@@ -127,7 +125,7 @@ if(!window.Promise) {
 			}
 		}
 
-		Promise.prototype['catch'] = function (onRejected) {
+		Promise.prototype["catch"] = function (onRejected) {
 			return this.then(null, onRejected);
 		};
 
@@ -142,14 +140,15 @@ if(!window.Promise) {
 			var args = Array.prototype.slice.call(arr);
 
 			return new Promise(function (resolve, reject) {
-				if (args.length === 0) return resolve([]);
+				if (args.length === 0)
+					return resolve([]);
 				var remaining = args.length;
 
 				function res(i, val) {
 					try {
-						if (val && (typeof val === 'object' || typeof val === 'function')) {
+						if (val && (typeof val === "object" || typeof val === "function")) {
 							var then = val.then;
-							if (typeof then === 'function') {
+							if (typeof then === "function") {
 								then.call(val, function (val) {
 									res(i, val);
 								}, reject);
@@ -157,24 +156,21 @@ if(!window.Promise) {
 							}
 						}
 						args[i] = val;
-						if (--remaining === 0) {
+						if (--remaining === 0)
 							resolve(args);
-						}
 					} catch (ex) {
 						reject(ex);
 					}
 				}
 
-				for (var i = 0; i < args.length; i++) {
+				for (var i = 0; i < args.length; i++)
 					res(i, args[i]);
-				}
 			});
 		};
 
 		Promise.resolve = function (value) {
-			if (value && typeof value === 'object' && value.constructor === Promise) {
+			if (value && typeof value === "object" && value.constructor === Promise)
 				return value;
-			}
 
 			return new Promise(function (resolve) {
 				resolve(value);
@@ -189,22 +185,20 @@ if(!window.Promise) {
 
 		Promise.race = function (values) {
 			return new Promise(function (resolve, reject) {
-				for (var i = 0, len = values.length; i < len; i++) {
+				for (var i = 0, len = values.length; i < len; i++)
 					values[i].then(resolve, reject);
-				}
 			});
 		};
 
 		// Use polyfill for setImmediate for performance gains
-		Promise._immediateFn = (typeof setImmediate === 'function' && function (fn) { setImmediate(fn); }) ||
+		Promise._immediateFn = (typeof setImmediate === "function" && function (fn) { setImmediate(fn); }) ||
 		function (fn) {
 			setTimeoutFunc(fn, 0);
 		};
 
 		Promise._unhandledRejectionFn = function _unhandledRejectionFn(err) {
-			if (typeof console !== 'undefined' && console) {
-				console.warn('Possible Unhandled Promise Rejection:', err); // eslint-disable-line no-console
-			}
+			if (typeof console !== "undefined" && console)
+				console.warn("Possible Unhandled Promise Rejection:", err);
 		};
 
 		/**
@@ -225,33 +219,29 @@ if(!window.Promise) {
 			Promise._unhandledRejectionFn = fn;
 		};
 
-		if (typeof module !== 'undefined' && module.exports) {
+		if (typeof module !== "undefined" && module.exports)
 			module.exports = Promise;
-		} else if (!root.Promise) {
+		else if (!root.Promise)
 			root.Promise = Promise;
-		}
 
 	})(window);
-}
 
-if(!Object.assign) {
+
+if(!Object.assign)
 	(function() {
 		Object.assign = function() {
 			var construct = arguments[0] || {};
 			
 			var load = function(source) {
-				if(source instanceof Object) {
+				if(source instanceof Object)
 					Object.keys(source).forEach(function(field) {
 						construct[field] = source[field];
 					});
-				}
 			};
 			
-			for(var x=1;x<arguments.length;x++) {
+			for(var x=1;x<arguments.length;x++)
 				load(arguments[x]);
-			}
 			
 			return construct;
-		}
+		};
 	})();
-}

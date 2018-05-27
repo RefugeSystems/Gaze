@@ -1,24 +1,19 @@
 <?xml version="1.0"?>
-<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-05-27T07:35:09" id="0" hostname="Anemoi" tests="9" errors="1" failures="0" time="0.025">
+<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-05-27T08:07:26" id="0" hostname="Anemoi" tests="9" errors="0" failures="0" time="0.013">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"/>
   </properties>
-  <testcase name="Assumptions for unit testing jQuery Exists" time="0.004" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Jasmine Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.012" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <testcase name="Assumptions for unit testing Promises Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <testcase name="Assumptions for unit testing Promises Execute successfully" time="0.003" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing VueJS Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.006" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing VueJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing jQuery Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Jasmine Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <system-out>
-    <![CDATA[PhantomJS 2.1.1 (Windows 7 0.0.0) ERROR
-  {
-    "message": "An error was thrown in afterAll\nReferenceError: Can't find variable: global",
-    "str": "An error was thrown in afterAll\nReferenceError: Can't find variable: global"
-  }
-
+    <![CDATA[
 ]]>
   </system-out>
   <system-err/>
