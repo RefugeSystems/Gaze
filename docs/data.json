@@ -1,0 +1,59 @@
+{
+    "project": {
+        "name": "rs-gaze",
+        "description": "Dashboard display components in Vue geared towards RefugeSystem's Sovereign project",
+        "version": "0.0.1",
+        "url": "https://github.com/RefugeSystems/Gaze"
+    },
+    "files": {
+        "lib\\gaze.js": {
+            "name": "lib\\gaze.js",
+            "modules": {
+                "Gaze": 1
+            },
+            "classes": {
+                "Gaze": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        }
+    },
+    "modules": {
+        "Gaze": {
+            "name": "Gaze",
+            "submodules": {},
+            "elements": {},
+            "classes": {
+                "Gaze": 1
+            },
+            "fors": {},
+            "namespaces": {},
+            "tag": "module",
+            "file": "lib\\gaze.js",
+            "line": 2
+        }
+    },
+    "classes": {
+        "Gaze": {
+            "name": "Gaze",
+            "shortname": "Gaze",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\gaze.js",
+            "line": 2,
+            "is_constructor": 1,
+            "mainName": "",
+            "tag": "main",
+            "itemtype": "main",
+            "_main": true,
+            "static": 1
+        }
+    },
+    "elements": {},
+    "classitems": [],
+    "warnings": []
+}
