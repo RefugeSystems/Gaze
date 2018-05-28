@@ -1,19 +1,39 @@
 <?xml version="1.0"?>
-<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-05-27T08:26:43" id="0" hostname="Anemoi" tests="9" errors="0" failures="0" time="0.014">
+<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-05-28T06:45:23" id="0" hostname="Anemoi" tests="9" errors="1" failures="3" time="0.009">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"/>
   </properties>
-  <testcase name="Assumptions for unit testing VueJS Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
+    <failure type="">ReferenceError: Can't find variable: Promise in spec/_base-spec.js (line 13)
+spec/_base-spec.js:13:18
+&lt;Jasmine&gt;
+</failure>
+  </testcase>
+  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
+    <failure type="">ReferenceError: Can't find variable: Promise in spec/_base-spec.js (line 27)
+spec/_base-spec.js:27:29
+&lt;Jasmine&gt;
+</failure>
+  </testcase>
+  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
+    <failure type="">ReferenceError: Can't find variable: Promise in spec/_base-spec.js (line 17)
+spec/_base-spec.js:17:29
+&lt;Jasmine&gt;
+</failure>
+  </testcase>
   <testcase name="Assumptions for unit testing Jasmine Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing jQuery Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.006" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Exists" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.005" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing jQuery Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing VueJS Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <system-out>
-    <![CDATA[
+    <![CDATA[PhantomJS 2.1.1 (Windows 7 0.0.0) ERROR
+  {
+    "message": "An error was thrown in afterAll\nTypeError: undefined is not a constructor (evaluating 'Object.assign(configuration, defaults)')\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze",
+    "str": "An error was thrown in afterAll\nTypeError: undefined is not a constructor (evaluating 'Object.assign(configuration, defaults)')\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze"
+  }
+
 ]]>
   </system-out>
   <system-err/>

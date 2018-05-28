@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>lib\scripts-vue\system-testdata\data.js - rs-gaze</title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/3.9.1/build/cssgrids/cssgrids-min.css">
+    <link rel="stylesheet" href="../assets/vendor/prettify/prettify-min.css">
+    <link rel="stylesheet" href="../assets/css/main.css" id="site_styles">
+    <link rel="icon" href="../assets/favicon.ico">
+    <script src="http://yui.yahooapis.com/combo?3.9.1/build/yui/yui-min.js"></script>
+</head>
+<body class="yui3-skin-sam">
+
+<div id="doc">
+    <div id="hd" class="yui3-g header">
+        <div class="yui3-u-3-4">
+                <h1><img src="../assets/css/logo.png" title="rs-gaze" width="117" height="52"></h1>
+        </div>
+        <div class="yui3-u-1-4 version">
+            <em>API Docs for: 0.0.1</em>
+        </div>
+    </div>
+    <div id="bd" class="yui3-g">
+
+        <div class="yui3-u-1-4">
+            <div id="docs-sidebar" class="sidebar apidocs">
+                <div id="api-list">
+                    <h2 class="off-left">APIs</h2>
+                    <div id="api-tabview" class="tabview">
+                        <ul class="tabs">
+                            <li><a href="#api-classes">Classes</a></li>
+                            <li><a href="#api-modules">Modules</a></li>
+                        </ul>
+                
+                        <div id="api-tabview-filter">
+                            <input type="search" id="api-filter" placeholder="Type to filter APIs">
+                        </div>
+                
+                        <div id="api-tabview-panel">
+                            <ul id="api-classes" class="apis classes">
+                                <li><a href="../classes/_Gaze.html">_Gaze</a></li>
+                                <li><a href="../classes/Component-Basic.html">Component-Basic</a></li>
+                                <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
+                                <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
+                                <li><a href="../classes/Configuration.html">Configuration</a></li>
+                                <li><a href="../classes/LogSystem.html">LogSystem</a></li>
+                                <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
+                                <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
+                            </ul>
+                
+                
+                            <ul id="api-modules" class="apis modules">
+                                <li><a href="../modules/Gaze.html">Gaze</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="yui3-u-3-4">
+                <div id="api-options">
+                    Show:
+                    <label for="api-show-inherited">
+                        <input type="checkbox" id="api-show-inherited" checked>
+                        Inherited
+                    </label>
+            
+                    <label for="api-show-protected">
+                        <input type="checkbox" id="api-show-protected">
+                        Protected
+                    </label>
+            
+                    <label for="api-show-private">
+                        <input type="checkbox" id="api-show-private">
+                        Private
+                    </label>
+                    <label for="api-show-deprecated">
+                        <input type="checkbox" id="api-show-deprecated">
+                        Deprecated
+                    </label>
+            
+                </div>
+            
+            <div class="apidocs">
+                <div id="docs-main">
+                    <div class="content">
+<h1 class="file-heading">File: lib\scripts-vue\system-testdata\data.js</h1>
+
+<div class="file">
+    <pre class="code prettyprint linenums">
+/**
+ * 
+ * @class ResourceTestData
+ * @constructor
+ * @vueType Mixin
+ * @param {Object} configuration Passed by Gaze to initialize the Mixin during defining.
+ */
+Gaze.defineSubsystem(&quot;ResourceTestData&quot;, function(configuration) {
+	return {
+		&quot;data&quot;: function() {
+			return {
+				&quot;testResourceData&quot;: {
+					nodes: [{
+						data: {
+							id: &quot;1&quot;,
+							label: &quot;P&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;2&quot;,
+							label: &quot;sucrose phosphate phosphatase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;4&quot;,
+							label: &quot;sucrose 6-phosphate&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;6&quot;,
+							label: &quot;sucrose&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;8&quot;,
+							label: &quot;invertase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;10&quot;,
+							label: &quot;fructose&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;12&quot;,
+							label: &quot;fructokinase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;14&quot;,
+							label: &quot;fructose 6-phosphate&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;20&quot;,
+							label: &quot;phosphoglucose isomerase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;22&quot;,
+							label: &quot;glucose 6-phosphate&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;28&quot;,
+							label: &quot;glucose&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;30&quot;,
+							label: &quot;hexokinase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;33&quot;,
+							label: &quot;sucrose synthase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;36&quot;,
+							label: &quot;UDP - glucose&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;38&quot;,
+							label: &quot;sucrose phosphate synthase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;41&quot;,
+							label: &quot;UDP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;44&quot;,
+							label: &quot;fructose 6-phosphate&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;46&quot;,
+							label: &quot;ATP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;47&quot;,
+							label: &quot;ATP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;52&quot;,
+							label: &quot;ATP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;57&quot;,
+							label: &quot;ADP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;66&quot;,
+							label: &quot;PP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;71&quot;,
+							label: &quot;UTP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;76&quot;,
+							label: &quot;UDP glucose pyrophosphorylase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;80&quot;,
+							label: &quot;glucose 1-phosphate&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;86&quot;,
+							label: &quot;phospho- glucomutase (cPGM)&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;89&quot;,
+							label: &quot;G1P transporter&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;90&quot;,
+							label: &quot;P&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;95&quot;,
+							label: &quot;P&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;102&quot;,
+							label: &quot;P&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;103&quot;,
+							label: &quot;P&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;104&quot;,
+							label: &quot;G6P transporter&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;109&quot;,
+							label: &quot;glucose 6-phosphate&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;115&quot;,
+							label: &quot;phospho- glucomutase (cPGM)&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;121&quot;,
+							label: &quot;glucose 1-phosphate&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;128&quot;,
+							label: &quot;ADPglucose pyrophosphorylase (pAGPase)&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;130&quot;,
+							label: &quot;ADP - glucose&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;136&quot;,
+							label: &quot;PP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;141&quot;,
+							label: &quot;ATP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;148&quot;,
+							label: &quot;inorganic diphosphatase&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;149&quot;,
+							label: &quot;P&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;156&quot;,
+							label: &quot;phosphate transporter&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;158&quot;,
+							label: &quot;P&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;164&quot;,
+							label: &quot;starch synthase (simpl.)&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;166&quot;,
+							label: &quot;ADP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;172&quot;,
+							label: &quot;starch&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;178&quot;,
+							label: &quot;ATP/ADP transporter&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;179&quot;,
+							label: &quot;ADP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;184&quot;,
+							label: &quot;ADP&quot;
+						}
+					},
+					{
+						data: {
+							id: &quot;189&quot;,
+							label: &quot;ATP&quot;
+						}
+					}],
+					edges: [{
+						data: {
+							source: &quot;2&quot;,
+							target: &quot;1&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;4&quot;,
+							target: &quot;2&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;2&quot;,
+							target: &quot;6&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;6&quot;,
+							target: &quot;8&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;8&quot;,
+							target: &quot;10&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;12&quot;,
+							target: &quot;14&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;14&quot;,
+							target: &quot;20&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;20&quot;,
+							target: &quot;22&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;8&quot;,
+							target: &quot;28&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;28&quot;,
+							target: &quot;30&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;30&quot;,
+							target: &quot;22&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;6&quot;,
+							target: &quot;33&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;33&quot;,
+							target: &quot;10&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;33&quot;,
+							target: &quot;36&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;36&quot;,
+							target: &quot;38&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;38&quot;,
+							target: &quot;4&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;38&quot;,
+							target: &quot;41&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;41&quot;,
+							target: &quot;33&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;44&quot;,
+							target: &quot;38&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;52&quot;,
+							target: &quot;12&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;12&quot;,
+							target: &quot;57&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;46&quot;,
+							target: &quot;30&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;30&quot;,
+							target: &quot;47&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;71&quot;,
+							target: &quot;76&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;76&quot;,
+							target: &quot;66&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;76&quot;,
+							target: &quot;36&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;80&quot;,
+							target: &quot;76&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;22&quot;,
+							target: &quot;86&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;86&quot;,
+							target: &quot;80&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;95&quot;,
+							target: &quot;89&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;89&quot;,
+							target: &quot;90&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;102&quot;,
+							target: &quot;104&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;80&quot;,
+							target: &quot;89&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;104&quot;,
+							target: &quot;109&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;115&quot;,
+							target: &quot;109&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;121&quot;,
+							target: &quot;89&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;121&quot;,
+							target: &quot;115&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;121&quot;,
+							target: &quot;128&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;128&quot;,
+							target: &quot;130&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;141&quot;,
+							target: &quot;128&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;128&quot;,
+							target: &quot;136&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;136&quot;,
+							target: &quot;148&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;148&quot;,
+							target: &quot;149&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;149&quot;,
+							target: &quot;156&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;156&quot;,
+							target: &quot;158&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;130&quot;,
+							target: &quot;164&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;164&quot;,
+							target: &quot;166&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;178&quot;,
+							target: &quot;179&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;184&quot;,
+							target: &quot;178&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;178&quot;,
+							target: &quot;189&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;141&quot;,
+							target: &quot;178&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;104&quot;,
+							target: &quot;103&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;10&quot;,
+							target: &quot;12&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;164&quot;,
+							target: &quot;172&quot;
+						}
+					},
+					{
+						data: {
+							source: &quot;22&quot;,
+							target: &quot;104&quot;
+						}
+					}]
+				}
+			};
+		}
+	};
+});
+    </pre>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="../assets/vendor/prettify/prettify-min.js"></script>
+<script>prettyPrint();</script>
+<script src="../assets/js/yui-prettify.js"></script>
+<script src="../assets/../api.js"></script>
+<script src="../assets/js/api-filter.js"></script>
+<script src="../assets/js/api-list.js"></script>
+<script src="../assets/js/api-search.js"></script>
+<script src="../assets/js/apidocs.js"></script>
+</body>
+</html>

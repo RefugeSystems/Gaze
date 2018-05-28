@@ -1,0 +1,15 @@
+
+#map .map.controls {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+	background: #ddd;
+	z-index: 5;
+}
+
+#map .map.controls button {
+	margin: 3px;
+	padding: 7px;
+	font-size: 14px;
+	line-height: 16px;
+}

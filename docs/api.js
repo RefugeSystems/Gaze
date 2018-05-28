@@ -1,7 +1,14 @@
 YUI.add("yuidoc-meta", function(Y) {
    Y.YUIDoc = { meta: {
     "classes": [
-        "Gaze"
+        "Component-Basic",
+        "Component-MapControls",
+        "Component-ResourceMap",
+        "Configuration",
+        "LogSystem",
+        "ResourceTestData",
+        "SovereignConnection",
+        "_Gaze"
     ],
     "modules": [
         "Gaze"
@@ -9,7 +16,8 @@ YUI.add("yuidoc-meta", function(Y) {
     "allModules": [
         {
             "displayName": "Gaze",
-            "name": "Gaze"
+            "name": "Gaze",
+            "description": "Global Reference: `Gaze`"
         }
     ],
     "elements": []

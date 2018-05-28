@@ -38,7 +38,14 @@
                 
                         <div id="api-tabview-panel">
                             <ul id="api-classes" class="apis classes">
-                                <li><a href="../classes/Gaze.html">Gaze</a></li>
+                                <li><a href="../classes/_Gaze.html">_Gaze</a></li>
+                                <li><a href="../classes/Component-Basic.html">Component-Basic</a></li>
+                                <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
+                                <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
+                                <li><a href="../classes/Configuration.html">Configuration</a></li>
+                                <li><a href="../classes/LogSystem.html">LogSystem</a></li>
+                                <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
+                                <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
                             </ul>
                 
                 
@@ -84,17 +91,186 @@
 
 /**
  * 
- * @class Gaze
- * @module Gaze
+ * 
+ * Global Reference: &#x60;Gaze&#x60;
+ * 
+ * @class _Gaze
  * @constructor
- * @main
+ * @private
+ * @module Gaze
  * @static
  */
-window.Gaze = (function() {
+window.Gaze = window._Gaze = (function() {
 	var gazing = {};
 	
+	/**
+	 * 
+	 * @property configuration
+	 * @type Object
+	 * @private
+	 */
+	var configuration = {};
+
+	/**
+	 * 
+	 * @property defaults
+	 * @type Object
+	 * @private
+	 */
+	var defaults = {
+		&quot;element&quot;: &quot;#gaze&quot;,
+		&quot;mixins&quot;: {
+			&quot;missing&quot;: &quot;NotFound&quot;
+		},
+		&quot;console&quot;: {
+			&quot;trace&quot;: true,
+			&quot;debug&quot;: true,
+			&quot;info&quot;: true,
+			&quot;warn&quot;: true,
+			&quot;error&quot;: true,
+			&quot;fatal&quot;: true
+		},
+		&quot;sovereign&quot;: {
+			&quot;url&quot;: &quot;ws:\\localhost:3000\connect&quot;,
+			&quot;construct&quot;: null
+		}
+	};
 	
+	Object.assign(configuration, defaults);
+	var socket;
 	
+	/**
+	 * Acts as an initialization for Gaze in Vue.
+	 * @method install
+	 * @param {Vue} Vue
+	 * @param {Object} options
+	 */
+	gazing.install = function(Vue, options) {
+		initialize(options);
+		
+		gazing.vue = new Vue({
+			&quot;el&quot;: configuration.element,
+			&quot;data&quot;: {
+				&quot;g$Version&quot;: Gaze.version,
+				&quot;g$Start&quot;: Date.now()
+			},
+			methods: {
+				&quot;g$reconfigure&quot;: Gaze.reconfigure
+			},
+			computed: {}
+		});
+	};
+	
+	/**
+	 * 
+	 * @method reconfigure
+	 * @param {String} field
+	 * @param {Object | String | Number | Boolean} value 
+	 */
+	gazing.reconfigure = function(field, value) {
+		configuration[field] = value;
+	};
+	
+	/**
+	 * Initializes Gaze with the configuration passed in options. 
+	 * @method initialize
+	 * @param {Object} options
+	 */
+	var initialize = function(options) {
+		for(var key in options)
+			if(options[key] instanceof Object)
+				Object.assign(configuration[key] = configuration[key] || {}, options[key]);
+			else
+				configuration[key] = options[key];
+		
+		socket = new WebSocket(&quot;ws://beta.refugesystems.net:3000/connect&quot;);
+		
+		display.trace = configuration.console.trace?console.trace:noOp;
+		display.debug = configuration.console.debug?console.debug:noOp;
+		display.info = configuration.console.info?console.log:noOp;
+		display.warn = configuration.console.warn?console.warn:noOp;
+		display.error = configuration.console.error?console.error:noOp;
+		display.fatal = configuration.console.fatal?console.fatal:noOp;
+	};
+	
+	var mixins = {};
+	var display = {};
+	var noOp = function(){};
+	
+	/**
+	 * 
+	 * @method getSubsystem
+	 * @param {String} key
+	 * @param {String} definition
+	 */
+	gazing.getSubsystem = function(key) {
+		if(mixins[key])
+			return mixins[key];
+		console.warn(&quot;Requested undefined Subsystem: &quot; + key);
+		return undefined;
+	};
+	
+	/**
+	 * 
+	 * @method defineSubsystem
+	 * @param {String} key
+	 * @param {String} definition
+	 */
+	gazing.defineSubsystem = function(key, definition) {
+		if(!key)
+			throw new Error(&quot;Missing key for new Mix-in&quot;);
+		if(!definition)
+			throw new Error(&quot;Missing definition for new Mix-in &#x27;&quot; + key + &quot;&#x27;&quot;);
+		mixins[key] = mixins[key] || {};
+		Object.assign(mixins[key], definition(configuration));
+	};
+
+	/**
+	 * 
+	 * @class Configuration
+	 * @constructor
+	 */
+	mixins.Configuration = {
+		&quot;data&quot;: function() {
+			return configuration;
+		}
+	};
+
+	/**
+	 * 
+	 * @class LogSystem
+	 * @constructor
+	 */
+	var logEntryDefaults = {
+		&quot;level&quot;: 30,
+		&quot;system&quot;: &quot;Gaze&quot;
+	};
+	
+	mixins.LogSystem = {
+		&quot;methods&quot;: {
+			&quot;deliverLogEntry&quot;: function(details, message) {
+				if(!message) {
+					message = details;
+					details = undefined;
+				}
+				details = Object.assign({}, logEntryDefaults, details);
+				details.message = message;
+				details.url = location.toString();
+				details.time = Date.now();
+				details.component = this.$vnode?this.$vnode.componentOptions.tag:details.component;
+				
+				switch(details.level) {
+					case 10: return display.trace(details);
+					case 20: return display.debug(details);
+					case 30: return display.info(details);
+					case 40: return display.warn(details);
+					case 50: return display.error(details);
+					case 60: return display.fatal(details);
+					default: return display.log(details);
+				}
+			}
+		}
+	};
 	
 	return gazing;
 })();
@@ -102,9 +278,14 @@ window.Gaze = (function() {
 /* Handled outside the library in some way */
 
 /**
+ * @class _Gaze
+ */
+
+/**
  * The version of Gaze running.
  * @property version
  * @type String
+ * @static
  */
 
     </pre>

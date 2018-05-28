@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-karma");
 
 	var pkg = grunt.file.readJSON("package.json");
+	var footer = "\r\nGaze.version = \"V" + pkg.version + "\";\r\nVue.use(Gaze);";
 	var config = {
 		"pkg": pkg,
 		"eslint": {
@@ -99,21 +100,33 @@ module.exports = function(grunt) {
 				],
 				"dest": "app/gaze.css"
 			},
-			"appJS": {
+			"cytoscape": {
 				"options": {
-					"sourceMap": true,
-					"footer": "\nGaze.version = \"V" + pkg.version + "\";",
+					"process": function(src, file) {
+						return src.replace(/sourceMappingURL=[a-zA-Z0-9\.-_]+/, "");
+					}
 				},
 				"src": [
-					"node_modules/angular/angular.js",
-					"node_modules/angular-mocks/angular-mocks.js",
-					"node_modules/vue/dist/vue.min.js",
-					"node_modules/jquery/dist/jquery.min.js",
-
 					"node_modules/cytoscape/dist/cytoscape.js",
 					"node_modules/cytoscape-cola/cola.js",
 					"node_modules/cytoscape-cola/cytoscape-cola.js",
+				],
+				"dest": "build/cytoscape.js"
+			},
+			"appJS": {
+				"options": {
+					"sourceMap": true,
+					"footer": footer,
+				},
+				"src": [
+//					"node_modules/angular/angular.js",
+//					"node_modules/angular-mocks/angular-mocks.js",
+					"node_modules/vue/dist/vue.js",
+					"node_modules/jquery/dist/jquery.min.js",
+					"node_modules/rx-lite/rx-lite.js",
+					"node_modules/vue-rx/dist/vue-rx.js",
 
+					"build/cytoscape.js",
 					"lib/gaze.js",
 					"lib/common/*.js",
 					
@@ -128,7 +141,14 @@ module.exports = function(grunt) {
 					"lib/scripts-angular/**/*service.js",
 					
 					"build/templates-vue.js",
-					"lib/scripts-vue/*/**/*.js",
+					"lib/scripts-vue/*-subsystem/**/*.js",
+					"lib/scripts-vue/subsystem-*/**/*.js",
+					"lib/scripts-vue/*-system/**/*.js",
+					"lib/scripts-vue/system-*/**/*.js",
+					"lib/scripts-vue/*-component/**/*.js",
+					"lib/scripts-vue/component-*/**/*.js",
+					"lib/scripts-vue/*-view/**/*.js",
+					"lib/scripts-vue/view-*/**/*.js",
 					"lib/scripts-vue/index.js",
 					"lib/scripts-vue/add-*.js"
 				],
@@ -161,7 +181,17 @@ module.exports = function(grunt) {
 									"http://127.0.0.1:3081 " +
 									"http://localhost:3081 " +
 									"http://192.168.13.40:3081 " +
-									"wss://tower.refugesystems.net:3000 " +
+									"ws://192.168.13.40:3000 " +
+									"ws://192.168.13.40:3000/connect " +
+									"ws://192.168.13.40:3443 " +
+									"ws://192.168.13.40:3443/connect " +
+									"ws://localhost:3000 " +
+									"ws://localhost:3000/connect " +
+									"wss://localhost:3443 " +
+									"wss://localhost:3443/connect " +
+									"wss://tower.refugesystems.net:3443 " +
+									"ws://beta.refugesystems.net:3000 " +
+									"wss://beta.refugesystems.net:3443 " +
 									"http://d3js.org " +
 									"'unsafe-inline' " +
 									"'unsafe-eval'; " +
@@ -216,7 +246,7 @@ module.exports = function(grunt) {
 					},
 					"livereloadOnError": false
 				},
-				"files": ["lib/**/*.js", "lib/**/*.js", "lib/**/*.css", "lib/**/*.html"],
+				"files": ["lib/**/*.js", "lib/**/*.js", "lib/**/*.css", "lib/**/*.html", "app/index.html"],
 				"tasks": ["dev"]
 			},
 			"beta": {
@@ -240,7 +270,7 @@ module.exports = function(grunt) {
 				"options": {
 					"sourceMap": true,
 					"sourceMapName": "./app/gaze.min.js.map",
-					"footer": "\nGaze.version = \"V" + pkg.version + "\";",
+					"footer": footer,
 				},
 				"files": {
 					"./app/gaze.min.js": [
@@ -248,6 +278,8 @@ module.exports = function(grunt) {
 						"node_modules/angular-mocks/angular-mocks.js",
 						"node_modules/vue/dist/vue.min.js",
 						"node_modules/jquery/dist/jquery.min.js",
+						"node_modules/rx-lite/rx-lite.js",
+						"node_modules/vue-rx/dist/vue-rx.js",
 
 						"node_modules/cytoscape/dist/cytoscape.js",
 						"node_modules/cytoscape-cola/cola.js",
@@ -265,11 +297,19 @@ module.exports = function(grunt) {
 						"lib/scripts-angular/**/*directive.js",
 						"lib/scripts-angular/**/*controller.js",
 						"lib/scripts-angular/**/*service.js",
+						"lib/scripts-angular/index.js",
 						
 						"build/templates-vue.js",
-						"lib/scripts-vue/*/**/*.js",
-						"lib/scripts-vue/index.js",
-						"lib/scripts-vue/add-*.js"
+						"lib/scripts-vue/*-subsystem/**/*.js",
+						"lib/scripts-vue/subsystem-*/**/*.js",
+						"lib/scripts-vue/*-system/**/*.js",
+						"lib/scripts-vue/system-*/**/*.js",
+						"lib/scripts-vue/*-component/**/*.js",
+						"lib/scripts-vue/component-*/**/*.js",
+						"lib/scripts-vue/*-view/**/*.js",
+						"lib/scripts-vue/view-*/**/*.js",
+						"lib/scripts-vue/add-*.js",
+						"lib/scripts-vue/index.js"
 					]
 				}
 			},
@@ -305,7 +345,14 @@ module.exports = function(grunt) {
 						"lib/gaze.js",
 						"lib/common/*.js",
 						"build/templates-vue.js",
-						"lib/scripts-vue/*/**/*.js",
+						"lib/scripts-vue/*-subsystem/**/*.js",
+						"lib/scripts-vue/subsystem-*/**/*.js",
+						"lib/scripts-vue/*-system/**/*.js",
+						"lib/scripts-vue/system-*/**/*.js",
+						"lib/scripts-vue/*-component/**/*.js",
+						"lib/scripts-vue/component-*/**/*.js",
+						"lib/scripts-vue/*-view/**/*.js",
+						"lib/scripts-vue/view-*/**/*.js",
 						"lib/scripts-vue/index.js",
 						"lib/scripts-vue/add-*.js"
 					]
@@ -351,7 +398,14 @@ module.exports = function(grunt) {
 					"lib/scripts-angular/**/*service.js",
 
 					"build/templates-vue.js",
-					"lib/scripts-vue/*/**/*.js",
+					"lib/scripts-vue/*-subsystem/**/*.js",
+					"lib/scripts-vue/subsystem-*/**/*.js",
+					"lib/scripts-vue/*-system/**/*.js",
+					"lib/scripts-vue/system-*/**/*.js",
+					"lib/scripts-vue/*-component/**/*.js",
+					"lib/scripts-vue/component-*/**/*.js",
+					"lib/scripts-vue/*-view/**/*.js",
+					"lib/scripts-vue/view-*/**/*.js",
 					"lib/scripts-vue/index.js",
 					"lib/scripts-vue/add-*.js",
 					"spec/*-spec.js"
@@ -377,7 +431,7 @@ module.exports = function(grunt) {
 		},
 		"templify": {
 			"options": {
-				"autoAffix": false,
+				"autoAffix": true,
 			},
 			"angular": {
 				"templates": [{
@@ -463,8 +517,8 @@ module.exports = function(grunt) {
 	grunt.registerTask("default", ["mkdir:build", "lint", "concurrent:development"]);
 
 	grunt.registerTask("lint", ["eslint:lib"]);
-	grunt.registerTask("dev", ["eslint:lib", "templify:vue", "templify:angular", "concat:appCSS", "concat:appJS"]);
-	grunt.registerTask("beta", ["eslint:lib", "templify:vue", "templify:angular", "concat:appCSS", "uglify:app"]);
+	grunt.registerTask("dev", ["eslint:lib", "templify:vue", "templify:angular", "concat:cytoscape", "concat:appCSS", "concat:appJS"]);
+	grunt.registerTask("beta", ["eslint:lib", "templify:vue", "templify:angular", "concat:cytoscape","concat:appCSS", "uglify:app"]);
 
 	grunt.registerTask("document", ["yuidoc", "connect:docs", "open:docs", "watch:docs"]);
 	grunt.registerTask("testing", ["templify:vue", "templify:angular", "open:karma", "karma:continuous"]);

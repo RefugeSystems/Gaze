@@ -1,0 +1,16 @@
+<section>
+	<h3>Some Test</h3>
+	<span>{{content}}</span>
+	<button v-on:click="options()">Test</button>
+	<button v-on:click="testing()">Console Data</button>
+	<button v-on:click="debug()">Debug</button>
+	<button v-on:click="doubled()">Doubled</button>
+	<slot name="carryOver"></slot>
+	<h3>After Slot</h3>
+	<div id="info">
+		<span>Gaze:</span>
+		<span>{{$root.g$Version}}</span>
+		<span>@{{$root.g$Start}}</span>
+	</div>
+	<slot name="map"></slot>
+</section>

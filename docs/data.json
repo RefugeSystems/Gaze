@@ -6,13 +6,60 @@
         "url": "https://github.com/RefugeSystems/Gaze"
     },
     "files": {
+        "lib\\scripts-vue\\system-sovereign\\connection.js": {
+            "name": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "modules": {},
+            "classes": {
+                "SovereignConnection": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\system-testdata\\data.js": {
+            "name": "lib\\scripts-vue\\system-testdata\\data.js",
+            "modules": {},
+            "classes": {
+                "ResourceTestData": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-experiments\\basic.js": {
+            "name": "lib\\scripts-vue\\view-experiments\\basic.js",
+            "modules": {},
+            "classes": {
+                "Component-Basic": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-resourcemap\\core.js": {
+            "name": "lib\\scripts-vue\\view-resourcemap\\core.js",
+            "modules": {},
+            "classes": {
+                "Component-ResourceMap": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-resourcemap\\view-controls.js": {
+            "name": "lib\\scripts-vue\\view-resourcemap\\view-controls.js",
+            "modules": {},
+            "classes": {
+                "Component-MapControls": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
         "lib\\gaze.js": {
             "name": "lib\\gaze.js",
             "modules": {
                 "Gaze": 1
             },
             "classes": {
-                "Gaze": 1
+                "_Gaze": 1,
+                "Configuration": 1,
+                "LogSystem": 1
             },
             "fors": {},
             "namespaces": {}
@@ -24,19 +71,115 @@
             "submodules": {},
             "elements": {},
             "classes": {
-                "Gaze": 1
+                "SovereignConnection": 1,
+                "ResourceTestData": 1,
+                "Component-Basic": 1,
+                "Component-ResourceMap": 1,
+                "Component-MapControls": 1,
+                "_Gaze": 1,
+                "Configuration": 1,
+                "LogSystem": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
             "file": "lib\\gaze.js",
-            "line": 2
+            "line": 149,
+            "description": "Global Reference: `Gaze`"
         }
     },
     "classes": {
-        "Gaze": {
-            "name": "Gaze",
-            "shortname": "Gaze",
+        "SovereignConnection": {
+            "name": "SovereignConnection",
+            "shortname": "SovereignConnection",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 2,
+            "is_constructor": 1,
+            "vuetype": "Mixin",
+            "params": [
+                {
+                    "name": "configuration",
+                    "description": "Passed by Gaze to initialize the Mixin during defining.",
+                    "type": "Object"
+                }
+            ]
+        },
+        "ResourceTestData": {
+            "name": "ResourceTestData",
+            "shortname": "ResourceTestData",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\system-testdata\\data.js",
+            "line": 1,
+            "is_constructor": 1,
+            "vuetype": "Mixin",
+            "params": [
+                {
+                    "name": "configuration",
+                    "description": "Passed by Gaze to initialize the Mixin during defining.",
+                    "type": "Object"
+                }
+            ]
+        },
+        "Component-Basic": {
+            "name": "Component-Basic",
+            "shortname": "Component-Basic",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\view-experiments\\basic.js",
+            "line": 2,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "testData",
+                    "description": "",
+                    "type": "String"
+                }
+            ]
+        },
+        "Component-ResourceMap": {
+            "name": "Component-ResourceMap",
+            "shortname": "Component-ResourceMap",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\view-resourcemap\\core.js",
+            "line": 2,
+            "is_constructor": 1
+        },
+        "Component-MapControls": {
+            "name": "Component-MapControls",
+            "shortname": "Component-MapControls",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\view-resourcemap\\view-controls.js",
+            "line": 2,
+            "is_constructor": 1
+        },
+        "_Gaze": {
+            "name": "_Gaze",
+            "shortname": "_Gaze",
             "classitems": [],
             "plugins": [],
             "extensions": [],
@@ -44,27 +187,183 @@
             "extension_for": [],
             "module": "Gaze",
             "file": "lib\\gaze.js",
-            "line": 2,
+            "line": 190,
+            "description": "Global Reference: `Gaze`",
             "is_constructor": 1,
-            "mainName": "",
-            "tag": "main",
-            "itemtype": "main",
-            "_main": true,
+            "access": "private",
+            "tagname": "",
             "static": 1
+        },
+        "Configuration": {
+            "name": "Configuration",
+            "shortname": "Configuration",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "namespace": "",
+            "file": "lib\\gaze.js",
+            "line": 138,
+            "is_constructor": 1
+        },
+        "LogSystem": {
+            "name": "LogSystem",
+            "shortname": "LogSystem",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "namespace": "",
+            "file": "lib\\gaze.js",
+            "line": 149,
+            "is_constructor": 1
         }
     },
     "elements": {},
     "classitems": [
         {
             "file": "lib\\gaze.js",
-            "line": 21,
+            "line": 16,
+            "itemtype": "property",
+            "name": "configuration",
+            "type": "Object",
+            "access": "private",
+            "tagname": "",
+            "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 24,
+            "itemtype": "property",
+            "name": "defaults",
+            "type": "Object",
+            "access": "private",
+            "tagname": "",
+            "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 52,
+            "description": "Acts as an initialization for Gaze in Vue.",
+            "itemtype": "method",
+            "name": "install",
+            "params": [
+                {
+                    "name": "Vue",
+                    "description": "",
+                    "type": "Vue"
+                },
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 74,
+            "itemtype": "method",
+            "name": "reconfigure",
+            "params": [
+                {
+                    "name": "field",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "value",
+                    "description": "",
+                    "type": "Object | String | Number | Boolean"
+                }
+            ],
+            "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 84,
+            "description": "Initializes Gaze with the configuration passed in options.",
+            "itemtype": "method",
+            "name": "initialize",
+            "params": [
+                {
+                    "name": "options",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 110,
+            "itemtype": "method",
+            "name": "getSubsystem",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "definition",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 123,
+            "itemtype": "method",
+            "name": "defineSubsystem",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "definition",
+                    "description": "",
+                    "type": "String"
+                }
+            ],
+            "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 194,
             "description": "The version of Gaze running.",
             "itemtype": "property",
             "name": "version",
             "type": "String",
-            "class": "Gaze",
+            "static": 1,
+            "class": "_Gaze",
             "module": "Gaze"
         }
     ],
-    "warnings": []
+    "warnings": [
+        {
+            "message": "unknown tag: vuetype",
+            "line": " lib\\scripts-vue\\system-sovereign\\connection.js:2"
+        },
+        {
+            "message": "unknown tag: vuetype",
+            "line": " lib\\scripts-vue\\system-testdata\\data.js:1"
+        }
+    ]
 }

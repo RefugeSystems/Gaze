@@ -7,11 +7,12 @@
 	<body>
 		<div class="gaze-panel" id="gaze">
 			<button v-on:click.prevent="test()">Test</button>
-			<basic>
-				<h3>Some Stuff</h3>
+			<basic testData="22" data-stuffing="tasty" aaa="111" aaa-bbb="-111">
+				<h3 slot="carryOver">Some Stuff</h3>
+				<resource-map slot="map" v-on:rerun="huh()"></resource-map>
 			</basic>
 		</div>
-		
+
 		<script src="./gaze.js"></script>
 	</body>
 </html>
