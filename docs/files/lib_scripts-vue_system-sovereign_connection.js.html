@@ -43,9 +43,12 @@
                                 <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
                                 <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
+                                <li><a href="../classes/Construct.html">Construct</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
+                                <li><a href="../classes/SovereignEmitter.html">SovereignEmitter</a></li>
+                                <li><a href="../classes/SyntheticConstruct.html">SyntheticConstruct</a></li>
                             </ul>
                 
                 
@@ -97,11 +100,147 @@
  * @param {Object} configuration Passed by Gaze to initialize the Mixin during defining.
  */
 Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
+	/**
+	 * 
+	 * @property instance
+	 * @type Number
+	 * @private
+	 */
+	var instance = 0;
+
+	/**
+	 * 
+	 * @property debugging
+	 * @type Boolean
+	 * @private
+	 */
+	var debugging = configuration.debug || configuration.sovereign.debug;
 	
+	/**
+	 * 
+	 * @method options
+	 */
+	
+	/**
+	 * 
+	 * @method getSovereignEmitter
+	 * @return {SovereignEmitter}
+	 */
+	
+	/**
+	 * 
+	 * @method debug
+	 */
+	
+	
+	/**
+	 * 
+	 * @property socket
+	 * @type WebSocket
+	 * @private
+	 */
+	var socket = new WebSocket(configuration.sovereign.url);
+	socket.onerror = function(error) {
+		console.log(&quot;Err: &quot;, error);
+	};
+	
+	socket.onmessage = function(message) {
+		var data = JSON.parse(message.data);
+		console.log(&quot;Data: &quot;, data);
+	};
+	
+	socket.onopen = function(message) {
+		console.log(&quot;open: &quot;, message);
+	};
+	
+	socket.onclose = function(code) {
+		console.log(&quot;Code: &quot;, code);
+	};
+	
+	var emitter = {};
+	var events = {};
+	var onces = {};
+
+	/**
+	 * 
+	 * @method emit
+	 * @private
+	 * @param {String} key
+	 * @param {Object} data
+	 */
+	var emit = function(key, data) {
+		events[key] = events[key] || [];
+		onces[key] = onces[key] || [];
+		var x;
+		
+		for(x=0; x&lt;events[key].length; x++)
+			events[key][x](data);
+		for(x=0; x&lt;onces[key].length; x++)
+			onces[key][x](data);
+		
+		onces[key].splice(0, onces[key].length);
+	};
+	
+	if(debugging) {
+		console.trace(&quot;Sovereign Emitter Debug Mode&quot;);
+		window.sovereignEmitter = emitter;
+		window.sovereignEmit = emit;
+		window.sovereignHook = {
+			&quot;events&quot;: events,
+			&quot;onces&quot;: onces
+		};
+	} else {
+		console.trace(&quot;Sovereign Emitter Production Mode&quot;);
+		window.sovereignEmit = null;
+	}
+	
+	/**
+	 * 
+	 * @class SovereignEmitter
+	 * @constructor
+	 */
+	
+	/**
+	 * 
+	 * @method on
+	 * @param {String} key
+	 * @param {Function} listener
+	 */
+	emitter.on = function(key, listener) {
+		events[key] = events[key] || [];
+		if(events[key].indexOf(listener) === -1)
+			events[key].push(listener);
+	};
+
+	/**
+	 * 
+	 * @method once
+	 * @param {String} key
+	 * @param {Function} listener
+	 */
+	emitter.once = function(key, listener) {
+		onces[key] = onces[key] || [];
+		if(onces[key].idexOf(listener) === -1)
+			onces[key].push(listener);
+	};
+
+	/**
+	 * 
+	 * @method off
+	 * @param {String} key
+	 * @param {Function} listener
+	 */
+	emitter.off = function(key, listener) {
+		events[key] = events[key] || [];
+		var index = events[key].idexOf(listener);
+		if(index !== -1)
+			events[key].splice(index, 1);
+	};
 	
 	return {
 		&quot;created&quot;: function(opt) {
-			this.configuration = Object.assign({}, configuration, opt);
+			this.configuration = Object.assign({}, configuration.sovereign, opt);
+			this.instance = instance++;
 		},
 		&quot;methods&quot;: {
 			&quot;options&quot;: function(key, field) {
@@ -112,12 +251,48 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 				else
 					this.configuration[key] = field;
 			},
+			&quot;getSovereignEmitter&quot;: function() {
+				return emitter;
+			},
+			&quot;getResources&quot;: function(ids) {
+				if(!ids || !ids.length)
+					throw new Error(&quot;No IDs passed&quot;);
+				return new Promise(function(done, fail) {
+					if(debugging) {
+						var x, fulfill = [];
+						for(x=0; x&lt;ids.length; x++)
+							fulfill.push(window.sovereignDebug.resources[ids[x]]);
+						done(fulfill);
+					} else {
+						// TODO: Replace with live data
+						console.log(&quot;Debug mode offline and live data not yet ready&quot;);
+						fail(new Error(&quot;Live data not yet supported&quot;));
+					}
+				});
+			},
+			&quot;getRelations&quot;: function(ids) {
+				if(!ids || !ids.length)
+					throw new Error(&quot;No IDs passed&quot;);
+				return new Promise(function(done, fail) {
+					if(debugging) {
+						var x, fulfill = [];
+						for(x=0; x&lt;ids.length; x++)
+							fulfill.push(window.sovereignDebug.relations[ids[x]]);
+						done(fulfill);
+					} else {
+						// TODO: Replace with live data
+						console.log(&quot;Debug mode offline and live data not yet ready&quot;);
+						fail(new Error(&quot;Live data not yet supported&quot;));
+					}
+				});
+			},
 			&quot;debug&quot;: function() {
 				console.log(&quot;Gaze: &quot; + this.g$Version + &quot;@&quot; + this.g$Start);
 			}
 		}
 	};
 });
+
     </pre>
 </div>
                     </div>

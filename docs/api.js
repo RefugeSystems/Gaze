@@ -5,9 +5,12 @@ YUI.add("yuidoc-meta", function(Y) {
         "Component-MapControls",
         "Component-ResourceMap",
         "Configuration",
+        "Construct",
         "LogSystem",
         "ResourceTestData",
         "SovereignConnection",
+        "SovereignEmitter",
+        "SyntheticConstruct",
         "_Gaze"
     ],
     "modules": [

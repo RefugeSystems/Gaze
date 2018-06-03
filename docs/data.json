@@ -10,7 +10,18 @@
             "name": "lib\\scripts-vue\\system-sovereign\\connection.js",
             "modules": {},
             "classes": {
-                "SovereignConnection": 1
+                "SovereignConnection": 1,
+                "SovereignEmitter": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\system-sovereign\\construct.js": {
+            "name": "lib\\scripts-vue\\system-sovereign\\construct.js",
+            "modules": {},
+            "classes": {
+                "SyntheticConstruct": 1,
+                "Construct": 1
             },
             "fors": {},
             "namespaces": {}
@@ -72,6 +83,9 @@
             "elements": {},
             "classes": {
                 "SovereignConnection": 1,
+                "SovereignEmitter": 1,
+                "SyntheticConstruct": 1,
+                "Construct": 1,
                 "ResourceTestData": 1,
                 "Component-Basic": 1,
                 "Component-ResourceMap": 1,
@@ -107,6 +121,53 @@
                     "name": "configuration",
                     "description": "Passed by Gaze to initialize the Mixin during defining.",
                     "type": "Object"
+                }
+            ]
+        },
+        "SovereignEmitter": {
+            "name": "SovereignEmitter",
+            "shortname": "SovereignEmitter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 104,
+            "is_constructor": 1
+        },
+        "SyntheticConstruct": {
+            "name": "SyntheticConstruct",
+            "shortname": "SyntheticConstruct",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
+            "line": 2,
+            "is_constructor": 1,
+            "vuetype": "Mixin"
+        },
+        "Construct": {
+            "name": "Construct",
+            "shortname": "Construct",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
+            "line": 17,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "event",
+                    "description": "",
+                    "type": "Event"
                 }
             ]
         },
@@ -226,6 +287,187 @@
     "elements": {},
     "classitems": [
         {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 10,
+            "itemtype": "property",
+            "name": "instance",
+            "type": "Number",
+            "access": "private",
+            "tagname": "",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 18,
+            "itemtype": "property",
+            "name": "debugging",
+            "type": "Boolean",
+            "access": "private",
+            "tagname": "",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 26,
+            "itemtype": "method",
+            "name": "options",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 31,
+            "itemtype": "method",
+            "name": "getSovereignEmitter",
+            "return": {
+                "description": "",
+                "type": "SovereignEmitter"
+            },
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 37,
+            "itemtype": "method",
+            "name": "debug",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 43,
+            "itemtype": "property",
+            "name": "socket",
+            "type": "WebSocket",
+            "access": "private",
+            "tagname": "",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 71,
+            "itemtype": "method",
+            "name": "emit",
+            "access": "private",
+            "tagname": "",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 110,
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "SovereignEmitter"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 122,
+            "itemtype": "method",
+            "name": "once",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "SovereignEmitter"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 134,
+            "itemtype": "method",
+            "name": "off",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "SovereignEmitter"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
+            "line": 9,
+            "itemtype": "method",
+            "name": "createCconstruct",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "The event that signaled to create this Construct",
+                    "type": "Event"
+                }
+            ],
+            "return": {
+                "description": "",
+                "type": "Construct"
+            },
+            "class": "SyntheticConstruct"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
+            "line": 24,
+            "itemtype": "property",
+            "name": "resources",
+            "type": "Array",
+            "class": "Construct"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
+            "line": 30,
+            "itemtype": "property",
+            "name": "relations",
+            "type": "Array",
+            "class": "Construct"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
+            "line": 37,
+            "itemtype": "method",
+            "name": "modify",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "Contains the modification information",
+                    "type": "Event"
+                }
+            ],
+            "class": "Construct"
+        },
+        {
             "file": "lib\\gaze.js",
             "line": 16,
             "itemtype": "property",
@@ -249,7 +491,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 52,
+            "line": 53,
             "description": "Acts as an initialization for Gaze in Vue.",
             "itemtype": "method",
             "name": "install",
@@ -270,7 +512,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 74,
+            "line": 75,
             "itemtype": "method",
             "name": "reconfigure",
             "params": [
@@ -290,7 +532,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 84,
+            "line": 85,
             "description": "Initializes Gaze with the configuration passed in options.",
             "itemtype": "method",
             "name": "initialize",
@@ -360,6 +602,10 @@
         {
             "message": "unknown tag: vuetype",
             "line": " lib\\scripts-vue\\system-sovereign\\connection.js:2"
+        },
+        {
+            "message": "unknown tag: vuetype",
+            "line": " lib\\scripts-vue\\system-sovereign\\construct.js:2"
         },
         {
             "message": "unknown tag: vuetype",

@@ -43,9 +43,12 @@
                                 <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
                                 <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
+                                <li><a href="../classes/Construct.html">Construct</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
+                                <li><a href="../classes/SovereignEmitter.html">SovereignEmitter</a></li>
+                                <li><a href="../classes/SyntheticConstruct.html">SyntheticConstruct</a></li>
                             </ul>
                 
                 
@@ -103,6 +106,7 @@ Vue.component(&quot;resourceMap&quot;, {
 	],
 	&quot;props&quot;: [&quot;testdata&quot;,&quot;aaa&quot;, &quot;aaaBbb&quot;, &quot;data-stuffing&quot;],
 	&quot;mounted&quot;: function() {
+		var core = this;
 //		this.map = $(this.$el).find(&quot;#map&quot;)[0];
 		this.map = document.getElementById(&quot;map&quot;);
 		
@@ -124,10 +128,8 @@ Vue.component(&quot;resourceMap&quot;, {
 				&quot;css&quot;: {
 					&quot;line-color&quot;: &quot;#f92411&quot;
 				}
-			}],
-			&quot;elements&quot;: this.testResourceData
+			}]
 		});
-		
 		
 		this.$on(&quot;rerun&quot;, function() {
 			console.log(&quot;welp&quot;);
@@ -141,6 +143,32 @@ Vue.component(&quot;resourceMap&quot;, {
 		});
 
 		this.layout.run();
+		
+		var emitter = this.getSovereignEmitter();
+		
+		emitter.on(&quot;test&quot;, function(data) {
+			console.log(&quot;Test Event Fired: &quot;, data);
+		});
+		
+		emitter.on(&quot;addResource&quot;, function(data) {
+			core.cy.add({
+				&quot;id&quot;: data.id,
+				&quot;group&quot;: &quot;nodes&quot;,
+				&quot;data&quot;: data
+			});
+			core.rerunLayout();
+		});
+		
+		emitter.on(&quot;addRelation&quot;, function(data) {
+			core.cy.add({
+				&quot;id&quot;: data.id,
+				&quot;group&quot;: &quot;edges&quot;,
+				&quot;source&quot;: data.source,
+				&quot;target&quot;: data.target,
+				&quot;data&quot;: data
+			});
+			core.rerunLayout();
+		});
 	},
 	&quot;data&quot;: function() {
 		return {
@@ -157,7 +185,15 @@ Vue.component(&quot;resourceMap&quot;, {
 		&quot;rerunLayout&quot;: function() {
 			console.log(&quot;Received&quot;);
 			try {
+				this.layout.stop();
+				this.layout = this.cy.elements().makeLayout({
+					&quot;name&quot;: &quot;cola&quot;,
+					&quot;infinite&quot;: true,
+					&quot;fit&quot;: true,
+					&quot;linkDistance&quot;: 1000
+				});
 				this.layout.run();
+				console.log(Object.keys(this.layout), &quot;\n&quot;, this.layout);
 			} catch(ex) {
 				console.log(&quot;Layout run failed: &quot;, ex);
 			}
@@ -166,6 +202,12 @@ Vue.component(&quot;resourceMap&quot;, {
 			console.log(&quot;Received Top&quot;);
 			try {
 				this.layout.run();
+//				this.cy.elements().makeLayout({
+//					&quot;name&quot;: &quot;cola&quot;,
+//					&quot;infinite&quot;: true,
+//					&quot;fit&quot;: true,
+//					&quot;linkDistance&quot;: 1000
+//				});
 			} catch(ex) {
 				console.log(&quot;Layout run failed: &quot;, ex);
 			}

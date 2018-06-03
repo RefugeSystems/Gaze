@@ -46824,6 +46824,7 @@ window.Gaze = window._Gaze = (function() {
 	 */
 	var defaults = {
 		"element": "#gaze",
+		"debug": true,
 		"mixins": {
 			"missing": "NotFound"
 		},
@@ -46836,7 +46837,7 @@ window.Gaze = window._Gaze = (function() {
 			"fatal": true
 		},
 		"sovereign": {
-			"url": "ws:\\localhost:3000\connect",
+			"url": "ws://beta.refugesystems.net:3000/connect",
 			"construct": null
 		}
 	};
@@ -46888,10 +46889,9 @@ window.Gaze = window._Gaze = (function() {
 			else
 				configuration[key] = options[key];
 		
-		socket = new WebSocket("ws://beta.refugesystems.net:3000/connect");
-		
+		console.log("Console Configuration: ", configuration.console);
 		display.trace = configuration.console.trace?console.trace:noOp;
-		display.debug = configuration.console.debug?console.debug:noOp;
+		display.debug = configuration.console.debug?console.trace:noOp;
 		display.info = configuration.console.info?console.log:noOp;
 		display.warn = configuration.console.warn?console.warn:noOp;
 		display.error = configuration.console.error?console.error:noOp;
@@ -47019,11 +47019,147 @@ Vue.use(Templify);
  * @param {Object} configuration Passed by Gaze to initialize the Mixin during defining.
  */
 Gaze.defineSubsystem("SoverignConnection", function(configuration) {
+	/**
+	 * 
+	 * @property instance
+	 * @type Number
+	 * @private
+	 */
+	var instance = 0;
+
+	/**
+	 * 
+	 * @property debugging
+	 * @type Boolean
+	 * @private
+	 */
+	var debugging = configuration.debug || configuration.sovereign.debug;
 	
+	/**
+	 * 
+	 * @method options
+	 */
+	
+	/**
+	 * 
+	 * @method getSovereignEmitter
+	 * @return {SovereignEmitter}
+	 */
+	
+	/**
+	 * 
+	 * @method debug
+	 */
+	
+	
+	/**
+	 * 
+	 * @property socket
+	 * @type WebSocket
+	 * @private
+	 */
+	var socket = new WebSocket(configuration.sovereign.url);
+	socket.onerror = function(error) {
+		console.log("Err: ", error);
+	};
+	
+	socket.onmessage = function(message) {
+		var data = JSON.parse(message.data);
+		console.log("Data: ", data);
+	};
+	
+	socket.onopen = function(message) {
+		console.log("open: ", message);
+	};
+	
+	socket.onclose = function(code) {
+		console.log("Code: ", code);
+	};
+	
+	var emitter = {};
+	var events = {};
+	var onces = {};
+
+	/**
+	 * 
+	 * @method emit
+	 * @private
+	 * @param {String} key
+	 * @param {Object} data
+	 */
+	var emit = function(key, data) {
+		events[key] = events[key] || [];
+		onces[key] = onces[key] || [];
+		var x;
+		
+		for(x=0; x<events[key].length; x++)
+			events[key][x](data);
+		for(x=0; x<onces[key].length; x++)
+			onces[key][x](data);
+		
+		onces[key].splice(0, onces[key].length);
+	};
+	
+	if(debugging) {
+		console.trace("Sovereign Emitter Debug Mode");
+		window.sovereignEmitter = emitter;
+		window.sovereignEmit = emit;
+		window.sovereignHook = {
+			"events": events,
+			"onces": onces
+		};
+	} else {
+		console.trace("Sovereign Emitter Production Mode");
+		window.sovereignEmit = null;
+	}
+	
+	/**
+	 * 
+	 * @class SovereignEmitter
+	 * @constructor
+	 */
+	
+	/**
+	 * 
+	 * @method on
+	 * @param {String} key
+	 * @param {Function} listener
+	 */
+	emitter.on = function(key, listener) {
+		events[key] = events[key] || [];
+		if(events[key].indexOf(listener) === -1)
+			events[key].push(listener);
+	};
+
+	/**
+	 * 
+	 * @method once
+	 * @param {String} key
+	 * @param {Function} listener
+	 */
+	emitter.once = function(key, listener) {
+		onces[key] = onces[key] || [];
+		if(onces[key].idexOf(listener) === -1)
+			onces[key].push(listener);
+	};
+
+	/**
+	 * 
+	 * @method off
+	 * @param {String} key
+	 * @param {Function} listener
+	 */
+	emitter.off = function(key, listener) {
+		events[key] = events[key] || [];
+		var index = events[key].idexOf(listener);
+		if(index !== -1)
+			events[key].splice(index, 1);
+	};
 	
 	return {
 		"created": function(opt) {
-			this.configuration = Object.assign({}, configuration, opt);
+			this.configuration = Object.assign({}, configuration.sovereign, opt);
+			this.instance = instance++;
 		},
 		"methods": {
 			"options": function(key, field) {
@@ -47034,12 +47170,188 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 				else
 					this.configuration[key] = field;
 			},
+			"getSovereignEmitter": function() {
+				return emitter;
+			},
+			"getResources": function(ids) {
+				if(!ids || !ids.length)
+					throw new Error("No IDs passed");
+				return new Promise(function(done, fail) {
+					if(debugging) {
+						var x, fulfill = [];
+						for(x=0; x<ids.length; x++)
+							fulfill.push(window.sovereignDebug.resources[ids[x]]);
+						done(fulfill);
+					} else {
+						// TODO: Replace with live data
+						console.log("Debug mode offline and live data not yet ready");
+						fail(new Error("Live data not yet supported"));
+					}
+				});
+			},
+			"getRelations": function(ids) {
+				if(!ids || !ids.length)
+					throw new Error("No IDs passed");
+				return new Promise(function(done, fail) {
+					if(debugging) {
+						var x, fulfill = [];
+						for(x=0; x<ids.length; x++)
+							fulfill.push(window.sovereignDebug.relations[ids[x]]);
+						done(fulfill);
+					} else {
+						// TODO: Replace with live data
+						console.log("Debug mode offline and live data not yet ready");
+						fail(new Error("Live data not yet supported"));
+					}
+				});
+			},
 			"debug": function() {
 				console.log("Gaze: " + this.g$Version + "@" + this.g$Start);
 			}
 		}
 	};
 });
+
+
+/**
+ * 
+ * @class SyntheticConstruct
+ * @constructor
+ * @vueType Mixin
+ */
+Gaze.defineSubsystem("SyntheticConstruct", function() {
+	/**
+	 * 
+	 * @method createCconstruct
+	 * @param {Event} event The event that signaled to create this Construct
+	 * @return {Construct}
+	 */
+	
+	
+	/**
+	 * 
+	 * @class Construct
+	 * @constructor
+	 * @param {Event} event
+	 */
+	var Construct = function(event) {
+		/**
+		 * 
+		 * @property resources
+		 * @type Array
+		 */
+		this.resources = [];
+		/**
+		 * 
+		 * @property relations
+		 * @type Array
+		 */
+		this.relations = [];
+
+		/**
+		 * 
+		 * @method modify
+		 * @param {Event} event Contains the modification information
+		 */
+		this.modify = function(event) {
+			
+		};
+	};
+	
+	
+	return {
+		"methods": {
+			"Construct": function(event) {
+				
+				return new Construct(event);
+			}
+		}
+	};
+});
+
+window.sovereignDebug = {};
+
+window.sovereignDebug.start = Date.now();
+
+window.sovereignDebug.resources = {};
+window.sovereignDebug.resources._make = function(description, timespan) {
+	window.sovereignDebug.resources._id += 1;
+	window.sovereignDebug.resources[window.sovereignDebug.resources._id] = Object.assign({}, window.sovereignDebug.resources._root, {
+		"name": "Resource:" + window.sovereignDebug.resources._id,
+		"id": window.sovereignDebug.resources._id,
+		"description": description
+	});
+	if(timespan) {
+		delete(window.sovereignDebug.resources[window.sovereignDebug.resources._id].commence);
+		delete(window.sovereignDebug.resources[window.sovereignDebug.resources._id].conclude);
+	}
+};
+window.sovereignDebug.resources._id = 0;
+window.sovereignDebug.resources._root = {
+	"type": -1,
+	"environment": -1,
+	"audience": "Testers",
+	"commence": window.sovereignDebug.start - 100000,
+	"consclude": window.sovereignDebug.start + 100000,
+	"created": window.sovereignDebug.start,
+	"updated": window.sovereignDebug.start
+};
+
+window.sovereignDebug.resources._make("This is a test resource");
+window.sovereignDebug.resources._make("This is another test resource");
+window.sovereignDebug.resources._make("The cake is a lie");
+window.sovereignDebug.resources._make("No it's not");
+window.sovereignDebug.resources._make("Testy McTestFace the Third");
+window.sovereignDebug.resources._make("Creative");
+window.sovereignDebug.resources._make("Nope");
+window.sovereignDebug.resources._make("Alternative Nope");
+window.sovereignDebug.resources._make("Floater");
+
+window.sovereignDebug.relations = {};
+window.sovereignDebug.relations._make = function(description, source, target) {
+	window.sovereignDebug.relations._id += 1;
+	window.sovereignDebug.relations[window.sovereignDebug.relations._id] = Object.assign({}, window.sovereignDebug.relations._root, {
+		"name": "Relation:" + window.sovereignDebug.relations._id,
+		"id": window.sovereignDebug.relations._id,
+		"description": description,
+		"source": source,
+		"target": target
+	});
+};
+window.sovereignDebug.relations._id = 0;
+window.sovereignDebug.relations._root = {
+	"concept": "Testers",
+	"type": -1,
+	"environment": -1,
+	"created": window.sovereignDebug.start,
+	"updated": window.sovereignDebug.start
+};
+window.sovereignDebug.relations._make("This is a test relation", 0, 1);
+window.sovereignDebug.relations._make("This is a test relation", 1, 2);
+window.sovereignDebug.relations._make("This is a test relation", 2, 3);
+window.sovereignDebug.relations._make("This is a test relation", 3, 4);
+window.sovereignDebug.relations._make("This is a test relation", 4, 5);
+window.sovereignDebug.relations._make("This is a test relation", 6, 1);
+window.sovereignDebug.relations._make("This is a test relation", 6, 5);
+window.sovereignDebug.relations._make("This is a test relation", 1, 7);
+window.sovereignDebug.relations._make("This is a test relation", 4, 7);
+
+window.sovereignDebug.events = {};
+window.sovereignDebug.events.add = {
+	"construct": 0,
+	"ids": [0, 1, 2, 3],
+	"_callID": "TestCall",
+	"_time": 10000,
+	"_type": "resource:append"
+};
+window.sovereignDebug.events.remove = {
+	"construct": 0,
+	"ids": [2, 3],
+	"_callID": "TestCall",
+	"_time": 10000,
+	"_type": "resource:detach"
+};
+
 /**
  * 
  * @class ResourceTestData
@@ -47739,6 +48051,7 @@ Vue.component("resourceMap", {
 	],
 	"props": ["testdata","aaa", "aaaBbb", "data-stuffing"],
 	"mounted": function() {
+		var core = this;
 //		this.map = $(this.$el).find("#map")[0];
 		this.map = document.getElementById("map");
 		
@@ -47760,10 +48073,8 @@ Vue.component("resourceMap", {
 				"css": {
 					"line-color": "#f92411"
 				}
-			}],
-			"elements": this.testResourceData
+			}]
 		});
-		
 		
 		this.$on("rerun", function() {
 			console.log("welp");
@@ -47777,6 +48088,32 @@ Vue.component("resourceMap", {
 		});
 
 		this.layout.run();
+		
+		var emitter = this.getSovereignEmitter();
+		
+		emitter.on("test", function(data) {
+			console.log("Test Event Fired: ", data);
+		});
+		
+		emitter.on("addResource", function(data) {
+			core.cy.add({
+				"id": data.id,
+				"group": "nodes",
+				"data": data
+			});
+			core.rerunLayout();
+		});
+		
+		emitter.on("addRelation", function(data) {
+			core.cy.add({
+				"id": data.id,
+				"group": "edges",
+				"source": data.source,
+				"target": data.target,
+				"data": data
+			});
+			core.rerunLayout();
+		});
 	},
 	"data": function() {
 		return {
@@ -47793,7 +48130,15 @@ Vue.component("resourceMap", {
 		"rerunLayout": function() {
 			console.log("Received");
 			try {
+				this.layout.stop();
+				this.layout = this.cy.elements().makeLayout({
+					"name": "cola",
+					"infinite": true,
+					"fit": true,
+					"linkDistance": 1000
+				});
 				this.layout.run();
+				console.log(Object.keys(this.layout), "\n", this.layout);
 			} catch(ex) {
 				console.log("Layout run failed: ", ex);
 			}
@@ -47802,6 +48147,12 @@ Vue.component("resourceMap", {
 			console.log("Received Top");
 			try {
 				this.layout.run();
+//				this.cy.elements().makeLayout({
+//					"name": "cola",
+//					"infinite": true,
+//					"fit": true,
+//					"linkDistance": 1000
+//				});
 			} catch(ex) {
 				console.log("Layout run failed: ", ex);
 			}
