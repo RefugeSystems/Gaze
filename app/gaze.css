@@ -10,6 +10,22 @@ body {
 	border: 0px;
 }
 
+.view-create {
+	overflow: hidden;
+	height: 100%;
+	width: 100%;
+}
+
+.view-create .page {
+	overflow: auto;
+	height: 100%;
+	width: 100%;
+}
+
+.gaze.csv-upload input {
+	display: block;
+}
+
 
 #map .map.controls {
 	position: absolute;

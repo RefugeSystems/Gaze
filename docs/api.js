@@ -4,14 +4,15 @@ YUI.add("yuidoc-meta", function(Y) {
         "Component-Basic",
         "Component-MapControls",
         "Component-ResourceMap",
+        "Component-gazesynth",
         "Configuration",
-        "Construct",
+        "EventEmitter",
         "LogSystem",
         "ResourceTestData",
         "SovereignConnection",
-        "SovereignEmitter",
         "SyntheticConstruct",
-        "_Gaze"
+        "_Gaze",
+        "gazeForm"
     ],
     "modules": [
         "Gaze"

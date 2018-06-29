@@ -40,14 +40,15 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/_Gaze.html">_Gaze</a></li>
                                 <li><a href="../classes/Component-Basic.html">Component-Basic</a></li>
+                                <li><a href="../classes/Component-gazesynth.html">Component-gazesynth</a></li>
                                 <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
                                 <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
-                                <li><a href="../classes/Construct.html">Construct</a></li>
+                                <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
+                                <li><a href="../classes/gazeForm.html">gazeForm</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
-                                <li><a href="../classes/SovereignEmitter.html">SovereignEmitter</a></li>
                                 <li><a href="../classes/SyntheticConstruct.html">SyntheticConstruct</a></li>
                             </ul>
                 
@@ -94,9 +95,7 @@
 
 /**
  * 
- * 
  * Global Reference: &#x60;Gaze&#x60;
- * 
  * @class _Gaze
  * @constructor
  * @private
@@ -105,6 +104,56 @@
  */
 window.Gaze = window._Gaze = (function() {
 	var gazing = {};
+	
+	gazing.EventEmitter = function() {
+		var events = {};
+		var onces = {};
+		
+		this.eventNames = function() {
+			return Object.keys(events).concat(Object.keys(onces));
+		};
+		
+		this.on = function(key, listener) {
+			events[key] = events[key] || [];
+			if(events[key].indexOf(listener) === -1)
+				events[key].push(listener);
+		};
+
+		this.once = function(key, listener) {
+			onces[key] = onces[key] || [];
+			if(onces[key].idexOf(listener) === -1)
+				onces[key].push(listener);
+		};
+
+		this.off = function(key, listener) {
+			events[key] = events[key] || [];
+			var index = events[key].idexOf(listener);
+			if(index !== -1)
+				events[key].splice(index, 1);
+		};
+
+		this.emit = function(key, data) {
+//			console.trace(&quot;Emit[&quot; + key + &quot;]: &quot;, data);
+			events[key] = events[key] || [];
+			onces[key] = onces[key] || [];
+			var x;
+			
+			for(x=0; x&lt;events[key].length; x++)
+				events[key][x](data);
+			if(onces[key]) {
+				for(x=0; x&lt;onces[key].length; x++)
+					onces[key][x](data);
+				onces[key] = [];
+			}
+		};
+	};
+
+	var emitter = new gazing.EventEmitter();
+	gazing.eventNames = emitter.eventNames.bind(gazing);
+	gazing.on = emitter.on.bind(gazing);
+	gazing.once = emitter.once.bind(gazing);
+	gazing.off = emitter.off.bind(gazing);
+	gazing.emit = emitter.emit.bind(gazing);
 	
 	/**
 	 * 
@@ -181,13 +230,13 @@ window.Gaze = window._Gaze = (function() {
 	 * @param {Object} options
 	 */
 	var initialize = function(options) {
-		for(var key in options)
+		for(var key in options) {
 			if(options[key] instanceof Object)
 				Object.assign(configuration[key] = configuration[key] || {}, options[key]);
 			else
 				configuration[key] = options[key];
+		}
 		
-		console.log(&quot;Console Configuration: &quot;, configuration.console);
 		display.trace = configuration.console.trace?console.trace:noOp;
 		display.debug = configuration.console.debug?console.trace:noOp;
 		display.info = configuration.console.info?console.log:noOp;
@@ -275,6 +324,10 @@ window.Gaze = window._Gaze = (function() {
 		}
 	};
 	
+	gazing.sign = function() {
+		console.log(&quot;  __   __   __ \n |  \\_/  \\_/  |\n .            .      _____    _______ _______\n  \\__      __/      / __   \\/       /  ______/\n     )    (        / /__/  /   ____/  /  ___ __ ______  _____\n	/      \\      /  _   , \\____  \\  /  /  / __ \\__  / /  _  \\\n   &#x27;        &#x27;    /  / \\  \\/       / /___/ / /_/ / / /__  ____/\n  /          \\  /__/   \\__\\______/_______/\\_____\\/____/_____/\n  \\__________/\n&#x27;.____________.&#x27;&quot;);
+	};
+	
 	return gazing;
 })();
 
@@ -289,6 +342,88 @@ window.Gaze = window._Gaze = (function() {
  * @property version
  * @type String
  * @static
+ */
+
+/**
+ * 
+ * @class SyntheticConstruct
+ * @extents EventEmitter
+ * @constructor
+ * @module Gaze
+ */
+Gaze.SyntheticConstruct = function(event) {
+	
+	/**
+	 * 
+	 * @property resources
+	 * @type Array
+	 */
+	this.resources = [];
+	
+	/**
+	 * 
+	 * @property relations
+	 * @type Array
+	 */
+	this.relations = [];
+
+	var emitter = new Gaze.EventEmitter();
+	this.eventNames = emitter.eventNames.bind(this);
+	this.on = emitter.on.bind(this);
+	this.once = emitter.once.bind(this);
+	this.off = emitter.off.bind(this);
+	this.emit = emitter.emit.bind(this);
+	
+	/**
+	 * 
+	 * @method modify
+	 * @param {Event} event Contains the modification information
+	 */
+	this.modify = function(event) {
+		
+	};
+};
+
+
+/**
+ * 
+ * @class EventEmitter
+ * @constructor
+ * @module Gaze
+ */
+
+/**
+ * 
+ * @method eventNames
+ * @return {Array}
+ */
+
+/**
+ * 
+ * @method on
+ * @param {String} key
+ * @param {Function} listener
+ */
+
+/**
+ * 
+ * @method once
+ * @param {String} key
+ * @param {Function} listener
+ */
+
+/**
+ * 
+ * @method off
+ * @param {String} key
+ * @param {Function} listener
+ */
+
+/**
+ * 
+ * @method emit
+ * @param {String} key
+ * @param {Object} data
  */
 
     </pre>

@@ -40,14 +40,15 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/_Gaze.html">_Gaze</a></li>
                                 <li><a href="../classes/Component-Basic.html">Component-Basic</a></li>
+                                <li><a href="../classes/Component-gazesynth.html">Component-gazesynth</a></li>
                                 <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
                                 <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
-                                <li><a href="../classes/Construct.html">Construct</a></li>
+                                <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
+                                <li><a href="../classes/gazeForm.html">gazeForm</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
-                                <li><a href="../classes/SovereignEmitter.html">SovereignEmitter</a></li>
                                 <li><a href="../classes/SyntheticConstruct.html">SyntheticConstruct</a></li>
                             </ul>
                 
@@ -105,13 +106,17 @@ Vue.component(&quot;basic&quot;, {
 		Gaze.getSubsystem(&quot;SoverignConnection&quot;),
 		Gaze.getSubsystem(&quot;LogSystem&quot;)
 	],
-	&quot;props&quot;: [&quot;testdata&quot;,&quot;aaa&quot;, &quot;aaaBbb&quot;, &quot;data-stuffing&quot;],
+	&quot;props&quot;: [&quot;testdata&quot;,&quot;aaa&quot;, &quot;aaaBbb&quot;, &quot;data-stuffing&quot;, &quot;dance&quot;],
 	&quot;mounted&quot;: function() {
-		//console.log(&quot;mounted&quot;);
+		console.log(&quot;Mounted: &quot;, this);
 	},
 	&quot;data&quot;: function() {
 		return {
-			&quot;content&quot;: &quot;Example&quot;
+			&quot;content&quot;: &quot;Example&quot;,
+			&quot;fields&quot;: [{
+				&quot;title&quot;: &quot;hi&quot;,
+				&quot;type&quot;: &quot;text&quot;
+			}]
 		};
 	},
 	&quot;methods&quot;: {
@@ -123,10 +128,45 @@ Vue.component(&quot;basic&quot;, {
 		},
 		&quot;huh&quot;: function() {
 			console.log(&quot;Yup&quot;);
+		},
+		&quot;testLeft&quot;: function(event, a, b) {
+			console.log(&quot;Swiped Left: &quot;, event, a, b);
 		}
 	},
-	&quot;template&quot;: Vue.templified(&quot;view-experiments/experiment.html&quot;)
+	&quot;template&quot;: Vue.templified(&quot;experiments/experiment.html&quot;)
 });
+
+var execTest = function() {
+	var x, q = 0, linkage = [];
+
+	for(x=0; x&lt;100; x++) {
+		console.log(&quot;Node&quot; + x);
+		window.sovEmit[0]({
+			&quot;key&quot;: &quot;addResource&quot;,
+			&quot;id&quot;: &quot;Node&quot; + x,
+			&quot;name&quot;: &quot;Node&quot; + x
+		});
+	}
+
+
+	for(x=0; x&lt;parseInt(Math.random()*100) + 100; x++) {
+		linkage.push({
+			&quot;source&quot;: &quot;Node&quot; + parseInt(Math.random()*100),
+			&quot;target&quot;: &quot;Node&quot; + parseInt(Math.random()*100)
+		});
+	}
+
+	linkage.forEach(function(l) {
+		window.sovEmit[0]({
+			&quot;key&quot;: &quot;addRelation&quot;,
+			&quot;id&quot;: &quot;link&quot; + q,
+			&quot;name&quot;: &quot;link&quot; + q,
+			&quot;source&quot;: l.source,
+			&quot;target&quot;: l.target
+		});
+		q++;
+	});
+};
 
     </pre>
 </div>

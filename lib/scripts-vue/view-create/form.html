@@ -1,0 +1,21 @@
+<section class="view-create" v-touch:swipe.prevent="shift">
+	<div class="create-resource">
+		<h1>Synthesize Resource</h1>
+		<gaze-form :fields="resourceFields" :formData="resource"></gaze-form>
+	</div>
+	
+	<div class="create-relation">
+		<h1>Synthesize Relation</h1>
+		<gaze-form :fields="relationFields" :formData="relation" format="lcars"></gaze-form>
+	</div>
+	
+	<div class="upload-resources">
+		<h1>Synthesize Resources (CSV)</h1>
+		<gazecsv></gazecsv>
+	</div>
+	
+	<div class="upload-relation">
+		<h1>Synthesize Relations (CSV)</h1>
+		<gazecsv></gazecsv>
+	</div>
+</section>

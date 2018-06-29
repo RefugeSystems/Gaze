@@ -1,16 +1,20 @@
 <section>
 	<h3>Some Test</h3>
-	<span>{{content}}</span>
+	<div v-touch:swipe.left.prevent="testLeft">C: {{content}}</div>
+	<div v-touch:swipe.right.prevent="testLeft">D: {{dance}}</div>
 	<button v-on:click="options()">Test</button>
 	<button v-on:click="testing()">Console Data</button>
 	<button v-on:click="debug()">Debug</button>
 	<button v-on:click="doubled()">Doubled</button>
 	<slot name="carryOver"></slot>
-	<h3>After Slot</h3>
+	<h3 v-touch:swipe.prevent="testLeft">After Slot</h3>
 	<div id="info">
 		<span>Gaze:</span>
 		<span>{{$root.g$Version}}</span>
 		<span>@{{$root.g$Start}}</span>
 	</div>
+	<entry-resource :fields="fields">
+	</entry-resource>
+	<slot name="test" content="content"></slot>
 	<slot name="map"></slot>
 </section>

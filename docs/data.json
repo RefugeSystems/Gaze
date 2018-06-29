@@ -10,18 +10,7 @@
             "name": "lib\\scripts-vue\\system-sovereign\\connection.js",
             "modules": {},
             "classes": {
-                "SovereignConnection": 1,
-                "SovereignEmitter": 1
-            },
-            "fors": {},
-            "namespaces": {}
-        },
-        "lib\\scripts-vue\\system-sovereign\\construct.js": {
-            "name": "lib\\scripts-vue\\system-sovereign\\construct.js",
-            "modules": {},
-            "classes": {
-                "SyntheticConstruct": 1,
-                "Construct": 1
+                "SovereignConnection": 1
             },
             "fors": {},
             "namespaces": {}
@@ -35,11 +24,36 @@
             "fors": {},
             "namespaces": {}
         },
+        "lib\\scripts-vue\\view-create\\creation.js": {
+            "name": "lib\\scripts-vue\\view-create\\creation.js",
+            "modules": {},
+            "classes": {
+                "Component-gazesynth": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-csvparser\\read.js": {
+            "name": "lib\\scripts-vue\\view-csvparser\\read.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "lib\\scripts-vue\\view-experiments\\basic.js": {
             "name": "lib\\scripts-vue\\view-experiments\\basic.js",
             "modules": {},
             "classes": {
                 "Component-Basic": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-form\\form.js": {
+            "name": "lib\\scripts-vue\\view-form\\form.js",
+            "modules": {},
+            "classes": {
+                "gazeForm": 1
             },
             "fors": {},
             "namespaces": {}
@@ -70,7 +84,9 @@
             "classes": {
                 "_Gaze": 1,
                 "Configuration": 1,
-                "LogSystem": 1
+                "LogSystem": 1,
+                "SyntheticConstruct": 1,
+                "EventEmitter": 1
             },
             "fors": {},
             "namespaces": {}
@@ -83,22 +99,23 @@
             "elements": {},
             "classes": {
                 "SovereignConnection": 1,
-                "SovereignEmitter": 1,
-                "SyntheticConstruct": 1,
-                "Construct": 1,
                 "ResourceTestData": 1,
+                "Component-gazesynth": 1,
+                "gazeForm": 1,
                 "Component-Basic": 1,
                 "Component-ResourceMap": 1,
                 "Component-MapControls": 1,
                 "_Gaze": 1,
                 "Configuration": 1,
-                "LogSystem": 1
+                "LogSystem": 1,
+                "SyntheticConstruct": 1,
+                "EventEmitter": 1
             },
             "fors": {},
             "namespaces": {},
             "tag": "module",
             "file": "lib\\gaze.js",
-            "line": 149,
+            "line": 294,
             "description": "Global Reference: `Gaze`"
         }
     },
@@ -114,6 +131,7 @@
             "module": "Gaze",
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
             "line": 2,
+            "extends": "EventEmitter",
             "is_constructor": 1,
             "vuetype": "Mixin",
             "params": [
@@ -121,53 +139,6 @@
                     "name": "configuration",
                     "description": "Passed by Gaze to initialize the Mixin during defining.",
                     "type": "Object"
-                }
-            ]
-        },
-        "SovereignEmitter": {
-            "name": "SovereignEmitter",
-            "shortname": "SovereignEmitter",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Gaze",
-            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 104,
-            "is_constructor": 1
-        },
-        "SyntheticConstruct": {
-            "name": "SyntheticConstruct",
-            "shortname": "SyntheticConstruct",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Gaze",
-            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
-            "line": 2,
-            "is_constructor": 1,
-            "vuetype": "Mixin"
-        },
-        "Construct": {
-            "name": "Construct",
-            "shortname": "Construct",
-            "classitems": [],
-            "plugins": [],
-            "extensions": [],
-            "plugin_for": [],
-            "extension_for": [],
-            "module": "Gaze",
-            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
-            "line": 17,
-            "is_constructor": 1,
-            "params": [
-                {
-                    "name": "event",
-                    "description": "",
-                    "type": "Event"
                 }
             ]
         },
@@ -189,6 +160,47 @@
                     "name": "configuration",
                     "description": "Passed by Gaze to initialize the Mixin during defining.",
                     "type": "Object"
+                }
+            ]
+        },
+        "Component-gazesynth": {
+            "name": "Component-gazesynth",
+            "shortname": "Component-gazesynth",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\view-create\\creation.js",
+            "line": 2,
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "fieldLimit",
+                    "description": "Number of arbitrary fields that can be added. Undefined for no limit.",
+                    "type": "String"
+                }
+            ]
+        },
+        "gazeForm": {
+            "name": "gazeForm",
+            "shortname": "gazeForm",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\view-form\\form.js",
+            "line": 2,
+            "description": "Provides a simple form for creating a resource.",
+            "is_constructor": 1,
+            "params": [
+                {
+                    "name": "fieldLimit",
+                    "description": "Number of arbitrary fields that can be added. Undefined for no limit.",
+                    "type": "String"
                 }
             ]
         },
@@ -248,7 +260,7 @@
             "extension_for": [],
             "module": "Gaze",
             "file": "lib\\gaze.js",
-            "line": 190,
+            "line": 242,
             "description": "Global Reference: `Gaze`",
             "is_constructor": 1,
             "access": "private",
@@ -266,7 +278,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 138,
+            "line": 186,
             "is_constructor": 1
         },
         "LogSystem": {
@@ -280,7 +292,36 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 149,
+            "line": 197,
+            "is_constructor": 1
+        },
+        "SyntheticConstruct": {
+            "name": "SyntheticConstruct",
+            "shortname": "SyntheticConstruct",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "namespace": "",
+            "file": "lib\\gaze.js",
+            "line": 253,
+            "extents": "EventEmitter",
+            "is_constructor": 1
+        },
+        "EventEmitter": {
+            "name": "EventEmitter",
+            "shortname": "EventEmitter",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "namespace": "",
+            "file": "lib\\gaze.js",
+            "line": 294,
             "is_constructor": 1
         }
     },
@@ -288,7 +329,7 @@
     "classitems": [
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 10,
+            "line": 11,
             "itemtype": "property",
             "name": "instance",
             "type": "Number",
@@ -298,7 +339,7 @@
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 18,
+            "line": 19,
             "itemtype": "property",
             "name": "debugging",
             "type": "Boolean",
@@ -308,32 +349,43 @@
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 26,
+            "line": 29,
+            "description": "Tracks Constructs against whom the UI is listening for\nEvents to drive active displays.",
+            "itemtype": "property",
+            "name": "constructs",
+            "type": "Object",
+            "access": "private",
+            "tagname": "",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 45,
+            "description": "Tracks Resources that the UI has indexed.",
+            "itemtype": "property",
+            "name": "resources",
+            "type": "Object",
+            "access": "private",
+            "tagname": "",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 53,
             "itemtype": "method",
             "name": "options",
             "class": "SovereignConnection"
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 31,
-            "itemtype": "method",
-            "name": "getSovereignEmitter",
-            "return": {
-                "description": "",
-                "type": "SovereignEmitter"
-            },
-            "class": "SovereignConnection"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 37,
+            "line": 58,
             "itemtype": "method",
             "name": "debug",
             "class": "SovereignConnection"
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 43,
+            "line": 108,
             "itemtype": "property",
             "name": "socket",
             "type": "WebSocket",
@@ -342,134 +394,8 @@
             "class": "SovereignConnection"
         },
         {
-            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 71,
-            "itemtype": "method",
-            "name": "emit",
-            "access": "private",
-            "tagname": "",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "data",
-                    "description": "",
-                    "type": "Object"
-                }
-            ],
-            "class": "SovereignConnection"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 110,
-            "itemtype": "method",
-            "name": "on",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "listener",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "SovereignEmitter"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 122,
-            "itemtype": "method",
-            "name": "once",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "listener",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "SovereignEmitter"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 134,
-            "itemtype": "method",
-            "name": "off",
-            "params": [
-                {
-                    "name": "key",
-                    "description": "",
-                    "type": "String"
-                },
-                {
-                    "name": "listener",
-                    "description": "",
-                    "type": "Function"
-                }
-            ],
-            "class": "SovereignEmitter"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
-            "line": 9,
-            "itemtype": "method",
-            "name": "createCconstruct",
-            "params": [
-                {
-                    "name": "event",
-                    "description": "The event that signaled to create this Construct",
-                    "type": "Event"
-                }
-            ],
-            "return": {
-                "description": "",
-                "type": "Construct"
-            },
-            "class": "SyntheticConstruct"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
-            "line": 24,
-            "itemtype": "property",
-            "name": "resources",
-            "type": "Array",
-            "class": "Construct"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
-            "line": 30,
-            "itemtype": "property",
-            "name": "relations",
-            "type": "Array",
-            "class": "Construct"
-        },
-        {
-            "file": "lib\\scripts-vue\\system-sovereign\\construct.js",
-            "line": 37,
-            "itemtype": "method",
-            "name": "modify",
-            "params": [
-                {
-                    "name": "event",
-                    "description": "Contains the modification information",
-                    "type": "Event"
-                }
-            ],
-            "class": "Construct"
-        },
-        {
             "file": "lib\\gaze.js",
-            "line": 16,
+            "line": 64,
             "itemtype": "property",
             "name": "configuration",
             "type": "Object",
@@ -480,7 +406,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 24,
+            "line": 72,
             "itemtype": "property",
             "name": "defaults",
             "type": "Object",
@@ -491,7 +417,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 53,
+            "line": 101,
             "description": "Acts as an initialization for Gaze in Vue.",
             "itemtype": "method",
             "name": "install",
@@ -512,7 +438,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 75,
+            "line": 123,
             "itemtype": "method",
             "name": "reconfigure",
             "params": [
@@ -532,7 +458,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 85,
+            "line": 133,
             "description": "Initializes Gaze with the configuration passed in options.",
             "itemtype": "method",
             "name": "initialize",
@@ -548,7 +474,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 110,
+            "line": 158,
             "itemtype": "method",
             "name": "getSubsystem",
             "params": [
@@ -568,7 +494,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 123,
+            "line": 171,
             "itemtype": "method",
             "name": "defineSubsystem",
             "params": [
@@ -588,13 +514,138 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 194,
+            "line": 246,
             "description": "The version of Gaze running.",
             "itemtype": "property",
             "name": "version",
             "type": "String",
             "static": 1,
             "class": "_Gaze",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 262,
+            "itemtype": "property",
+            "name": "resources",
+            "type": "Array",
+            "class": "SyntheticConstruct",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 269,
+            "itemtype": "property",
+            "name": "relations",
+            "type": "Array",
+            "class": "SyntheticConstruct",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 283,
+            "itemtype": "method",
+            "name": "modify",
+            "params": [
+                {
+                    "name": "event",
+                    "description": "Contains the modification information",
+                    "type": "Event"
+                }
+            ],
+            "class": "SyntheticConstruct",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 301,
+            "itemtype": "method",
+            "name": "eventNames",
+            "return": {
+                "description": "",
+                "type": "Array"
+            },
+            "class": "EventEmitter",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 307,
+            "itemtype": "method",
+            "name": "on",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "EventEmitter",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 314,
+            "itemtype": "method",
+            "name": "once",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "EventEmitter",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 321,
+            "itemtype": "method",
+            "name": "off",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "listener",
+                    "description": "",
+                    "type": "Function"
+                }
+            ],
+            "class": "EventEmitter",
+            "module": "Gaze"
+        },
+        {
+            "file": "lib\\gaze.js",
+            "line": 328,
+            "itemtype": "method",
+            "name": "emit",
+            "params": [
+                {
+                    "name": "key",
+                    "description": "",
+                    "type": "String"
+                },
+                {
+                    "name": "data",
+                    "description": "",
+                    "type": "Object"
+                }
+            ],
+            "class": "EventEmitter",
             "module": "Gaze"
         }
     ],
@@ -605,11 +656,11 @@
         },
         {
             "message": "unknown tag: vuetype",
-            "line": " lib\\scripts-vue\\system-sovereign\\construct.js:2"
+            "line": " lib\\scripts-vue\\system-testdata\\data.js:1"
         },
         {
-            "message": "unknown tag: vuetype",
-            "line": " lib\\scripts-vue\\system-testdata\\data.js:1"
+            "message": "unknown tag: extents",
+            "line": " lib\\gaze.js:253"
         }
     ]
 }

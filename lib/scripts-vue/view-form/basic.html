@@ -1,0 +1,37 @@
+<section class="entry-formData">
+	<span>Basic</span>
+	<form v-on:submit.prevent="formData">
+		<div v-for="field in fields" class="field" :class="field.class || field.name">
+			<label v-if="field.type === 'text' || field.type === 'date'">
+				<span>{{field.title}}</span>
+				<input :placeholder="field.placeholder" :type="field.type" v-model="formData[field.key]" />
+			</label>
+			<label v-if="field.type === 'number'">
+				<span>{{field.title}}</span>
+				<input :placeholder="field.placeholder" :type="field.type" v-model.number="formData[field.key]" />
+			</label>
+			<label v-if="field.type === 'checkbox'">
+				<input :placeholder="field.placeholder" :type="field.type" v-model="formData[field.key]" />
+				<span>{{field.title}}</span>
+			</label>
+			<label v-if="field.type === 'select'">
+				<span>{{field.title}}</span>
+				<select v-model="formData[field.key]">
+					<option v-for="option in options[field.key]" v-bind:value="option.value">
+						{{option.display}}
+					</option>
+				</select>
+			</label>
+			<label v-if="field.type === 'textarea'">
+				<span>{{field.title}}</span>
+				<textarea :placeholder="field.placeholder" v-model="formData[field.key]"></textarea>
+			</label>
+			<div v-if="field.type === 'radio'" class="radio-set">
+				<label v-for="option in options[fild.key]">
+					<input :type="field.type" v-model="formData[field.key]" v-bind:value="option.value" />
+					<span>{{field.title}}</span>
+				</label>
+			</div>
+		</div>
+	</form>
+</section>

@@ -11322,6 +11322,296 @@ return VueRx;
 
 })));
 
+/**
+ *
+ * @author    Jerry Bendy
+ * @since     4/12/2017
+ */
+
+function touchX(event) {
+    return event.touches[0].clientX;
+}
+
+function touchY(event) {
+    return event.touches[0].clientY;
+}
+
+var isPassiveSupported = (function() {
+    var supportsPassive = false;
+    try {
+        var opts = Object.defineProperty({}, 'passive', {
+            get: function() {
+                supportsPassive = true;
+            }
+        });
+        window.addEventListener('test', null, opts);
+    } catch (e) {}
+    return supportsPassive;
+})()
+
+
+var vueTouchEvents = {
+    install: function (Vue, options) {
+
+        // Set default options
+        options = Object.assign({}, {
+            disableClick: false,
+            tapTolerance: 10,
+            swipeTolerance: 30,
+            longTapTimeInterval: 400,
+            touchClass: ''
+        }, options || {})
+
+
+        function touchStartEvent(event) {
+            var $this = this.$$touchObj
+
+            $this.supportTouch = true
+
+            if ($this.touchStarted) {
+                return
+            }
+
+            addTouchClass(this)
+
+            $this.touchStarted = true
+
+            $this.touchMoved = false
+            $this.swipeOutBounded = false
+
+            $this.startX = touchX(event)
+            $this.startY = touchY(event)
+
+            $this.currentX = 0
+            $this.currentY = 0
+
+            $this.touchStartTime = event.timeStamp
+        }
+
+        function touchMoveEvent(event) {
+            var $this = this.$$touchObj
+
+            $this.currentX = touchX(event)
+            $this.currentY = touchY(event)
+
+            if (!$this.touchMoved) {
+                var tapTolerance = options.tapTolerance
+
+                $this.touchMoved = Math.abs($this.startX - $this.currentX) > tapTolerance ||
+                    Math.abs($this.startY - $this.currentY) > tapTolerance
+
+            } else if (!$this.swipeOutBounded) {
+                var swipeOutBounded = options.swipeTolerance
+
+                $this.swipeOutBounded = Math.abs($this.startX - $this.currentX) > swipeOutBounded &&
+                    Math.abs($this.startY - $this.currentY) > swipeOutBounded
+            }
+        }
+
+        function touchCancelEvent() {
+            var $this = this.$$touchObj
+
+            removeTouchClass(this)
+
+            $this.touchStarted = $this.touchMoved = false
+            $this.startX = $this.startY = 0
+        }
+
+        function touchEndEvent(event) {
+            var $this = this.$$touchObj
+
+            $this.touchStarted = false
+
+            removeTouchClass(this)
+
+            if (!$this.touchMoved) {
+                // detect if this is a longTap event or not
+                if ($this.callbacks.longtap && event.timeStamp - $this.touchStartTime > options.longTapTimeInterval) {
+                    event.preventDefault()
+                    triggerEvent(event, this, 'longtap')
+
+                } else {
+                    // emit tap event
+                    triggerEvent(event, this, 'tap')
+                }
+
+            } else if (!$this.swipeOutBounded) {
+                var swipeOutBounded = options.swipeTolerance, direction
+
+                if (Math.abs($this.startX - $this.currentX) < swipeOutBounded) {
+                    direction = $this.startY > $this.currentY ? "top" : "bottom"
+
+                } else {
+                    direction = $this.startX > $this.currentX ? "left" : "right"
+                }
+
+                // Only emit the specified event when it has modifiers
+                if ($this.callbacks['swipe.' + direction]) {
+                    triggerEvent(event, this, 'swipe.' + direction, direction)
+
+                } else {
+                    // Emit a common event when it has no any modifier
+                    triggerEvent(event, this, 'swipe', direction)
+                }
+            }
+        }
+
+        function clickEvent(event) {
+            var $this = this.$$touchObj
+
+            if (!$this.supportTouch && !options.disableClick) {
+                triggerEvent(event, this, 'tap')
+            }
+        }
+
+        function mouseEnterEvent() {
+            addTouchClass(this)
+        }
+
+        function mouseLeaveEvent() {
+            removeTouchClass(this)
+        }
+
+        function triggerEvent(e, $el, eventType, param) {
+            var $this = $el.$$touchObj
+
+            // get the callback list
+            var callbacks = $this.callbacks[eventType] || []
+            if (callbacks.length === 0) {
+                return null
+            }
+
+            for (var i = 0; i < callbacks.length; i++) {
+                var binding = callbacks[i]
+
+                // handle `self` modifier`
+                if (binding.modifiers.self && e.target !== e.currentTarget) {
+                    continue
+                }
+
+                if (typeof binding.value === 'function') {
+                    if (param) {
+                        binding.value(param, e)
+                    } else {
+                        binding.value(e)
+                    }
+                }
+            }
+        }
+
+        function addTouchClass($el) {
+            var className = $el.$$touchClass || options.touchClass
+            className && $el.classList.add(className)
+        }
+
+        function removeTouchClass($el) {
+            var className = $el.$$touchClass || options.touchClass
+            className && $el.classList.remove(className)
+        }
+
+        Vue.directive('touch', {
+            bind: function ($el, binding) {
+
+                $el.$$touchObj = $el.$$touchObj || {
+                        // will change to true when `touchstart` event first trigger
+                        supportTouch: false,
+                        // an object contains all callbacks registered,
+                        // key is event name, value is an array
+                        callbacks: {},
+                        // prevent bind twice, set to true when event bound
+                        hasBindTouchEvents: false
+                    }
+
+
+                // register callback
+                var eventType = binding.arg || 'tap'
+                switch (eventType) {
+                    case 'swipe':
+                        var _m = binding.modifiers
+                        if (_m.left || _m.right || _m.top || _m.bottom) {
+                            for (var i in binding.modifiers) {
+                                if (['left', 'right', 'top', 'bottom'].indexOf(i) >= 0) {
+                                    var _e = 'swipe.' + i
+                                    $el.$$touchObj.callbacks[_e] = $el.$$touchObj.callbacks[_e] || []
+                                    $el.$$touchObj.callbacks[_e].push(binding)
+                                }
+                            }
+                        } else {
+                            $el.$$touchObj.callbacks.swipe = $el.$$touchObj.callbacks.swipe || []
+                            $el.$$touchObj.callbacks.swipe.push(binding)
+                        }
+                        break
+
+                    default:
+                        $el.$$touchObj.callbacks[eventType] = $el.$$touchObj.callbacks[eventType] || []
+                        $el.$$touchObj.callbacks[eventType].push(binding)
+                }
+
+                // prevent bind twice
+                if ($el.$$touchObj.hasBindTouchEvents) {
+                    return
+                }
+
+                var passiveOpt = isPassiveSupported ? { passive: true } : false;
+                $el.addEventListener('touchstart', touchStartEvent, passiveOpt)
+                $el.addEventListener('touchmove', touchMoveEvent, passiveOpt)
+                $el.addEventListener('touchcancel', touchCancelEvent)
+                $el.addEventListener('touchend', touchEndEvent)
+
+                if (!options.disableClick) {
+                    $el.addEventListener('click', clickEvent)
+                    $el.addEventListener('mouseenter', mouseEnterEvent)
+                    $el.addEventListener('mouseleave', mouseLeaveEvent)
+                }
+
+                // set bind mark to true
+                $el.$$touchObj.hasBindTouchEvents = true
+            },
+
+            unbind: function ($el) {
+                $el.removeEventListener('touchstart', touchStartEvent)
+                $el.removeEventListener('touchmove', touchMoveEvent)
+                $el.removeEventListener('touchcancel', touchCancelEvent)
+                $el.removeEventListener('touchend', touchEndEvent)
+
+                if (!options.disableClick) {
+                    $el.removeEventListener('click', clickEvent)
+                    $el.removeEventListener('mouseenter', mouseEnterEvent)
+                    $el.removeEventListener('mouseleave', mouseLeaveEvent)
+                }
+
+                // remove vars
+                delete $el.$$touchObj
+            }
+        })
+
+        Vue.directive('touch-class', {
+            bind: function ($el, binding) {
+                $el.$$touchClass = binding.value
+            },
+            unbind: function ($el) {
+                delete $el.$$touchClass
+            }
+        })
+    }
+}
+
+
+/*
+ * Exports
+ */
+if (typeof module === 'object') {
+    module.exports = vueTouchEvents
+
+} else if (typeof define === 'function' && define.amd) {
+    define([], function () {
+        return vueTouchEvents
+    })
+} else if (window.Vue) {
+    window.vueTouchEvents = vueTouchEvents
+    Vue.use(vueTouchEvents)
+}
+
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -46796,9 +47086,7 @@ SOFTWARE.
 
 /**
  * 
- * 
  * Global Reference: `Gaze`
- * 
  * @class _Gaze
  * @constructor
  * @private
@@ -46807,6 +47095,56 @@ SOFTWARE.
  */
 window.Gaze = window._Gaze = (function() {
 	var gazing = {};
+	
+	gazing.EventEmitter = function() {
+		var events = {};
+		var onces = {};
+		
+		this.eventNames = function() {
+			return Object.keys(events).concat(Object.keys(onces));
+		};
+		
+		this.on = function(key, listener) {
+			events[key] = events[key] || [];
+			if(events[key].indexOf(listener) === -1)
+				events[key].push(listener);
+		};
+
+		this.once = function(key, listener) {
+			onces[key] = onces[key] || [];
+			if(onces[key].idexOf(listener) === -1)
+				onces[key].push(listener);
+		};
+
+		this.off = function(key, listener) {
+			events[key] = events[key] || [];
+			var index = events[key].idexOf(listener);
+			if(index !== -1)
+				events[key].splice(index, 1);
+		};
+
+		this.emit = function(key, data) {
+//			console.trace("Emit[" + key + "]: ", data);
+			events[key] = events[key] || [];
+			onces[key] = onces[key] || [];
+			var x;
+			
+			for(x=0; x<events[key].length; x++)
+				events[key][x](data);
+			if(onces[key]) {
+				for(x=0; x<onces[key].length; x++)
+					onces[key][x](data);
+				onces[key] = [];
+			}
+		};
+	};
+
+	var emitter = new gazing.EventEmitter();
+	gazing.eventNames = emitter.eventNames.bind(gazing);
+	gazing.on = emitter.on.bind(gazing);
+	gazing.once = emitter.once.bind(gazing);
+	gazing.off = emitter.off.bind(gazing);
+	gazing.emit = emitter.emit.bind(gazing);
 	
 	/**
 	 * 
@@ -46883,13 +47221,13 @@ window.Gaze = window._Gaze = (function() {
 	 * @param {Object} options
 	 */
 	var initialize = function(options) {
-		for(var key in options)
+		for(var key in options) {
 			if(options[key] instanceof Object)
 				Object.assign(configuration[key] = configuration[key] || {}, options[key]);
 			else
 				configuration[key] = options[key];
+		}
 		
-		console.log("Console Configuration: ", configuration.console);
 		display.trace = configuration.console.trace?console.trace:noOp;
 		display.debug = configuration.console.debug?console.trace:noOp;
 		display.info = configuration.console.info?console.log:noOp;
@@ -46977,6 +47315,10 @@ window.Gaze = window._Gaze = (function() {
 		}
 	};
 	
+	gazing.sign = function() {
+		console.log("  __   __   __ \n |  \\_/  \\_/  |\n .            .      _____    _______ _______\n  \\__      __/      / __   \\/       /  ______/\n     )    (        / /__/  /   ____/  /  ___ __ ______  _____\n	/      \\      /  _   , \\____  \\  /  /  / __ \\__  / /  _  \\\n   '        '    /  / \\  \\/       / /___/ / /_/ / / /__  ____/\n  /          \\  /__/   \\__\\______/_______/\\_____\\/____/_____/\n  \\__________/\n'.____________.'");
+	};
+	
 	return gazing;
 })();
 
@@ -46993,6 +47335,88 @@ window.Gaze = window._Gaze = (function() {
  * @static
  */
 
+/**
+ * 
+ * @class SyntheticConstruct
+ * @extents EventEmitter
+ * @constructor
+ * @module Gaze
+ */
+Gaze.SyntheticConstruct = function(event) {
+	
+	/**
+	 * 
+	 * @property resources
+	 * @type Array
+	 */
+	this.resources = [];
+	
+	/**
+	 * 
+	 * @property relations
+	 * @type Array
+	 */
+	this.relations = [];
+
+	var emitter = new Gaze.EventEmitter();
+	this.eventNames = emitter.eventNames.bind(this);
+	this.on = emitter.on.bind(this);
+	this.once = emitter.once.bind(this);
+	this.off = emitter.off.bind(this);
+	this.emit = emitter.emit.bind(this);
+	
+	/**
+	 * 
+	 * @method modify
+	 * @param {Event} event Contains the modification information
+	 */
+	this.modify = function(event) {
+		
+	};
+};
+
+
+/**
+ * 
+ * @class EventEmitter
+ * @constructor
+ * @module Gaze
+ */
+
+/**
+ * 
+ * @method eventNames
+ * @return {Array}
+ */
+
+/**
+ * 
+ * @method on
+ * @param {String} key
+ * @param {Function} listener
+ */
+
+/**
+ * 
+ * @method once
+ * @param {String} key
+ * @param {Function} listener
+ */
+
+/**
+ * 
+ * @method off
+ * @param {String} key
+ * @param {Function} listener
+ */
+
+/**
+ * 
+ * @method emit
+ * @param {String} key
+ * @param {Object} data
+ */
+
 var __templifyTemplates = function($templateCache) {
 };
 
@@ -47002,9 +47426,13 @@ Templify.install = function(Vue, options) {
 	options.name = options.name || "templified";
 	Vue[options.name] = function(name) {
 		switch(name) {
-			case "view-experiments/experiment.html": return "<section>\r\n\t<h3>Some Test</h3>\r\n\t<span>{{content}}</span>\r\n\t<button v-on:click=\"options()\">Test</button>\r\n\t<button v-on:click=\"testing()\">Console Data</button>\r\n\t<button v-on:click=\"debug()\">Debug</button>\r\n\t<button v-on:click=\"doubled()\">Doubled</button>\r\n\t<slot name=\"carryOver\"></slot>\r\n\t<h3>After Slot</h3>\r\n\t<div id=\"info\">\r\n\t\t<span>Gaze:</span>\r\n\t\t<span>{{$root.g$Version}}</span>\r\n\t\t<span>@{{$root.g$Start}}</span>\r\n\t</div>\r\n\t<slot name=\"map\"></slot>\r\n</section>\r\n";
-			case "view-resourcemap/controls.html": return "<section class=\"map controls\">\r\n\t<button v-on:click=\"rerunLayout()\">\r\n\t\t<span class=\"fas fa-sync-alt fa-spin\"></span>\r\n\t</button>\r\n</section>\r\n";
-			case "view-resourcemap/map.html": return "\r\n<section class=\"resource map\">\r\n\t<div id=\"map\">\r\n\t\t<h1 v-on:click=\"rerunLayout()\">Resource Map</h1>\r\n\t\t<map-controls v-on:rerun=\"rerunLayout()\"></map-controls>\r\n\t</div>\r\n</section>\r\n";
+			case "create/form.html": return "<section class=\"view-create\" v-touch:swipe.prevent=\"shift\">\r\n\t<div class=\"create-resource\">\r\n\t\t<h1>Synthesize Resource</h1>\r\n\t\t<gaze-form :fields=\"resourceFields\" :formData=\"resource\"></gaze-form>\r\n\t</div>\r\n\t\r\n\t<div class=\"create-relation\">\r\n\t\t<h1>Synthesize Relation</h1>\r\n\t\t<gaze-form :fields=\"relationFields\" :formData=\"relation\" format=\"lcars\"></gaze-form>\r\n\t</div>\r\n\t\r\n\t<div class=\"upload-resources\">\r\n\t\t<h1>Synthesize Resources (CSV)</h1>\r\n\t\t<gazecsv></gazecsv>\r\n\t</div>\r\n\t\r\n\t<div class=\"upload-relation\">\r\n\t\t<h1>Synthesize Relations (CSV)</h1>\r\n\t\t<gazecsv></gazecsv>\r\n\t</div>\r\n</section>\r\n";
+			case "csvparser/input.html": return "<div class=\"gaze csv-upload\">\r\n\t<input type=\"file\" class=\"upload\" />\r\n\t<input type=\"submit\" v-on:click.prevent=\"parse()\" />\r\n</div>\r\n";
+			case "experiments/experiment.html": return "<section>\r\n\t<h3>Some Test</h3>\r\n\t<div v-touch:swipe.left.prevent=\"testLeft\">C: {{content}}</div>\r\n\t<div v-touch:swipe.right.prevent=\"testLeft\">D: {{dance}}</div>\r\n\t<button v-on:click=\"options()\">Test</button>\r\n\t<button v-on:click=\"testing()\">Console Data</button>\r\n\t<button v-on:click=\"debug()\">Debug</button>\r\n\t<button v-on:click=\"doubled()\">Doubled</button>\r\n\t<slot name=\"carryOver\"></slot>\r\n\t<h3 v-touch:swipe.prevent=\"testLeft\">After Slot</h3>\r\n\t<div id=\"info\">\r\n\t\t<span>Gaze:</span>\r\n\t\t<span>{{$root.g$Version}}</span>\r\n\t\t<span>@{{$root.g$Start}}</span>\r\n\t</div>\r\n\t<entry-resource :fields=\"fields\">\r\n\t</entry-resource>\r\n\t<slot name=\"test\" content=\"content\"></slot>\r\n\t<slot name=\"map\"></slot>\r\n</section>\r\n";
+			case "form/basic.html": return "<section class=\"entry-formData\">\r\n\t<span>Basic</span>\r\n\t<form v-on:submit.prevent=\"formData\">\r\n\t\t<div v-for=\"field in fields\" class=\"field\" :class=\"field.class || field.name\">\r\n\t\t\t<label v-if=\"field.type === 'text' || field.type === 'date'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"formData[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'number'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model.number=\"formData[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'checkbox'\">\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"formData[field.key]\" />\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'select'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<select v-model=\"formData[field.key]\">\r\n\t\t\t\t\t<option v-for=\"option in options[field.key]\" v-bind:value=\"option.value\">\r\n\t\t\t\t\t\t{{option.display}}\r\n\t\t\t\t\t</option>\r\n\t\t\t\t</select>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'textarea'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<textarea :placeholder=\"field.placeholder\" v-model=\"formData[field.key]\"></textarea>\r\n\t\t\t</label>\r\n\t\t\t<div v-if=\"field.type === 'radio'\" class=\"radio-set\">\r\n\t\t\t\t<label v-for=\"option in options[fild.key]\">\r\n\t\t\t\t\t<input :type=\"field.type\" v-model=\"formData[field.key]\" v-bind:value=\"option.value\" />\r\n\t\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t</label>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n</section>\r\n";
+			case "form/lcars.html": return "<section class=\"entry-resource\">\r\n\t<span>LCARS</span>\r\n\t<form v-on:submit.prevent=\"submit(resource)\">\r\n\t\t<div v-for=\"field in fields\" class=\"field\" :class=\"field.class || field.name\">\r\n\t\t\t<label v-if=\"field.type === 'text' || field.type === 'date'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"resource[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'number'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model.number=\"resource[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'checkbox'\">\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"resource[field.key]\" />\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'select'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<select v-model=\"resource[field.key]\">\r\n\t\t\t\t\t<option v-for=\"option in options[field.key]\" v-bind:value=\"option.value\">\r\n\t\t\t\t\t\t{{option.display}}\r\n\t\t\t\t\t</option>\r\n\t\t\t\t</select>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'textarea'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<textarea :placeholder=\"field.placeholder\" v-model=\"resource[field.key]\"></textarea>\r\n\t\t\t</label>\r\n\t\t\t<div v-if=\"field.type === 'radio'\" class=\"radio-set\">\r\n\t\t\t\t<label v-for=\"option in options[fild.key]\">\r\n\t\t\t\t\t<input :type=\"field.type\" v-model=\"resource[field.key]\" v-bind:value=\"option.value\" />\r\n\t\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t</label>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n</section>\r\n";
+			case "resourcemap/controls.html": return "<section class=\"map controls\">\r\n\t<button v-on:click=\"rerunLayout()\">\r\n\t\t<span class=\"fas fa-sync-alt fa-spin\"></span>\r\n\t</button>\r\n</section>\r\n";
+			case "resourcemap/map.html": return "\r\n<section class=\"resource map\">\r\n\t<div id=\"map\">\r\n\t\t<h1 v-on:click=\"rerunLayout()\">Resource Map</h1>\r\n\t\t<map-controls v-on:rerun=\"rerunLayout()\"></map-controls>\r\n\t</div>\r\n</section>\r\n";
 			default: return null;
 		}
 	};
@@ -47014,6 +47442,7 @@ Vue.use(Templify);
 /**
  * 
  * @class SovereignConnection
+ * @extends EventEmitter
  * @constructor
  * @vueType Mixin
  * @param {Object} configuration Passed by Gaze to initialize the Mixin during defining.
@@ -47024,7 +47453,7 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 	 * @property instance
 	 * @type Number
 	 * @private
-	 */
+	 */ 
 	var instance = 0;
 
 	/**
@@ -47034,6 +47463,32 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 	 * @private
 	 */
 	var debugging = configuration.debug || configuration.sovereign.debug;
+	if(debugging)
+		window.sovEmit = [];
+	
+	/**
+	 * Tracks Constructs against whom the UI is listening for
+	 * Events to drive active displays.
+	 * @property constructs
+	 * @type Object
+	 * @private
+	 */
+	/* TODO: This needs some kind of clean-up to drop a Construct when the UI
+	 * no longer needs the information.
+	 * 
+	 * Possible on a timed delay incase we need to come back to the data to
+	 * speed up the return; Something like setTimeout and track the timeout
+	 * ID with the Construct to the clearTimeout if we come back to it.
+	*/
+	var constructs = {};
+	
+	/**
+	 * Tracks Resources that the UI has indexed.
+	 * @property resources
+	 * @type Object
+	 * @private
+	 */
+	var resources = {};
 	
 	/**
 	 * 
@@ -47042,15 +47497,53 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 	
 	/**
 	 * 
-	 * @method getSovereignEmitter
-	 * @return {SovereignEmitter}
-	 */
-	
-	/**
-	 * 
 	 * @method debug
 	 */
 	
+	
+	var SovereignConnection = function(url) {
+		var emitter = new Gaze.EventEmitter();
+		var socket = new WebSocket(url);
+		
+		this.eventNames = emitter.eventNames.bind(this);
+		this.once = emitter.once.bind(this);
+		this.off = emitter.off.bind(this);
+		this.on = emitter.on.bind(this);
+		
+		if(debugging) {
+			window.sovEmit.push(function(event) {
+				emitter.emit(event.key, event);
+			});
+		}
+		
+		this.send = function(data) {
+			socket.send(JSON.stringify({
+				"sent": Date.now(),
+				"data": data
+			}));
+		};
+
+		socket.onmessage = function(message) {
+			var event = JSON.parse(message.data);
+			emitter.emit(event.key, event);
+			console.log("Event Data: ", event);
+		};
+		
+		socket.onerror = function(error) {
+			console.log("Err: ", error);
+		};
+		
+		socket.onopen = function(message) {
+			console.log("open: ", message);
+		};
+		
+		socket.onclose = function(code) {
+			console.log("Code: ", code);
+		};
+	};
+	
+	var connection = {};
+	connection[configuration.sovereign.url] = new SovereignConnection(configuration.sovereign.url);
 	
 	/**
 	 * 
@@ -47058,103 +47551,8 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 	 * @type WebSocket
 	 * @private
 	 */
-	var socket = new WebSocket(configuration.sovereign.url);
-	socket.onerror = function(error) {
-		console.log("Err: ", error);
-	};
 	
-	socket.onmessage = function(message) {
-		var data = JSON.parse(message.data);
-		console.log("Data: ", data);
-	};
 	
-	socket.onopen = function(message) {
-		console.log("open: ", message);
-	};
-	
-	socket.onclose = function(code) {
-		console.log("Code: ", code);
-	};
-	
-	var emitter = {};
-	var events = {};
-	var onces = {};
-
-	/**
-	 * 
-	 * @method emit
-	 * @private
-	 * @param {String} key
-	 * @param {Object} data
-	 */
-	var emit = function(key, data) {
-		events[key] = events[key] || [];
-		onces[key] = onces[key] || [];
-		var x;
-		
-		for(x=0; x<events[key].length; x++)
-			events[key][x](data);
-		for(x=0; x<onces[key].length; x++)
-			onces[key][x](data);
-		
-		onces[key].splice(0, onces[key].length);
-	};
-	
-	if(debugging) {
-		console.trace("Sovereign Emitter Debug Mode");
-		window.sovereignEmitter = emitter;
-		window.sovereignEmit = emit;
-		window.sovereignHook = {
-			"events": events,
-			"onces": onces
-		};
-	} else {
-		console.trace("Sovereign Emitter Production Mode");
-		window.sovereignEmit = null;
-	}
-	
-	/**
-	 * 
-	 * @class SovereignEmitter
-	 * @constructor
-	 */
-	
-	/**
-	 * 
-	 * @method on
-	 * @param {String} key
-	 * @param {Function} listener
-	 */
-	emitter.on = function(key, listener) {
-		events[key] = events[key] || [];
-		if(events[key].indexOf(listener) === -1)
-			events[key].push(listener);
-	};
-
-	/**
-	 * 
-	 * @method once
-	 * @param {String} key
-	 * @param {Function} listener
-	 */
-	emitter.once = function(key, listener) {
-		onces[key] = onces[key] || [];
-		if(onces[key].idexOf(listener) === -1)
-			onces[key].push(listener);
-	};
-
-	/**
-	 * 
-	 * @method off
-	 * @param {String} key
-	 * @param {Function} listener
-	 */
-	emitter.off = function(key, listener) {
-		events[key] = events[key] || [];
-		var index = events[key].idexOf(listener);
-		if(index !== -1)
-			events[key].splice(index, 1);
-	};
 	
 	return {
 		"created": function(opt) {
@@ -47170,22 +47568,70 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 				else
 					this.configuration[key] = field;
 			},
-			"getSovereignEmitter": function() {
-				return emitter;
+			"getSovereignConnection": function(url) {
+				url = url || configuration.sovereign.url;
+				connection[url] = connection[url] || new SovereignConnection(url);
+				return connection[url];
+			},
+			"getConstruct": function(ids) {
+				if(!ids || !ids.length)
+					throw new Error("No IDs passed");
+				return new Promise(function(done, fail) {
+					var x, fetch = [], returning = {};
+					
+					// Cache Read
+					for(x=0; x<ids.length; x++) {
+						if(constructs[ids[x]]) {
+							clearTimeout(constructs[ids[x]].timeout);
+							returning[ids[x]] = constructs[ids[x]];
+						} else {
+							fetch.push(ids);
+						}
+					}
+					
+					if(fetch.length) {
+						// Fetch Missing
+						if(debugging) {
+							
+						} else {
+							// TODO: Replace with live data
+							console.error("Debug mode offline and live data not yet ready");
+							fail(new Error("Live data not yet supported"));
+						}
+					} else {
+						// No Missing
+						done(returning);
+					}
+				});
 			},
 			"getResources": function(ids) {
 				if(!ids || !ids.length)
 					throw new Error("No IDs passed");
 				return new Promise(function(done, fail) {
-					if(debugging) {
-						var x, fulfill = [];
-						for(x=0; x<ids.length; x++)
-							fulfill.push(window.sovereignDebug.resources[ids[x]]);
-						done(fulfill);
+					var x, fetch = [], returning = [];
+					for(x=0; x<ids.length; x++) {
+						if(resources[ids[x]]) {
+							returning.push(resources[ids[x]]);
+							clearTimeout(resources[ids[x]].timeout);
+						} else {
+							fetch.push(ids[x]);
+						}
+					}
+
+					if(fetch.length) {
+						// Fetch Missing
+						if(debugging) {
+							for(x=0; x<fetch.length; x++)
+								returning.push(window.sovereignDebug.resources[fetch[x]]);
+							done(returning);
+						} else {
+							// TODO: Replace with live data
+							console.error("Debug mode offline and live data not yet ready");
+							fail(new Error("Live data not yet supported"));
+						}
 					} else {
-						// TODO: Replace with live data
-						console.log("Debug mode offline and live data not yet ready");
-						fail(new Error("Live data not yet supported"));
+						// No Missing
+						done(returning);
 					}
 				});
 			},
@@ -47200,7 +47646,20 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 						done(fulfill);
 					} else {
 						// TODO: Replace with live data
-						console.log("Debug mode offline and live data not yet ready");
+						console.error("Debug mode offline and live data not yet ready");
+						fail(new Error("Live data not yet supported"));
+					}
+				});
+			},
+			"createResource": function(resource, construct) {
+				if(!resource)
+					throw new Error("No Resource passed");
+				return new Promise(function(done, fail) {
+					if(debugging) {
+						
+					} else {
+						// TODO: Replace with live data
+						console.error("Debug mode offline and live data not yet ready");
 						fail(new Error("Live data not yet supported"));
 					}
 				});
@@ -47212,62 +47671,6 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 	};
 });
 
-
-/**
- * 
- * @class SyntheticConstruct
- * @constructor
- * @vueType Mixin
- */
-Gaze.defineSubsystem("SyntheticConstruct", function() {
-	/**
-	 * 
-	 * @method createCconstruct
-	 * @param {Event} event The event that signaled to create this Construct
-	 * @return {Construct}
-	 */
-	
-	
-	/**
-	 * 
-	 * @class Construct
-	 * @constructor
-	 * @param {Event} event
-	 */
-	var Construct = function(event) {
-		/**
-		 * 
-		 * @property resources
-		 * @type Array
-		 */
-		this.resources = [];
-		/**
-		 * 
-		 * @property relations
-		 * @type Array
-		 */
-		this.relations = [];
-
-		/**
-		 * 
-		 * @method modify
-		 * @param {Event} event Contains the modification information
-		 */
-		this.modify = function(event) {
-			
-		};
-	};
-	
-	
-	return {
-		"methods": {
-			"Construct": function(event) {
-				
-				return new Construct(event);
-			}
-		}
-	};
-});
 
 window.sovereignDebug = {};
 
@@ -47351,6 +47754,7 @@ window.sovereignDebug.events.remove = {
 	"_time": 10000,
 	"_type": "resource:detach"
 };
+
 
 /**
  * 
@@ -48002,6 +48406,132 @@ Gaze.defineSubsystem("ResourceTestData", function(configuration) {
 
 /**
  * 
+ * @class Component-gazesynth
+ * @constructor
+ * @param {String} fieldLimit Number of arbitrary fields that can be added. Undefined for no limit.
+ */
+Vue.component("gazesynth", {
+	"inherit": true,
+	"mixins": [
+		Gaze.getSubsystem("SoverignConnection"),
+		Gaze.getSubsystem("LogSystem")
+	],
+	"props": ["field-limit", "fields"],
+	"mounted": function() {
+		this.conneciton = this.getSovereignConnection();
+	},
+	"data": function() {
+		return {
+			"resourceFields": [{
+				"title": "Name",
+				"placeholder": "Resource Name...",
+				"type": "text"
+			}],
+			"relationFields": [{
+				"title": "Name",
+				"placeholder": "Relation Name...",
+				"type": "text"
+			}],
+			"resource": {},
+			"relation": {}
+		};
+	},
+	"methods": {
+		"submit": function(resources, relations) {
+			console.log("Submitting: ", resources, relations);
+			var request = {};
+			if(resources !== undefined && resources.constructor.name !== "Array")
+				resources = [resources];
+			if(relations !== undefined && relations.constructor.name !== "Array")
+				relations = [relations];
+			
+			this.connection.send({
+				"action": "create",
+				"resources": resources,
+				"relations": relations
+			});
+		},
+		"validate": function(resource) {
+			console.log("Validating: ", resource);
+		},
+		"receive": function(event) {
+			console.log("Response: ", event);
+		},
+		"shift": function(dir) {
+			console.log("Swipe Direction: " + dir);
+			switch(dir) {
+				
+			}
+		},
+		"debug": function() {
+			console.log("Fields: ", this.fields);
+			console.log("Content: ", this.content);
+			console.log("Dance: ", this.dance);
+		}
+	},
+	"template": Vue.templified("create/form.html")
+});
+
+
+/**
+ * Provides a simple form for creating a resource.
+ * @class gazeForm
+ * @constructor
+ * @param {String} fieldLimit Number of arbitrary fields that can be added. Undefined for no limit.
+ */
+Vue.component("gazecsv", {
+	"inherit": true,
+	"props": ["format"],
+	"mounted": function() {
+		console.log("CSV mounted: ", this);
+	},
+	"data": function() {
+		return {
+		};
+	},
+	"methods": {
+		"parse": function() {
+			console.log("Parsing: ", text, parsing);
+			var reader, text, parsing;
+			
+			parsing = this.$el.getElementsByClassName("upload")[0];
+			reader = new FileReader();
+			reader.onload = function(event) {
+				var loaded, loading, l, f, text, lines, header, fields;
+				
+				text = event.target.result;
+				lines = text.split("\n");
+				loaded = [];
+				
+				header = lines[0].trim().split(/[,;]/);
+				for(f=0; f<header.length; f++)
+					header[f] = header[f].trim();
+				console.log("Header: ", header);
+				for(l=1; l<lines.length; l++) {
+					if(lines[l].length) {
+						fields = lines[l].trim().split(/[,;]/);
+						loading = {};
+						for(f=0; f<fields.length; f++)
+							loading[header[f]] = fields[f].trim();
+						loaded.push(loading);
+					}
+				}
+				
+				console.log("Read: ", loaded);
+			};
+			reader.onerror = function(error) {
+				console.error("Error: ", error);
+			};
+			
+			reader.readAsText(parsing.files[0]);
+		}
+	},
+	"template": Vue.templified("csvparser/input.html")
+});
+
+
+/**
+ * 
  * 
  * @class Component-Basic
  * @constructor
@@ -48013,13 +48543,17 @@ Vue.component("basic", {
 		Gaze.getSubsystem("SoverignConnection"),
 		Gaze.getSubsystem("LogSystem")
 	],
-	"props": ["testdata","aaa", "aaaBbb", "data-stuffing"],
+	"props": ["testdata","aaa", "aaaBbb", "data-stuffing", "dance"],
 	"mounted": function() {
-		//console.log("mounted");
+		console.log("Mounted: ", this);
 	},
 	"data": function() {
 		return {
-			"content": "Example"
+			"content": "Example",
+			"fields": [{
+				"title": "hi",
+				"type": "text"
+			}]
 		};
 	},
 	"methods": {
@@ -48031,9 +48565,81 @@ Vue.component("basic", {
 		},
 		"huh": function() {
 			console.log("Yup");
+		},
+		"testLeft": function(event, a, b) {
+			console.log("Swiped Left: ", event, a, b);
 		}
 	},
-	"template": Vue.templified("view-experiments/experiment.html")
+	"template": Vue.templified("experiments/experiment.html")
+});
+
+var execTest = function() {
+	var x, q = 0, linkage = [];
+
+	for(x=0; x<100; x++) {
+		console.log("Node" + x);
+		window.sovEmit[0]({
+			"key": "addResource",
+			"id": "Node" + x,
+			"name": "Node" + x
+		});
+	}
+
+
+	for(x=0; x<parseInt(Math.random()*100) + 100; x++) {
+		linkage.push({
+			"source": "Node" + parseInt(Math.random()*100),
+			"target": "Node" + parseInt(Math.random()*100)
+		});
+	}
+
+	linkage.forEach(function(l) {
+		window.sovEmit[0]({
+			"key": "addRelation",
+			"id": "link" + q,
+			"name": "link" + q,
+			"source": l.source,
+			"target": l.target
+		});
+		q++;
+	});
+};
+
+
+/**
+ * Provides a simple form for creating a resource.
+ * @class gazeForm
+ * @constructor
+ * @param {String} fieldLimit Number of arbitrary fields that can be added. Undefined for no limit.
+ */
+Vue.component("gazeForm", {
+	"inherit": true,
+	"props": ["formData", "field-limit", "fields", "format"],
+	"mounted": function() {
+	},
+	"data": function() {
+		return {
+			"states": ["entry", "sending", "waiting", "sent"],
+			"state": "entry"
+		};
+	},
+	"methods": {
+		"submit": function(resource) {
+			console.log("Submitting: ", resource);
+		},
+		"validate": function(resource) {
+			console.log("Validating: ", resource);
+		},
+		"receive": function(event) {
+			console.log("Response: ", event);
+		},
+		"debug": function() {
+			console.log("Fields: ", this.fields);
+			console.log("Content: ", this.content);
+			console.log("Dance: ", this.dance);
+		}
+	},
+	"template": Vue.templified("form/basic.html")
 });
 
 
@@ -48052,30 +48658,57 @@ Vue.component("resourceMap", {
 	"props": ["testdata","aaa", "aaaBbb", "data-stuffing"],
 	"mounted": function() {
 		var core = this;
-//		this.map = $(this.$el).find("#map")[0];
+//			this.map = $(this.$el).find("#map")[0];
 		this.map = document.getElementById("map");
-		
+		window.resource = {
+			"core": core
+		};
+
 		this.cy = cytoscape({
 			"container": this.map,
 			"autounselectify": true,
 			"boxSelectionEnabled": false,
 			"panningEnabled": true,
-			"userPanningEnabled": false,
+			"userPanningEnabled": true,
 			"zoomingEnabled": true,
-			"userZoomingEnabled": false,
+			"userZoomingEnabled": true,
 			"style": [{
+				"selector": "core",
+				"style": {
+					"selection-box-border-color": "#8BB0D0",
+					"selection-box-color": "#AAD8FF",
+					"selection-box-opacity": "0.5"
+				}
+			}, {
 				"selector": "node",
-				"css": {
-					"background-color": "#f92411"
+				"style": {
+					"width": "mapData(score, 0, 0.006769776522008331, 20, 60)",
+					"height": "mapData(score, 0, 0.006769776522008331, 20, 60)",
+					"content": "data(name)",
+					"font-size": "12px",
+					"text-valign": "center",
+					"text-halign": "center",
+					"background-color": "#555",
+					"text-outline-color": "#555",
+					"text-outline-width": "1px",
+					"text-max-width": "50px",
+					"text-wrap": "wrap",
+					"color": "#c3b601",
+					"overlay-padding": "6px",
+					"z-index": "10"
 				}
 			},{
 				"selector": "edge",
-				"css": {
-					"line-color": "#f92411"
+				"style": {
+					"content": "data(name)",
+					"line-color": "#c3b601",
+					"curve-style": "bezier",
+					"target-arrow-color": "#c3b601",
+					"target-arrow-shape": "triangle"
 				}
 			}]
 		});
-		
+
 		this.$on("rerun", function() {
 			console.log("welp");
 		});
@@ -48083,19 +48716,36 @@ Vue.component("resourceMap", {
 		this.layout = window.layout = this.cy.layout({
 			"name": "cola",
 			"infinite": true,
-			"fit": true,
+			"fit": false,
 			"linkDistance": 1000
 		});
 
 		this.layout.run();
-		
-		var emitter = this.getSovereignEmitter();
-		
-		emitter.on("test", function(data) {
+
+		var connection = this.getSovereignConnection();
+
+		connection.on("test", function(data) {
 			console.log("Test Event Fired: ", data);
 		});
+
+		connection.on("reset-zoom", function(event) {
+			core.cy.animate({
+				"fit": true
+			});
+		});
 		
-		emitter.on("addResource", function(data) {
+		connection.on("center", function(event) {
+			var node = core.cy.nodes("#" + event.target);
+			var options = {
+				"zoom": event.zoom,
+				"center": {
+					"eles": node
+				}
+			};
+			core.cy.animate(options);
+		});
+
+		connection.on("addResource", function(data) {
 			core.cy.add({
 				"id": data.id,
 				"group": "nodes",
@@ -48103,8 +48753,9 @@ Vue.component("resourceMap", {
 			});
 			core.rerunLayout();
 		});
-		
-		emitter.on("addRelation", function(data) {
+
+		connection.on("addRelation", function(data) {
+			console.log("Relation: ", data);
 			core.cy.add({
 				"id": data.id,
 				"group": "edges",
@@ -48129,13 +48780,18 @@ Vue.component("resourceMap", {
 		},
 		"rerunLayout": function() {
 			console.log("Received");
+			var core = this;
 			try {
 				this.layout.stop();
 				this.layout = this.cy.elements().makeLayout({
 					"name": "cola",
 					"infinite": true,
-					"fit": true,
-					"linkDistance": 1000
+					"fit": false,
+					"linkDistance": 1000,
+					"complete": function() {
+						console.warn("Complete");
+						core.cy.fit();
+					}
 				});
 				this.layout.run();
 				console.log(Object.keys(this.layout), "\n", this.layout);
@@ -48147,18 +48803,18 @@ Vue.component("resourceMap", {
 			console.log("Received Top");
 			try {
 				this.layout.run();
-//				this.cy.elements().makeLayout({
+//					this.cy.elements().makeLayout({
 //					"name": "cola",
 //					"infinite": true,
 //					"fit": true,
 //					"linkDistance": 1000
-//				});
+//					});
 			} catch(ex) {
 				console.log("Layout run failed: ", ex);
 			}
 		}
 	},
-	"template": Vue.templified("view-resourcemap/map.html")
+	"template": Vue.templified("resourcemap/map.html")
 });
 
 
@@ -48184,7 +48840,7 @@ Vue.component("mapControls", {
 			this.$emit("rerun");
 		}
 	},
-	"template": Vue.templified("view-resourcemap/controls.html")
+	"template": Vue.templified("resourcemap/controls.html")
 });
 
 

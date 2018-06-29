@@ -40,14 +40,15 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/_Gaze.html">_Gaze</a></li>
                                 <li><a href="../classes/Component-Basic.html">Component-Basic</a></li>
+                                <li><a href="../classes/Component-gazesynth.html">Component-gazesynth</a></li>
                                 <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
                                 <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
-                                <li><a href="../classes/Construct.html">Construct</a></li>
+                                <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
+                                <li><a href="../classes/gazeForm.html">gazeForm</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
-                                <li><a href="../classes/SovereignEmitter.html">SovereignEmitter</a></li>
                                 <li><a href="../classes/SyntheticConstruct.html">SyntheticConstruct</a></li>
                             </ul>
                 
@@ -90,6 +91,9 @@
 <h1>SovereignConnection Class</h1>
 <div class="box meta">
 
+        <div class="extends">
+            Extends <a href="../classes/EventEmitter.html" class="crosslink">EventEmitter</a>
+        </div>
 
         <div class="foundat">
             Defined in: <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l2"><code>lib\scripts-vue\system-sovereign\connection.js:2</code></a>
@@ -176,17 +180,29 @@
                 <div class="index-section methods">
                     <h3>Methods</h3>
 
-                    <ul class="index-list methods">
+                    <ul class="index-list methods extends">
                             <li class="index-item method">
                                 <a href="#method_debug">debug</a>
 
                             </li>
-                            <li class="index-item method private">
+                            <li class="index-item method inherited">
                                 <a href="#method_emit">emit</a>
 
                             </li>
-                            <li class="index-item method">
-                                <a href="#method_getSovereignEmitter">getSovereignEmitter</a>
+                            <li class="index-item method inherited">
+                                <a href="#method_eventNames">eventNames</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_off">off</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_on">on</a>
+
+                            </li>
+                            <li class="index-item method inherited">
+                                <a href="#method_once">once</a>
 
                             </li>
                             <li class="index-item method">
@@ -199,13 +215,21 @@
                 <div class="index-section properties">
                     <h3>Properties</h3>
 
-                    <ul class="index-list properties">
+                    <ul class="index-list properties extends">
+                            <li class="index-item property private">
+                                <a href="#property_constructs">constructs</a>
+
+                            </li>
                             <li class="index-item property private">
                                 <a href="#property_debugging">debugging</a>
 
                             </li>
                             <li class="index-item property private">
                                 <a href="#property_instance">instance</a>
+
+                            </li>
+                            <li class="index-item property private">
+                                <a href="#property_resources">resources</a>
 
                             </li>
                             <li class="index-item property private">
@@ -236,7 +260,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l37"><code>lib\scripts-vue\system-sovereign\connection.js:37</code></a>
+        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l58"><code>lib\scripts-vue\system-sovereign\connection.js:58</code></a>
         </p>
 
 
@@ -251,7 +275,7 @@
 
 
 </div>
-<div id="method_emit" class="method item private">
+<div id="method_emit" class="method item inherited">
     <h3 class="name"><code>emit</code></h3>
 
         <div class="args">
@@ -267,16 +291,15 @@
 
 
 
-        <span class="flag private">private</span>
 
 
 
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l71"><code>lib\scripts-vue\system-sovereign\connection.js:71</code></a>
+                <p>Inherited from
+                <a href="../classes/EventEmitter.html#method_emit">EventEmitter</a>:
+        <a href="../files/lib_gaze.js.html#l328"><code>lib\gaze.js:328</code></a>
         </p>
 
 
@@ -317,13 +340,13 @@
 
 
 </div>
-<div id="method_getSovereignEmitter" class="method item">
-    <h3 class="name"><code>getSovereignEmitter</code></h3>
+<div id="method_eventNames" class="method item inherited">
+    <h3 class="name"><code>eventNames</code></h3>
 
         <span class="paren">()</span>
 
         <span class="returns-inline">
-            <span class="type"><a href="../classes/SovereignEmitter.html" class="crosslink">SovereignEmitter</a></span>
+            <span class="type">Array</span>
         </span>
 
 
@@ -333,9 +356,9 @@
 
 
     <div class="meta">
-                <p>
-                Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l31"><code>lib\scripts-vue\system-sovereign\connection.js:31</code></a>
+                <p>Inherited from
+                <a href="../classes/EventEmitter.html#method_eventNames">EventEmitter</a>:
+        <a href="../files/lib_gaze.js.html#l301"><code>lib\gaze.js:301</code></a>
         </p>
 
 
@@ -351,9 +374,204 @@
             <h4>Returns:</h4>
 
             <div class="returns-description">
-                        <span class="type"><a href="../classes/SovereignEmitter.html" class="crosslink">SovereignEmitter</a></span>:
+                        <span class="type">Array</span>:
             </div>
         </div>
+
+
+</div>
+<div id="method_off" class="method item inherited">
+    <h3 class="name"><code>off</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+                <li class="arg">
+                        <code>listener</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/EventEmitter.html#method_off">EventEmitter</a>:
+        <a href="../files/lib_gaze.js.html#l321"><code>lib\gaze.js:321</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">listener</code>
+                        <span class="type">Function</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_on" class="method item inherited">
+    <h3 class="name"><code>on</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+                <li class="arg">
+                        <code>listener</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/EventEmitter.html#method_on">EventEmitter</a>:
+        <a href="../files/lib_gaze.js.html#l307"><code>lib\gaze.js:307</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">listener</code>
+                        <span class="type">Function</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
+
+
+</div>
+<div id="method_once" class="method item inherited">
+    <h3 class="name"><code>once</code></h3>
+
+        <div class="args">
+            <span class="paren">(</span><ul class="args-list inline commas">
+                <li class="arg">
+                        <code>key</code>
+                </li>
+                <li class="arg">
+                        <code>listener</code>
+                </li>
+            </ul><span class="paren">)</span>
+        </div>
+
+
+
+
+
+
+
+
+    <div class="meta">
+                <p>Inherited from
+                <a href="../classes/EventEmitter.html#method_once">EventEmitter</a>:
+        <a href="../files/lib_gaze.js.html#l314"><code>lib\gaze.js:314</code></a>
+        </p>
+
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+        <div class="params">
+            <h4>Parameters:</h4>
+
+            <ul class="params-list">
+                <li class="param">
+                        <code class="param-name">key</code>
+                        <span class="type">String</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+                <li class="param">
+                        <code class="param-name">listener</code>
+                        <span class="type">Function</span>
+
+
+                    <div class="param-description">
+                         
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+
 
 
 </div>
@@ -372,7 +590,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l26"><code>lib\scripts-vue\system-sovereign\connection.js:26</code></a>
+        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l53"><code>lib\scripts-vue\system-sovereign\connection.js:53</code></a>
         </p>
 
 
@@ -392,6 +610,33 @@
             <div id="properties" class="api-class-tabpanel">
                 <h2 class="off-left">Properties</h2>
 
+<div id="property_constructs" class="property item private">
+    <h3 class="name"><code>constructs</code></h3>
+    <span class="type">Object</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l29"><code>lib\scripts-vue\system-sovereign\connection.js:29</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Tracks Constructs against whom the UI is listening for
+Events to drive active displays.</p>
+
+    </div>
+
+
+
+</div>
 <div id="property_debugging" class="property item private">
     <h3 class="name"><code>debugging</code></h3>
     <span class="type">Boolean</span>
@@ -404,7 +649,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l18"><code>lib\scripts-vue\system-sovereign\connection.js:18</code></a>
+        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l19"><code>lib\scripts-vue\system-sovereign\connection.js:19</code></a>
         </p>
 
 
@@ -429,7 +674,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l10"><code>lib\scripts-vue\system-sovereign\connection.js:10</code></a>
+        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l11"><code>lib\scripts-vue\system-sovereign\connection.js:11</code></a>
         </p>
 
 
@@ -437,6 +682,32 @@
 
     <div class="description">
         
+    </div>
+
+
+
+</div>
+<div id="property_resources" class="property item private">
+    <h3 class="name"><code>resources</code></h3>
+    <span class="type">Object</span>
+
+
+        <span class="flag private">private</span>
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l45"><code>lib\scripts-vue\system-sovereign\connection.js:45</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        <p>Tracks Resources that the UI has indexed.</p>
+
     </div>
 
 
@@ -454,7 +725,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l43"><code>lib\scripts-vue\system-sovereign\connection.js:43</code></a>
+        <a href="../files/lib_scripts-vue_system-sovereign_connection.js.html#l108"><code>lib\scripts-vue\system-sovereign\connection.js:108</code></a>
         </p>
 
 

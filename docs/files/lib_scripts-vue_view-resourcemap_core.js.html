@@ -40,14 +40,15 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/_Gaze.html">_Gaze</a></li>
                                 <li><a href="../classes/Component-Basic.html">Component-Basic</a></li>
+                                <li><a href="../classes/Component-gazesynth.html">Component-gazesynth</a></li>
                                 <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
                                 <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
-                                <li><a href="../classes/Construct.html">Construct</a></li>
+                                <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
+                                <li><a href="../classes/gazeForm.html">gazeForm</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
-                                <li><a href="../classes/SovereignEmitter.html">SovereignEmitter</a></li>
                                 <li><a href="../classes/SyntheticConstruct.html">SyntheticConstruct</a></li>
                             </ul>
                 
@@ -107,30 +108,57 @@ Vue.component(&quot;resourceMap&quot;, {
 	&quot;props&quot;: [&quot;testdata&quot;,&quot;aaa&quot;, &quot;aaaBbb&quot;, &quot;data-stuffing&quot;],
 	&quot;mounted&quot;: function() {
 		var core = this;
-//		this.map = $(this.$el).find(&quot;#map&quot;)[0];
+//			this.map = $(this.$el).find(&quot;#map&quot;)[0];
 		this.map = document.getElementById(&quot;map&quot;);
-		
+		window.resource = {
+			&quot;core&quot;: core
+		};
+
 		this.cy = cytoscape({
 			&quot;container&quot;: this.map,
 			&quot;autounselectify&quot;: true,
 			&quot;boxSelectionEnabled&quot;: false,
 			&quot;panningEnabled&quot;: true,
-			&quot;userPanningEnabled&quot;: false,
+			&quot;userPanningEnabled&quot;: true,
 			&quot;zoomingEnabled&quot;: true,
-			&quot;userZoomingEnabled&quot;: false,
+			&quot;userZoomingEnabled&quot;: true,
 			&quot;style&quot;: [{
+				&quot;selector&quot;: &quot;core&quot;,
+				&quot;style&quot;: {
+					&quot;selection-box-border-color&quot;: &quot;#8BB0D0&quot;,
+					&quot;selection-box-color&quot;: &quot;#AAD8FF&quot;,
+					&quot;selection-box-opacity&quot;: &quot;0.5&quot;
+				}
+			}, {
 				&quot;selector&quot;: &quot;node&quot;,
-				&quot;css&quot;: {
-					&quot;background-color&quot;: &quot;#f92411&quot;
+				&quot;style&quot;: {
+					&quot;width&quot;: &quot;mapData(score, 0, 0.006769776522008331, 20, 60)&quot;,
+					&quot;height&quot;: &quot;mapData(score, 0, 0.006769776522008331, 20, 60)&quot;,
+					&quot;content&quot;: &quot;data(name)&quot;,
+					&quot;font-size&quot;: &quot;12px&quot;,
+					&quot;text-valign&quot;: &quot;center&quot;,
+					&quot;text-halign&quot;: &quot;center&quot;,
+					&quot;background-color&quot;: &quot;#555&quot;,
+					&quot;text-outline-color&quot;: &quot;#555&quot;,
+					&quot;text-outline-width&quot;: &quot;1px&quot;,
+					&quot;text-max-width&quot;: &quot;50px&quot;,
+					&quot;text-wrap&quot;: &quot;wrap&quot;,
+					&quot;color&quot;: &quot;#c3b601&quot;,
+					&quot;overlay-padding&quot;: &quot;6px&quot;,
+					&quot;z-index&quot;: &quot;10&quot;
 				}
 			},{
 				&quot;selector&quot;: &quot;edge&quot;,
-				&quot;css&quot;: {
-					&quot;line-color&quot;: &quot;#f92411&quot;
+				&quot;style&quot;: {
+					&quot;content&quot;: &quot;data(name)&quot;,
+					&quot;line-color&quot;: &quot;#c3b601&quot;,
+					&quot;curve-style&quot;: &quot;bezier&quot;,
+					&quot;target-arrow-color&quot;: &quot;#c3b601&quot;,
+					&quot;target-arrow-shape&quot;: &quot;triangle&quot;
 				}
 			}]
 		});
-		
+
 		this.$on(&quot;rerun&quot;, function() {
 			console.log(&quot;welp&quot;);
 		});
@@ -138,19 +166,36 @@ Vue.component(&quot;resourceMap&quot;, {
 		this.layout = window.layout = this.cy.layout({
 			&quot;name&quot;: &quot;cola&quot;,
 			&quot;infinite&quot;: true,
-			&quot;fit&quot;: true,
+			&quot;fit&quot;: false,
 			&quot;linkDistance&quot;: 1000
 		});
 
 		this.layout.run();
-		
-		var emitter = this.getSovereignEmitter();
-		
-		emitter.on(&quot;test&quot;, function(data) {
+
+		var connection = this.getSovereignConnection();
+
+		connection.on(&quot;test&quot;, function(data) {
 			console.log(&quot;Test Event Fired: &quot;, data);
 		});
+
+		connection.on(&quot;reset-zoom&quot;, function(event) {
+			core.cy.animate({
+				&quot;fit&quot;: true
+			});
+		});
 		
-		emitter.on(&quot;addResource&quot;, function(data) {
+		connection.on(&quot;center&quot;, function(event) {
+			var node = core.cy.nodes(&quot;#&quot; + event.target);
+			var options = {
+				&quot;zoom&quot;: event.zoom,
+				&quot;center&quot;: {
+					&quot;eles&quot;: node
+				}
+			};
+			core.cy.animate(options);
+		});
+
+		connection.on(&quot;addResource&quot;, function(data) {
 			core.cy.add({
 				&quot;id&quot;: data.id,
 				&quot;group&quot;: &quot;nodes&quot;,
@@ -158,8 +203,9 @@ Vue.component(&quot;resourceMap&quot;, {
 			});
 			core.rerunLayout();
 		});
-		
-		emitter.on(&quot;addRelation&quot;, function(data) {
+
+		connection.on(&quot;addRelation&quot;, function(data) {
+			console.log(&quot;Relation: &quot;, data);
 			core.cy.add({
 				&quot;id&quot;: data.id,
 				&quot;group&quot;: &quot;edges&quot;,
@@ -184,13 +230,18 @@ Vue.component(&quot;resourceMap&quot;, {
 		},
 		&quot;rerunLayout&quot;: function() {
 			console.log(&quot;Received&quot;);
+			var core = this;
 			try {
 				this.layout.stop();
 				this.layout = this.cy.elements().makeLayout({
 					&quot;name&quot;: &quot;cola&quot;,
 					&quot;infinite&quot;: true,
-					&quot;fit&quot;: true,
-					&quot;linkDistance&quot;: 1000
+					&quot;fit&quot;: false,
+					&quot;linkDistance&quot;: 1000,
+					&quot;complete&quot;: function() {
+						console.warn(&quot;Complete&quot;);
+						core.cy.fit();
+					}
 				});
 				this.layout.run();
 				console.log(Object.keys(this.layout), &quot;\n&quot;, this.layout);
@@ -202,18 +253,18 @@ Vue.component(&quot;resourceMap&quot;, {
 			console.log(&quot;Received Top&quot;);
 			try {
 				this.layout.run();
-//				this.cy.elements().makeLayout({
+//					this.cy.elements().makeLayout({
 //					&quot;name&quot;: &quot;cola&quot;,
 //					&quot;infinite&quot;: true,
 //					&quot;fit&quot;: true,
 //					&quot;linkDistance&quot;: 1000
-//				});
+//					});
 			} catch(ex) {
 				console.log(&quot;Layout run failed: &quot;, ex);
 			}
 		}
 	},
-	&quot;template&quot;: Vue.templified(&quot;view-resourcemap/map.html&quot;)
+	&quot;template&quot;: Vue.templified(&quot;resourcemap/map.html&quot;)
 });
 
     </pre>

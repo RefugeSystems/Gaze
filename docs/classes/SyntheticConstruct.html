@@ -40,14 +40,15 @@
                             <ul id="api-classes" class="apis classes">
                                 <li><a href="../classes/_Gaze.html">_Gaze</a></li>
                                 <li><a href="../classes/Component-Basic.html">Component-Basic</a></li>
+                                <li><a href="../classes/Component-gazesynth.html">Component-gazesynth</a></li>
                                 <li><a href="../classes/Component-MapControls.html">Component-MapControls</a></li>
                                 <li><a href="../classes/Component-ResourceMap.html">Component-ResourceMap</a></li>
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
-                                <li><a href="../classes/Construct.html">Construct</a></li>
+                                <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
+                                <li><a href="../classes/gazeForm.html">gazeForm</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
-                                <li><a href="../classes/SovereignEmitter.html">SovereignEmitter</a></li>
                                 <li><a href="../classes/SyntheticConstruct.html">SyntheticConstruct</a></li>
                             </ul>
                 
@@ -92,7 +93,7 @@
 
 
         <div class="foundat">
-            Defined in: <a href="../files/lib_scripts-vue_system-sovereign_construct.js.html#l2"><code>lib\scripts-vue\system-sovereign\construct.js:2</code></a>
+            Defined in: <a href="../files/lib_gaze.js.html#l253"><code>lib\gaze.js:253</code></a>
         </div>
 
             Module: <a href="../modules/Gaze.html">Gaze</a>
@@ -121,7 +122,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_construct.js.html#l2"><code>lib\scripts-vue\system-sovereign\construct.js:2</code></a>
+        <a href="../files/lib_gaze.js.html#l253"><code>lib\gaze.js:253</code></a>
         </p>
 
 
@@ -143,6 +144,7 @@
         <li class="api-class-tab index"><a href="#index">Index</a></li>
 
             <li class="api-class-tab methods"><a href="#methods">Methods</a></li>
+            <li class="api-class-tab properties"><a href="#properties">Properties</a></li>
     </ul>
 
     <div>
@@ -154,12 +156,26 @@
 
                     <ul class="index-list methods">
                             <li class="index-item method">
-                                <a href="#method_createCconstruct">createCconstruct</a>
+                                <a href="#method_modify">modify</a>
 
                             </li>
                     </ul>
                 </div>
 
+                <div class="index-section properties">
+                    <h3>Properties</h3>
+
+                    <ul class="index-list properties">
+                            <li class="index-item property">
+                                <a href="#property_relations">relations</a>
+
+                            </li>
+                            <li class="index-item property">
+                                <a href="#property_resources">resources</a>
+
+                            </li>
+                    </ul>
+                </div>
 
 
         </div>
@@ -167,8 +183,8 @@
             <div id="methods" class="api-class-tabpanel">
                 <h2 class="off-left">Methods</h2>
 
-<div id="method_createCconstruct" class="method item">
-    <h3 class="name"><code>createCconstruct</code></h3>
+<div id="method_modify" class="method item">
+    <h3 class="name"><code>modify</code></h3>
 
         <div class="args">
             <span class="paren">(</span><ul class="args-list inline commas">
@@ -178,9 +194,6 @@
             </ul><span class="paren">)</span>
         </div>
 
-        <span class="returns-inline">
-            <span class="type"><a href="../classes/Construct.html" class="crosslink">Construct</a></span>
-        </span>
 
 
 
@@ -191,7 +204,7 @@
     <div class="meta">
                 <p>
                 Defined in
-        <a href="../files/lib_scripts-vue_system-sovereign_construct.js.html#l9"><code>lib\scripts-vue\system-sovereign\construct.js:9</code></a>
+        <a href="../files/lib_gaze.js.html#l283"><code>lib\gaze.js:283</code></a>
         </p>
 
 
@@ -212,7 +225,7 @@
 
 
                     <div class="param-description">
-                        <p>The event that signaled to create this Construct</p>
+                        <p>Contains the modification information</p>
 
                     </div>
 
@@ -220,18 +233,63 @@
             </ul>
         </div>
 
-        <div class="returns">
-            <h4>Returns:</h4>
-
-            <div class="returns-description">
-                        <span class="type"><a href="../classes/Construct.html" class="crosslink">Construct</a></span>:
-            </div>
-        </div>
 
 
 </div>
             </div>
 
+            <div id="properties" class="api-class-tabpanel">
+                <h2 class="off-left">Properties</h2>
+
+<div id="property_relations" class="property item">
+    <h3 class="name"><code>relations</code></h3>
+    <span class="type">Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_gaze.js.html#l269"><code>lib\gaze.js:269</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+<div id="property_resources" class="property item">
+    <h3 class="name"><code>resources</code></h3>
+    <span class="type">Array</span>
+
+
+
+
+
+    <div class="meta">
+                <p>
+                Defined in
+        <a href="../files/lib_gaze.js.html#l262"><code>lib\gaze.js:262</code></a>
+        </p>
+
+
+    </div>
+
+    <div class="description">
+        
+    </div>
+
+
+
+</div>
+            </div>
 
 
     </div>

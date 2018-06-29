@@ -22,6 +22,7 @@ module.exports = function(grunt) {
 					"sessionStorage",
 					"localStorage",
 					"_gazeVersion",
+					"FileReader",
 					"cytoscape",
 					"location",
 					"document",
@@ -40,14 +41,13 @@ module.exports = function(grunt) {
 				],
 				"rules": {
 					"eqeqeq": 0,
-					"curly": [2, "multi"],
+					"curly": [2, "multi-or-nest", "consistent"],
 					"no-undef": 2,
 					"semi": 2,
 					"indent": [2, "tab", {
 						"ignoreComments": true,
 						"MemberExpression": 0,
-						"SwitchCase": 1,
-
+						"SwitchCase": 1
 					}],
 					"comma-dangle": 2,
 					"quotes": [2, "double"],
@@ -83,7 +83,7 @@ module.exports = function(grunt) {
 			},
 			"lib": [
 				"lib/**/*.js",
-				"spec/**/*.js"
+				"spec/*.js"
 			]
 		},
 		"mkdir": {
@@ -125,6 +125,7 @@ module.exports = function(grunt) {
 					"node_modules/jquery/dist/jquery.min.js",
 					"node_modules/rx-lite/rx-lite.js",
 					"node_modules/vue-rx/dist/vue-rx.js",
+					"node_modules/vue2-touch-events/index.js",
 
 					"build/cytoscape.js",
 					"lib/gaze.js",
@@ -149,6 +150,8 @@ module.exports = function(grunt) {
 					"lib/scripts-vue/component-*/**/*.js",
 					"lib/scripts-vue/*-view/**/*.js",
 					"lib/scripts-vue/view-*/**/*.js",
+					"lib/scripts-vue/*-page/**/*.js",
+					"lib/scripts-vue/page-*/**/*.js",
 					"lib/scripts-vue/index.js",
 					"lib/scripts-vue/add-*.js"
 				],
@@ -448,7 +451,7 @@ module.exports = function(grunt) {
 				"templates": [{
 					"path": "lib/scripts-vue/**/*.html",
 					"rewrite": function(name) {
-						return name.replace(/.*lib[\/\\]scripts-vue[\/\\]/, "");
+						return name.replace(/.*lib[\/\\]scripts-vue[\/\\]view-/, "");
 					}
 				}],
 				"suffixes": [".html"],
@@ -503,9 +506,9 @@ module.exports = function(grunt) {
 			"spec_files": ["**/*-spec.js"],
 			"random": false,
 			"helpers": [
-				"**/data/*.js",
-				"**/support/*.js"
-				]
+				"**/support/*.js",
+				"**/data/*.js"
+			]
 		});
 
 
