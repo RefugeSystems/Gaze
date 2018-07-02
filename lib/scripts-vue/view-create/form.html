@@ -1,7 +1,7 @@
 <section class="view-create" v-touch:swipe.prevent="shift">
 	<div class="create-resource">
 		<h1>Synthesize Resource</h1>
-		<gaze-form :fields="resourceFields" :formData="resource"></gaze-form>
+		<gaze-form :fields="resourceFields" :formData="resource" :text="resourceText" v-on:gaze-submit="submit($event)"></gaze-form>
 	</div>
 	
 	<div class="create-relation">

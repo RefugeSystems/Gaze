@@ -53,7 +53,8 @@
             "name": "lib\\scripts-vue\\view-form\\form.js",
             "modules": {},
             "classes": {
-                "gazeForm": 1
+                "gazeForm": 1,
+                "gazeForm-Field": 1
             },
             "fors": {},
             "namespaces": {}
@@ -103,6 +104,7 @@
                 "Component-gazesynth": 1,
                 "gazeForm": 1,
                 "Component-Basic": 1,
+                "gazeForm-Field": 1,
                 "Component-ResourceMap": 1,
                 "Component-MapControls": 1,
                 "_Gaze": 1,
@@ -115,7 +117,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "lib\\gaze.js",
-            "line": 294,
+            "line": 308,
             "description": "Global Reference: `Gaze`"
         }
     },
@@ -224,6 +226,19 @@
                 }
             ]
         },
+        "gazeForm-Field": {
+            "name": "gazeForm-Field",
+            "shortname": "gazeForm-Field",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\view-form\\form.js",
+            "line": 137,
+            "is_constructor": 1
+        },
         "Component-ResourceMap": {
             "name": "Component-ResourceMap",
             "shortname": "Component-ResourceMap",
@@ -260,7 +275,7 @@
             "extension_for": [],
             "module": "Gaze",
             "file": "lib\\gaze.js",
-            "line": 242,
+            "line": 256,
             "description": "Global Reference: `Gaze`",
             "is_constructor": 1,
             "access": "private",
@@ -278,7 +293,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 186,
+            "line": 195,
             "is_constructor": 1
         },
         "LogSystem": {
@@ -292,7 +307,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 197,
+            "line": 206,
             "is_constructor": 1
         },
         "SyntheticConstruct": {
@@ -306,7 +321,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 253,
+            "line": 267,
             "extents": "EventEmitter",
             "is_constructor": 1
         },
@@ -321,7 +336,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 294,
+            "line": 308,
             "is_constructor": 1
         }
     },
@@ -329,7 +344,7 @@
     "classitems": [
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 11,
+            "line": 13,
             "itemtype": "property",
             "name": "instance",
             "type": "Number",
@@ -339,7 +354,7 @@
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 19,
+            "line": 21,
             "itemtype": "property",
             "name": "debugging",
             "type": "Boolean",
@@ -349,7 +364,18 @@
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 29,
+            "line": 33,
+            "description": "Key:Value pairs for headers to set on requests to Sovereign.",
+            "itemtype": "property",
+            "name": "authenticator",
+            "type": "Object",
+            "access": "private",
+            "tagname": "",
+            "class": "SovereignConnection"
+        },
+        {
+            "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
+            "line": 58,
             "description": "Tracks Constructs against whom the UI is listening for\nEvents to drive active displays.",
             "itemtype": "property",
             "name": "constructs",
@@ -360,7 +386,7 @@
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 45,
+            "line": 74,
             "description": "Tracks Resources that the UI has indexed.",
             "itemtype": "property",
             "name": "resources",
@@ -371,21 +397,21 @@
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 53,
+            "line": 82,
             "itemtype": "method",
             "name": "options",
             "class": "SovereignConnection"
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 58,
+            "line": 87,
             "itemtype": "method",
             "name": "debug",
             "class": "SovereignConnection"
         },
         {
             "file": "lib\\scripts-vue\\system-sovereign\\connection.js",
-            "line": 108,
+            "line": 137,
             "itemtype": "property",
             "name": "socket",
             "type": "WebSocket",
@@ -394,8 +420,42 @@
             "class": "SovereignConnection"
         },
         {
+            "file": "lib\\scripts-vue\\view-form\\form.js",
+            "line": 143,
+            "itemtype": "property",
+            "name": "title",
+            "type": "String",
+            "class": "gazeForm-Field"
+        },
+        {
+            "file": "lib\\scripts-vue\\view-form\\form.js",
+            "line": 149,
+            "description": "text, number, checkbox, paragraph",
+            "itemtype": "property",
+            "name": "type",
+            "type": "String",
+            "default": "text",
+            "class": "gazeForm-Field"
+        },
+        {
+            "file": "lib\\scripts-vue\\view-form\\form.js",
+            "line": 156,
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "class": "gazeForm-Field"
+        },
+        {
+            "file": "lib\\scripts-vue\\view-form\\form.js",
+            "line": 162,
+            "itemtype": "property",
+            "name": "placeholder",
+            "type": "String",
+            "class": "gazeForm-Field"
+        },
+        {
             "file": "lib\\gaze.js",
-            "line": 64,
+            "line": 69,
             "itemtype": "property",
             "name": "configuration",
             "type": "Object",
@@ -406,7 +466,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 72,
+            "line": 77,
             "itemtype": "property",
             "name": "defaults",
             "type": "Object",
@@ -417,7 +477,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 101,
+            "line": 106,
             "description": "Acts as an initialization for Gaze in Vue.",
             "itemtype": "method",
             "name": "install",
@@ -438,7 +498,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 123,
+            "line": 128,
             "itemtype": "method",
             "name": "reconfigure",
             "params": [
@@ -458,7 +518,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 133,
+            "line": 138,
             "description": "Initializes Gaze with the configuration passed in options.",
             "itemtype": "method",
             "name": "initialize",
@@ -474,7 +534,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 158,
+            "line": 164,
             "itemtype": "method",
             "name": "getSubsystem",
             "params": [
@@ -494,7 +554,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 171,
+            "line": 178,
             "itemtype": "method",
             "name": "defineSubsystem",
             "params": [
@@ -514,7 +574,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 246,
+            "line": 260,
             "description": "The version of Gaze running.",
             "itemtype": "property",
             "name": "version",
@@ -525,7 +585,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 262,
+            "line": 276,
             "itemtype": "property",
             "name": "resources",
             "type": "Array",
@@ -534,7 +594,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 269,
+            "line": 283,
             "itemtype": "property",
             "name": "relations",
             "type": "Array",
@@ -543,7 +603,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 283,
+            "line": 297,
             "itemtype": "method",
             "name": "modify",
             "params": [
@@ -558,7 +618,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 301,
+            "line": 315,
             "itemtype": "method",
             "name": "eventNames",
             "return": {
@@ -570,7 +630,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 307,
+            "line": 321,
             "itemtype": "method",
             "name": "on",
             "params": [
@@ -590,7 +650,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 314,
+            "line": 328,
             "itemtype": "method",
             "name": "once",
             "params": [
@@ -610,7 +670,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 321,
+            "line": 335,
             "itemtype": "method",
             "name": "off",
             "params": [
@@ -630,7 +690,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 328,
+            "line": 342,
             "itemtype": "method",
             "name": "emit",
             "params": [
@@ -660,7 +720,7 @@
         },
         {
             "message": "unknown tag: extents",
-            "line": " lib\\gaze.js:253"
+            "line": " lib\\gaze.js:267"
         }
     ]
 }

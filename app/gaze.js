@@ -47106,21 +47106,24 @@ window.Gaze = window._Gaze = (function() {
 		
 		this.on = function(key, listener) {
 			events[key] = events[key] || [];
-			if(events[key].indexOf(listener) === -1)
+			if(events[key].indexOf(listener) === -1) {
 				events[key].push(listener);
+			}
 		};
 
 		this.once = function(key, listener) {
 			onces[key] = onces[key] || [];
-			if(onces[key].idexOf(listener) === -1)
+			if(onces[key].idexOf(listener) === -1) {
 				onces[key].push(listener);
+			}
 		};
 
 		this.off = function(key, listener) {
 			events[key] = events[key] || [];
 			var index = events[key].idexOf(listener);
-			if(index !== -1)
+			if(index !== -1) {
 				events[key].splice(index, 1);
+			}
 		};
 
 		this.emit = function(key, data) {
@@ -47129,11 +47132,13 @@ window.Gaze = window._Gaze = (function() {
 			onces[key] = onces[key] || [];
 			var x;
 			
-			for(x=0; x<events[key].length; x++)
+			for(x=0; x<events[key].length; x++) {
 				events[key][x](data);
+			}
 			if(onces[key]) {
-				for(x=0; x<onces[key].length; x++)
+				for(x=0; x<onces[key].length; x++) {
 					onces[key][x](data);
+				}
 				onces[key] = [];
 			}
 		};
@@ -47222,10 +47227,11 @@ window.Gaze = window._Gaze = (function() {
 	 */
 	var initialize = function(options) {
 		for(var key in options) {
-			if(options[key] instanceof Object)
+			if(options[key] instanceof Object) {
 				Object.assign(configuration[key] = configuration[key] || {}, options[key]);
-			else
+			} else {
 				configuration[key] = options[key];
+			}
 		}
 		
 		display.trace = configuration.console.trace?console.trace:noOp;
@@ -47247,8 +47253,9 @@ window.Gaze = window._Gaze = (function() {
 	 * @param {String} definition
 	 */
 	gazing.getSubsystem = function(key) {
-		if(mixins[key])
+		if(mixins[key]) {
 			return mixins[key];
+		}
 		console.warn("Requested undefined Subsystem: " + key);
 		return undefined;
 	};
@@ -47260,10 +47267,12 @@ window.Gaze = window._Gaze = (function() {
 	 * @param {String} definition
 	 */
 	gazing.defineSubsystem = function(key, definition) {
-		if(!key)
+		if(!key) {
 			throw new Error("Missing key for new Mix-in");
-		if(!definition)
+		}
+		if(!definition) {
 			throw new Error("Missing definition for new Mix-in '" + key + "'");
+		}
 		mixins[key] = mixins[key] || {};
 		Object.assign(mixins[key], definition(configuration));
 	};
@@ -47319,8 +47328,13 @@ window.Gaze = window._Gaze = (function() {
 		console.log("  __   __   __ \n |  \\_/  \\_/  |\n .            .      _____    _______ _______\n  \\__      __/      / __   \\/       /  ______/\n     )    (        / /__/  /   ____/  /  ___ __ ______  _____\n	/      \\      /  _   , \\____  \\  /  /  / __ \\__  / /  _  \\\n   '        '    /  / \\  \\/       / /___/ / /_/ / / /__  ____/\n  /          \\  /__/   \\__\\______/_______/\\_____\\/____/_____/\n  \\__________/\n'.____________.'");
 	};
 	
+
 	return gazing;
 })();
+
+//Object.prototype.clone = function() {
+//	return JSON.parse(JSON.stringify(this));
+//};
 
 /* Handled outside the library in some way */
 
@@ -47426,10 +47440,10 @@ Templify.install = function(Vue, options) {
 	options.name = options.name || "templified";
 	Vue[options.name] = function(name) {
 		switch(name) {
-			case "create/form.html": return "<section class=\"view-create\" v-touch:swipe.prevent=\"shift\">\r\n\t<div class=\"create-resource\">\r\n\t\t<h1>Synthesize Resource</h1>\r\n\t\t<gaze-form :fields=\"resourceFields\" :formData=\"resource\"></gaze-form>\r\n\t</div>\r\n\t\r\n\t<div class=\"create-relation\">\r\n\t\t<h1>Synthesize Relation</h1>\r\n\t\t<gaze-form :fields=\"relationFields\" :formData=\"relation\" format=\"lcars\"></gaze-form>\r\n\t</div>\r\n\t\r\n\t<div class=\"upload-resources\">\r\n\t\t<h1>Synthesize Resources (CSV)</h1>\r\n\t\t<gazecsv></gazecsv>\r\n\t</div>\r\n\t\r\n\t<div class=\"upload-relation\">\r\n\t\t<h1>Synthesize Relations (CSV)</h1>\r\n\t\t<gazecsv></gazecsv>\r\n\t</div>\r\n</section>\r\n";
+			case "create/form.html": return "<section class=\"view-create\" v-touch:swipe.prevent=\"shift\">\r\n\t<div class=\"create-resource\">\r\n\t\t<h1>Synthesize Resource</h1>\r\n\t\t<gaze-form :fields=\"resourceFields\" :formData=\"resource\" :text=\"resourceText\" v-on:gaze-submit=\"submit($event)\"></gaze-form>\r\n\t</div>\r\n\t\r\n\t<div class=\"create-relation\">\r\n\t\t<h1>Synthesize Relation</h1>\r\n\t\t<gaze-form :fields=\"relationFields\" :formData=\"relation\" format=\"lcars\"></gaze-form>\r\n\t</div>\r\n\t\r\n\t<div class=\"upload-resources\">\r\n\t\t<h1>Synthesize Resources (CSV)</h1>\r\n\t\t<gazecsv></gazecsv>\r\n\t</div>\r\n\t\r\n\t<div class=\"upload-relation\">\r\n\t\t<h1>Synthesize Relations (CSV)</h1>\r\n\t\t<gazecsv></gazecsv>\r\n\t</div>\r\n</section>\r\n";
 			case "csvparser/input.html": return "<div class=\"gaze csv-upload\">\r\n\t<input type=\"file\" class=\"upload\" />\r\n\t<input type=\"submit\" v-on:click.prevent=\"parse()\" />\r\n</div>\r\n";
 			case "experiments/experiment.html": return "<section>\r\n\t<h3>Some Test</h3>\r\n\t<div v-touch:swipe.left.prevent=\"testLeft\">C: {{content}}</div>\r\n\t<div v-touch:swipe.right.prevent=\"testLeft\">D: {{dance}}</div>\r\n\t<button v-on:click=\"options()\">Test</button>\r\n\t<button v-on:click=\"testing()\">Console Data</button>\r\n\t<button v-on:click=\"debug()\">Debug</button>\r\n\t<button v-on:click=\"doubled()\">Doubled</button>\r\n\t<slot name=\"carryOver\"></slot>\r\n\t<h3 v-touch:swipe.prevent=\"testLeft\">After Slot</h3>\r\n\t<div id=\"info\">\r\n\t\t<span>Gaze:</span>\r\n\t\t<span>{{$root.g$Version}}</span>\r\n\t\t<span>@{{$root.g$Start}}</span>\r\n\t</div>\r\n\t<entry-resource :fields=\"fields\">\r\n\t</entry-resource>\r\n\t<slot name=\"test\" content=\"content\"></slot>\r\n\t<slot name=\"map\"></slot>\r\n</section>\r\n";
-			case "form/basic.html": return "<section class=\"entry-formData\">\r\n\t<span>Basic</span>\r\n\t<form v-on:submit.prevent=\"formData\">\r\n\t\t<div v-for=\"field in fields\" class=\"field\" :class=\"field.class || field.name\">\r\n\t\t\t<label v-if=\"field.type === 'text' || field.type === 'date'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"formData[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'number'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model.number=\"formData[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'checkbox'\">\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"formData[field.key]\" />\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'select'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<select v-model=\"formData[field.key]\">\r\n\t\t\t\t\t<option v-for=\"option in options[field.key]\" v-bind:value=\"option.value\">\r\n\t\t\t\t\t\t{{option.display}}\r\n\t\t\t\t\t</option>\r\n\t\t\t\t</select>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'textarea'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<textarea :placeholder=\"field.placeholder\" v-model=\"formData[field.key]\"></textarea>\r\n\t\t\t</label>\r\n\t\t\t<div v-if=\"field.type === 'radio'\" class=\"radio-set\">\r\n\t\t\t\t<label v-for=\"option in options[fild.key]\">\r\n\t\t\t\t\t<input :type=\"field.type\" v-model=\"formData[field.key]\" v-bind:value=\"option.value\" />\r\n\t\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t</label>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n</section>\r\n";
+			case "form/basic.html": return "<section class=\"entry-formData\">\r\n\t<h1 v-if=\"text.title\">{{text.title}}</h1>\r\n\t\t\r\n\t<div v-if=\"errors && errors.length\" class=\"errors\">\r\n\t\t<h2 v-if=\"text.genErrorTitle\">{{text.genErrorTitle}}</h2>\r\n\t\t<div v-for=\"error in errors\" class=\"error\">{{error.message}}</div>\r\n\t</div>\r\n\t\r\n\t<form v-on:submit.prevent=\"submit(formData)\">\r\n\t\t<div v-for=\"field in fields\" class=\"field\" :class=\"field.class || field.name\">\r\n\t\t\t<label v-if=\"field.type === 'text' || field.type === 'date'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"formData[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'number'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model.number=\"formData[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'checkbox'\">\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"formData[field.key]\" />\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'select'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<select v-model=\"formData[field.key]\">\r\n\t\t\t\t\t<option v-for=\"option in options[field.key]\" v-bind:value=\"option.value\">\r\n\t\t\t\t\t\t{{option.display}}\r\n\t\t\t\t\t</option>\r\n\t\t\t\t</select>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'textarea'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<textarea :placeholder=\"field.placeholder\" v-model=\"formData[field.key]\"></textarea>\r\n\t\t\t</label>\r\n\t\t\t<div v-if=\"field.type === 'radio'\" class=\"radio-set\">\r\n\t\t\t\t<label v-for=\"option in options[fild.key]\">\r\n\t\t\t\t\t<input :type=\"field.type\" v-model=\"formData[field.key]\" v-bind:value=\"option.value\" />\r\n\t\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t</label>\r\n\t\t\t</div>\r\n\t\t\t\r\n\t\t\t<div v-if=\"field.errors && field.errors.length\" class=\"errors\">\r\n\t\t\t\t<div v-for=\"error in field.errors\" class=\"error\">{{error.message}}</div>\r\n\t\t\t</div> \r\n\t\t</div>\r\n\t\t<div class=\"controls\">\r\n\t\t\t<h2 v-if=\"text.fieldErrorTitle\">{{text.fieldErrorTitle}}</h2>\r\n\t\t\t<button v-if=\"submittable\" v-on:click=\"submit(formData)\">{{text.submit}}</button>\r\n\t\t\t<button v-if=\"preservable\" v-on:click=\"preserve(formData)\">{{text.preserve}}</button>\r\n\t\t\t<button v-if=\"cancellable\" v-on:click=\"cancel(formData)\">{{text.cancel}}</button>\r\n\t\t</div>\r\n\t</form>\r\n</section>\r\n";
 			case "form/lcars.html": return "<section class=\"entry-resource\">\r\n\t<span>LCARS</span>\r\n\t<form v-on:submit.prevent=\"submit(resource)\">\r\n\t\t<div v-for=\"field in fields\" class=\"field\" :class=\"field.class || field.name\">\r\n\t\t\t<label v-if=\"field.type === 'text' || field.type === 'date'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"resource[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'number'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model.number=\"resource[field.key]\" />\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'checkbox'\">\r\n\t\t\t\t<input :placeholder=\"field.placeholder\" :type=\"field.type\" v-model=\"resource[field.key]\" />\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'select'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<select v-model=\"resource[field.key]\">\r\n\t\t\t\t\t<option v-for=\"option in options[field.key]\" v-bind:value=\"option.value\">\r\n\t\t\t\t\t\t{{option.display}}\r\n\t\t\t\t\t</option>\r\n\t\t\t\t</select>\r\n\t\t\t</label>\r\n\t\t\t<label v-if=\"field.type === 'textarea'\">\r\n\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t<textarea :placeholder=\"field.placeholder\" v-model=\"resource[field.key]\"></textarea>\r\n\t\t\t</label>\r\n\t\t\t<div v-if=\"field.type === 'radio'\" class=\"radio-set\">\r\n\t\t\t\t<label v-for=\"option in options[fild.key]\">\r\n\t\t\t\t\t<input :type=\"field.type\" v-model=\"resource[field.key]\" v-bind:value=\"option.value\" />\r\n\t\t\t\t\t<span>{{field.title}}</span>\r\n\t\t\t\t</label>\r\n\t\t\t</div>\r\n\t\t</div>\r\n\t</form>\r\n</section>\r\n";
 			case "resourcemap/controls.html": return "<section class=\"map controls\">\r\n\t<button v-on:click=\"rerunLayout()\">\r\n\t\t<span class=\"fas fa-sync-alt fa-spin\"></span>\r\n\t</button>\r\n</section>\r\n";
 			case "resourcemap/map.html": return "\r\n<section class=\"resource map\">\r\n\t<div id=\"map\">\r\n\t\t<h1 v-on:click=\"rerunLayout()\">Resource Map</h1>\r\n\t\t<map-controls v-on:rerun=\"rerunLayout()\"></map-controls>\r\n\t</div>\r\n</section>\r\n";
@@ -47448,6 +47462,8 @@ Vue.use(Templify);
  * @param {Object} configuration Passed by Gaze to initialize the Mixin during defining.
  */
 Gaze.defineSubsystem("SoverignConnection", function(configuration) {
+	configuration = configuration || {};
+	
 	/**
 	 * 
 	 * @property instance
@@ -47463,8 +47479,35 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 	 * @private
 	 */
 	var debugging = configuration.debug || configuration.sovereign.debug;
-	if(debugging)
+	if(debugging) {
 		window.sovEmit = [];
+	}
+	
+	
+	/**
+	 * Key:Value pairs for headers to set on requests to Sovereign.
+	 * @property authenticator
+	 * @type Object
+	 * @private
+	 */
+	var authenticator = null;
+	configuration.authenticator = configuration.authenticator || {};
+	var buffer = JSON.parse(JSON.stringify(configuration.authenticator));
+	var defaultAuthenticator = {
+		"type": "localStorage",
+		"key": "authenticatorKey"
+	};
+	Object.assign(configuration.authenticator, defaultAuthenticator, buffer);
+	
+	switch(configuration.authenticator.type) {
+		case "localStorage":
+			authenticator = localStorage.getItem(configuration.authenticator.key) || null;
+			break;
+		default:
+			console.warn("Unable to determine Sovereign Connection authentication type");
+	};
+	
+	document.cookie = "Test=example";
 	
 	/**
 	 * Tracks Constructs against whom the UI is listening for
@@ -47503,7 +47546,7 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 	
 	var SovereignConnection = function(url) {
 		var emitter = new Gaze.EventEmitter();
-		var socket = new WebSocket(url);
+		var socket = new WebSocket(url + "?authenticator=" + authenticator);
 		
 		this.eventNames = emitter.eventNames.bind(this);
 		this.once = emitter.once.bind(this);
@@ -47561,12 +47604,13 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 		},
 		"methods": {
 			"options": function(key, field) {
-				if(!field && !key)
+				if(!field && !key) {
 					return this.configuration;
-				else if(!field)
+				} else if(!field) {
 					return this.configuration[key];
-				else
+				} else {
 					this.configuration[key] = field;
+				}
 			},
 			"getSovereignConnection": function(url) {
 				url = url || configuration.sovereign.url;
@@ -47574,8 +47618,9 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 				return connection[url];
 			},
 			"getConstruct": function(ids) {
-				if(!ids || !ids.length)
+				if(!ids || !ids.length) {
 					throw new Error("No IDs passed");
+				}
 				return new Promise(function(done, fail) {
 					var x, fetch = [], returning = {};
 					
@@ -47605,8 +47650,9 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 				});
 			},
 			"getResources": function(ids) {
-				if(!ids || !ids.length)
+				if(!ids || !ids.length) {
 					throw new Error("No IDs passed");
+				}
 				return new Promise(function(done, fail) {
 					var x, fetch = [], returning = [];
 					for(x=0; x<ids.length; x++) {
@@ -47621,8 +47667,9 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 					if(fetch.length) {
 						// Fetch Missing
 						if(debugging) {
-							for(x=0; x<fetch.length; x++)
+							for(x=0; x<fetch.length; x++) {
 								returning.push(window.sovereignDebug.resources[fetch[x]]);
+							}
 							done(returning);
 						} else {
 							// TODO: Replace with live data
@@ -47636,13 +47683,15 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 				});
 			},
 			"getRelations": function(ids) {
-				if(!ids || !ids.length)
+				if(!ids || !ids.length) {
 					throw new Error("No IDs passed");
+				}
 				return new Promise(function(done, fail) {
 					if(debugging) {
 						var x, fulfill = [];
-						for(x=0; x<ids.length; x++)
+						for(x=0; x<ids.length; x++) {
 							fulfill.push(window.sovereignDebug.relations[ids[x]]);
+						}
 						done(fulfill);
 					} else {
 						// TODO: Replace with live data
@@ -47652,8 +47701,10 @@ Gaze.defineSubsystem("SoverignConnection", function(configuration) {
 				});
 			},
 			"createResource": function(resource, construct) {
-				if(!resource)
+				if(!resource) {
 					throw new Error("No Resource passed");
+				}
+				
 				return new Promise(function(done, fail) {
 					if(debugging) {
 						
@@ -48418,19 +48469,37 @@ Vue.component("gazesynth", {
 	],
 	"props": ["field-limit", "fields"],
 	"mounted": function() {
-		this.conneciton = this.getSovereignConnection();
+		this.connection = this.getSovereignConnection();
+		console.log("Mounted: ", this);
 	},
 	"data": function() {
 		return {
+			"resourceText": {
+				"title": "Synthesize Resource",
+				"fieldErrorTitle": null,
+				"submit": "Create"
+			},
 			"resourceFields": [{
 				"title": "Name",
 				"placeholder": "Resource Name...",
-				"type": "text"
+				"key": "name",
+				"type": "text",
+				"validations": [{
+					"type": "length",
+					"min": 1,
+					"max": 128
+				}]
 			}],
 			"relationFields": [{
 				"title": "Name",
 				"placeholder": "Relation Name...",
-				"type": "text"
+				"key": "name",
+				"type": "text",
+				"validations": [{
+					"type": "length",
+					"min": 1,
+					"max": 128
+				}]
 			}],
 			"resource": {},
 			"relation": {}
@@ -48438,12 +48507,14 @@ Vue.component("gazesynth", {
 	},
 	"methods": {
 		"submit": function(resources, relations) {
-			console.log("Submitting: ", resources, relations);
+			console.log("Submitting: ", this, resources, relations);
 			var request = {};
-			if(resources !== undefined && resources.constructor.name !== "Array")
+			if(resources !== undefined && resources.constructor.name !== "Array") {
 				resources = [resources];
-			if(relations !== undefined && relations.constructor.name !== "Array")
+			}
+			if(relations !== undefined && relations.constructor.name !== "Array") {
 				relations = [relations];
+			}
 			
 			this.connection.send({
 				"action": "create",
@@ -48483,7 +48554,6 @@ Vue.component("gazecsv", {
 	"inherit": true,
 	"props": ["format"],
 	"mounted": function() {
-		console.log("CSV mounted: ", this);
 	},
 	"data": function() {
 		return {
@@ -48504,15 +48574,17 @@ Vue.component("gazecsv", {
 				loaded = [];
 				
 				header = lines[0].trim().split(/[,;]/);
-				for(f=0; f<header.length; f++)
+				for(f=0; f<header.length; f++) {
 					header[f] = header[f].trim();
+				}
 				console.log("Header: ", header);
 				for(l=1; l<lines.length; l++) {
 					if(lines[l].length) {
 						fields = lines[l].trim().split(/[,;]/);
 						loading = {};
-						for(f=0; f<fields.length; f++)
+						for(f=0; f<fields.length; f++) {
 							loading[header[f]] = fields[f].trim();
+						}
 						loaded.push(loading);
 					}
 				}
@@ -48614,21 +48686,120 @@ var execTest = function() {
  */
 Vue.component("gazeForm", {
 	"inherit": true,
-	"props": ["formData", "field-limit", "fields", "format"],
+	"props": {
+		"formData": Object,
+		"field-limit": {
+			"type": Number,
+			"default": 50
+		},
+		"fields": Array,
+		"format": {
+			"type": String,
+			"default": "basic"
+		},
+		"text": {
+			"type": Object,
+			"default": function(val) {
+				return {};
+			}
+		},
+		"submittable": {
+			"type": Boolean,
+			"default": true
+		},
+		"preservable": {
+			"type": Boolean,
+			"default": false
+		},
+		"cancellable": {
+			"type": Boolean,
+			"default": false
+		}
+	},
 	"mounted": function() {
 	},
 	"data": function() {
-		return {
+		var priority = JSON.parse(JSON.stringify(this.text));
+		var defaults = {
+			"title": "Gaze Form",
+			"genErrorTitle": "Formation Errors",
+			"fieldErrorTitle": "Field Errors",
+			"submit": "Submit",
+			"cancel": "Cancel",
+			"preserve": "Preverse"
+		};
+		
+		Object.assign(this.text, defaults, priority);
+		
+		var data = {
+			"errors": [],
 			"states": ["entry", "sending", "waiting", "sent"],
 			"state": "entry"
 		};
+		
+		return data;
 	},
 	"methods": {
-		"submit": function(resource) {
-			console.log("Submitting: ", resource);
+		"submit": function(formData) {
+			if(this.submittable && this.validate(formData) === 0) {
+				this.$emit("gaze-submit", formData);
+			}
 		},
-		"validate": function(resource) {
-			console.log("Validating: ", resource);
+		"preserve": function(formData) {
+			if(this.preservable) {
+				this.$emit("gaze-preserve", formData);
+			}
+		},
+		"cancel": function(formData) {
+			if(this.cancellable) {
+				this.$emit("gaze-cancel", formData);
+			}
+		},
+		"validate": function(formData) {
+			var violations = 0;
+			var f, v;
+			
+			for(f=0; f<this.fields.length; f++) {
+				this.fields[f].errors = [];
+			}
+			
+			this.errors.splice(0);
+			if(!this.fields) {
+				this.errors.push({
+					"message": "No Form this.fields Specified"
+				});
+			}
+			
+			for(f=0; f<this.fields.length; f++) {
+				if(this.fields[f].validations && this.fields[f].validations.length) {
+					for(v=0; v<this.fields[f].validations[v].length; v++) {
+						switch(this.fields[f].validations[v].type) {
+							case "length":
+								if(this.fields[f].validations[v].min !== undefined && formData[this.fields[f].key] && formData[this.fields[f].key].length < this.fields[f].validations[v].min) {
+									this.fields[f].errors.push({
+										"message": this.fields[f].validations[v].message || "Failed validation of min " + this.fields[f].validations[v].type,
+										"validaiton": this.fields[f].validations[v],
+										"field": this.fields[f],
+										"violation": violations++
+									});
+								}
+								if(this.fields[f].validations[v].max !== undefined && formData[this.fields[f].key] && formData[this.fields[f].key].length > this.fields[f].validations[v].max) {
+									this.fields[f].errors.push({
+										"message": this.fields[f].validations[v].message || "Failed validation of max " + this.fields[f].validations[v].type,
+										"validaiton": this.fields[f].validations[v],
+										"field": this.fields[f],
+										"violation": violations++
+									});
+								}
+								break;
+							default:
+								console.warn("Unknown field validation: " + this.fields[f].validations[v].type);
+						}
+					}
+				}
+			}
+			
+			return violations;
 		},
 		"receive": function(event) {
 			console.log("Response: ", event);
@@ -48642,6 +48813,36 @@ Vue.component("gazeForm", {
 	"template": Vue.templified("form/basic.html")
 });
 
+/**
+ * 
+ * @class gazeForm-Field
+ * @constructor
+ */
+
+/**
+ * 
+ * @property title
+ * @type String
+ */
+
+/**
+ * text, number, checkbox, paragraph
+ * @property type
+ * @type String
+ * @default text
+ */
+
+/**
+ * 
+ * @property placeholder
+ * @type String
+ */
+
+/**
+ * 
+ * @property placeholder
+ * @type String
+ */
 
 /**
  * 

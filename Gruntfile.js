@@ -41,7 +41,7 @@ module.exports = function(grunt) {
 				],
 				"rules": {
 					"eqeqeq": 0,
-					"curly": [2, "multi-or-nest", "consistent"],
+					"curly": [2, "all"],
 					"no-undef": 2,
 					"semi": 2,
 					"indent": [2, "tab", {
@@ -58,7 +58,9 @@ module.exports = function(grunt) {
 					"no-undef": 2,
 					"semi": 2,
 					"camelcase": 2,
-					"max-depth": 2,
+					"max-depth": [1, {
+						"max": 10
+					}],
 					"no-unused-vars": 1
 				},
 				"terminateOnCallback": false,

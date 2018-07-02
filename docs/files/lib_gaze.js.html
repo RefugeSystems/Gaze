@@ -46,6 +46,7 @@
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
                                 <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
                                 <li><a href="../classes/gazeForm.html">gazeForm</a></li>
+                                <li><a href="../classes/gazeForm-Field.html">gazeForm-Field</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
@@ -115,21 +116,24 @@ window.Gaze = window._Gaze = (function() {
 		
 		this.on = function(key, listener) {
 			events[key] = events[key] || [];
-			if(events[key].indexOf(listener) === -1)
+			if(events[key].indexOf(listener) === -1) {
 				events[key].push(listener);
+			}
 		};
 
 		this.once = function(key, listener) {
 			onces[key] = onces[key] || [];
-			if(onces[key].idexOf(listener) === -1)
+			if(onces[key].idexOf(listener) === -1) {
 				onces[key].push(listener);
+			}
 		};
 
 		this.off = function(key, listener) {
 			events[key] = events[key] || [];
 			var index = events[key].idexOf(listener);
-			if(index !== -1)
+			if(index !== -1) {
 				events[key].splice(index, 1);
+			}
 		};
 
 		this.emit = function(key, data) {
@@ -138,11 +142,13 @@ window.Gaze = window._Gaze = (function() {
 			onces[key] = onces[key] || [];
 			var x;
 			
-			for(x=0; x&lt;events[key].length; x++)
+			for(x=0; x&lt;events[key].length; x++) {
 				events[key][x](data);
+			}
 			if(onces[key]) {
-				for(x=0; x&lt;onces[key].length; x++)
+				for(x=0; x&lt;onces[key].length; x++) {
 					onces[key][x](data);
+				}
 				onces[key] = [];
 			}
 		};
@@ -231,10 +237,11 @@ window.Gaze = window._Gaze = (function() {
 	 */
 	var initialize = function(options) {
 		for(var key in options) {
-			if(options[key] instanceof Object)
+			if(options[key] instanceof Object) {
 				Object.assign(configuration[key] = configuration[key] || {}, options[key]);
-			else
+			} else {
 				configuration[key] = options[key];
+			}
 		}
 		
 		display.trace = configuration.console.trace?console.trace:noOp;
@@ -256,8 +263,9 @@ window.Gaze = window._Gaze = (function() {
 	 * @param {String} definition
 	 */
 	gazing.getSubsystem = function(key) {
-		if(mixins[key])
+		if(mixins[key]) {
 			return mixins[key];
+		}
 		console.warn(&quot;Requested undefined Subsystem: &quot; + key);
 		return undefined;
 	};
@@ -269,10 +277,12 @@ window.Gaze = window._Gaze = (function() {
 	 * @param {String} definition
 	 */
 	gazing.defineSubsystem = function(key, definition) {
-		if(!key)
+		if(!key) {
 			throw new Error(&quot;Missing key for new Mix-in&quot;);
-		if(!definition)
+		}
+		if(!definition) {
 			throw new Error(&quot;Missing definition for new Mix-in &#x27;&quot; + key + &quot;&#x27;&quot;);
+		}
 		mixins[key] = mixins[key] || {};
 		Object.assign(mixins[key], definition(configuration));
 	};
@@ -328,8 +338,13 @@ window.Gaze = window._Gaze = (function() {
 		console.log(&quot;  __   __   __ \n |  \\_/  \\_/  |\n .            .      _____    _______ _______\n  \\__      __/      / __   \\/       /  ______/\n     )    (        / /__/  /   ____/  /  ___ __ ______  _____\n	/      \\      /  _   , \\____  \\  /  /  / __ \\__  / /  _  \\\n   &#x27;        &#x27;    /  / \\  \\/       / /___/ / /_/ / / /__  ____/\n  /          \\  /__/   \\__\\______/_______/\\_____\\/____/_____/\n  \\__________/\n&#x27;.____________.&#x27;&quot;);
 	};
 	
+
 	return gazing;
 })();
+
+//Object.prototype.clone = function() {
+//	return JSON.parse(JSON.stringify(this));
+//};
 
 /* Handled outside the library in some way */
 

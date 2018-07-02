@@ -16,6 +16,11 @@ body {
 	width: 100%;
 }
 
+.entry-formData {
+	/* Dev Settings */
+	background-color: #b8a0dc;
+}
+
 .view-create .page {
 	overflow: auto;
 	height: 100%;

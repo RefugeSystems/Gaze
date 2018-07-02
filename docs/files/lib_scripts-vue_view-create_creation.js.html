@@ -46,6 +46,7 @@
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
                                 <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
                                 <li><a href="../classes/gazeForm.html">gazeForm</a></li>
+                                <li><a href="../classes/gazeForm-Field.html">gazeForm-Field</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
@@ -107,19 +108,37 @@ Vue.component(&quot;gazesynth&quot;, {
 	],
 	&quot;props&quot;: [&quot;field-limit&quot;, &quot;fields&quot;],
 	&quot;mounted&quot;: function() {
-		this.conneciton = this.getSovereignConnection();
+		this.connection = this.getSovereignConnection();
+		console.log(&quot;Mounted: &quot;, this);
 	},
 	&quot;data&quot;: function() {
 		return {
+			&quot;resourceText&quot;: {
+				&quot;title&quot;: &quot;Synthesize Resource&quot;,
+				&quot;fieldErrorTitle&quot;: null,
+				&quot;submit&quot;: &quot;Create&quot;
+			},
 			&quot;resourceFields&quot;: [{
 				&quot;title&quot;: &quot;Name&quot;,
 				&quot;placeholder&quot;: &quot;Resource Name...&quot;,
-				&quot;type&quot;: &quot;text&quot;
+				&quot;key&quot;: &quot;name&quot;,
+				&quot;type&quot;: &quot;text&quot;,
+				&quot;validations&quot;: [{
+					&quot;type&quot;: &quot;length&quot;,
+					&quot;min&quot;: 1,
+					&quot;max&quot;: 128
+				}]
 			}],
 			&quot;relationFields&quot;: [{
 				&quot;title&quot;: &quot;Name&quot;,
 				&quot;placeholder&quot;: &quot;Relation Name...&quot;,
-				&quot;type&quot;: &quot;text&quot;
+				&quot;key&quot;: &quot;name&quot;,
+				&quot;type&quot;: &quot;text&quot;,
+				&quot;validations&quot;: [{
+					&quot;type&quot;: &quot;length&quot;,
+					&quot;min&quot;: 1,
+					&quot;max&quot;: 128
+				}]
 			}],
 			&quot;resource&quot;: {},
 			&quot;relation&quot;: {}
@@ -127,12 +146,14 @@ Vue.component(&quot;gazesynth&quot;, {
 	},
 	&quot;methods&quot;: {
 		&quot;submit&quot;: function(resources, relations) {
-			console.log(&quot;Submitting: &quot;, resources, relations);
+			console.log(&quot;Submitting: &quot;, this, resources, relations);
 			var request = {};
-			if(resources !== undefined &amp;&amp; resources.constructor.name !== &quot;Array&quot;)
+			if(resources !== undefined &amp;&amp; resources.constructor.name !== &quot;Array&quot;) {
 				resources = [resources];
-			if(relations !== undefined &amp;&amp; relations.constructor.name !== &quot;Array&quot;)
+			}
+			if(relations !== undefined &amp;&amp; relations.constructor.name !== &quot;Array&quot;) {
 				relations = [relations];
+			}
 			
 			this.connection.send({
 				&quot;action&quot;: &quot;create&quot;,

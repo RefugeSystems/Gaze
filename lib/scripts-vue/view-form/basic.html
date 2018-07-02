@@ -1,6 +1,12 @@
 <section class="entry-formData">
-	<span>Basic</span>
-	<form v-on:submit.prevent="formData">
+	<h1 v-if="text.title">{{text.title}}</h1>
+		
+	<div v-if="errors && errors.length" class="errors">
+		<h2 v-if="text.genErrorTitle">{{text.genErrorTitle}}</h2>
+		<div v-for="error in errors" class="error">{{error.message}}</div>
+	</div>
+	
+	<form v-on:submit.prevent="submit(formData)">
 		<div v-for="field in fields" class="field" :class="field.class || field.name">
 			<label v-if="field.type === 'text' || field.type === 'date'">
 				<span>{{field.title}}</span>
@@ -32,6 +38,16 @@
 					<span>{{field.title}}</span>
 				</label>
 			</div>
+			
+			<div v-if="field.errors && field.errors.length" class="errors">
+				<div v-for="error in field.errors" class="error">{{error.message}}</div>
+			</div> 
+		</div>
+		<div class="controls">
+			<h2 v-if="text.fieldErrorTitle">{{text.fieldErrorTitle}}</h2>
+			<button v-if="submittable" v-on:click="submit(formData)">{{text.submit}}</button>
+			<button v-if="preservable" v-on:click="preserve(formData)">{{text.preserve}}</button>
+			<button v-if="cancellable" v-on:click="cancel(formData)">{{text.cancel}}</button>
 		</div>
 	</form>
 </section>

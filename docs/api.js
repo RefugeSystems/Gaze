@@ -12,7 +12,8 @@ YUI.add("yuidoc-meta", function(Y) {
         "SovereignConnection",
         "SyntheticConstruct",
         "_Gaze",
-        "gazeForm"
+        "gazeForm",
+        "gazeForm-Field"
     ],
     "modules": [
         "Gaze"

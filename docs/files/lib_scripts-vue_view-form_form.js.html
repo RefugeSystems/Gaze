@@ -46,6 +46,7 @@
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
                                 <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
                                 <li><a href="../classes/gazeForm.html">gazeForm</a></li>
+                                <li><a href="../classes/gazeForm-Field.html">gazeForm-Field</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
@@ -101,21 +102,120 @@
  */
 Vue.component(&quot;gazeForm&quot;, {
 	&quot;inherit&quot;: true,
-	&quot;props&quot;: [&quot;formData&quot;, &quot;field-limit&quot;, &quot;fields&quot;, &quot;format&quot;],
+	&quot;props&quot;: {
+		&quot;formData&quot;: Object,
+		&quot;field-limit&quot;: {
+			&quot;type&quot;: Number,
+			&quot;default&quot;: 50
+		},
+		&quot;fields&quot;: Array,
+		&quot;format&quot;: {
+			&quot;type&quot;: String,
+			&quot;default&quot;: &quot;basic&quot;
+		},
+		&quot;text&quot;: {
+			&quot;type&quot;: Object,
+			&quot;default&quot;: function(val) {
+				return {};
+			}
+		},
+		&quot;submittable&quot;: {
+			&quot;type&quot;: Boolean,
+			&quot;default&quot;: true
+		},
+		&quot;preservable&quot;: {
+			&quot;type&quot;: Boolean,
+			&quot;default&quot;: false
+		},
+		&quot;cancellable&quot;: {
+			&quot;type&quot;: Boolean,
+			&quot;default&quot;: false
+		}
+	},
 	&quot;mounted&quot;: function() {
 	},
 	&quot;data&quot;: function() {
-		return {
+		var priority = JSON.parse(JSON.stringify(this.text));
+		var defaults = {
+			&quot;title&quot;: &quot;Gaze Form&quot;,
+			&quot;genErrorTitle&quot;: &quot;Formation Errors&quot;,
+			&quot;fieldErrorTitle&quot;: &quot;Field Errors&quot;,
+			&quot;submit&quot;: &quot;Submit&quot;,
+			&quot;cancel&quot;: &quot;Cancel&quot;,
+			&quot;preserve&quot;: &quot;Preverse&quot;
+		};
+		
+		Object.assign(this.text, defaults, priority);
+		
+		var data = {
+			&quot;errors&quot;: [],
 			&quot;states&quot;: [&quot;entry&quot;, &quot;sending&quot;, &quot;waiting&quot;, &quot;sent&quot;],
 			&quot;state&quot;: &quot;entry&quot;
 		};
+		
+		return data;
 	},
 	&quot;methods&quot;: {
-		&quot;submit&quot;: function(resource) {
-			console.log(&quot;Submitting: &quot;, resource);
+		&quot;submit&quot;: function(formData) {
+			if(this.submittable &amp;&amp; this.validate(formData) === 0) {
+				this.$emit(&quot;gaze-submit&quot;, formData);
+			}
 		},
-		&quot;validate&quot;: function(resource) {
-			console.log(&quot;Validating: &quot;, resource);
+		&quot;preserve&quot;: function(formData) {
+			if(this.preservable) {
+				this.$emit(&quot;gaze-preserve&quot;, formData);
+			}
+		},
+		&quot;cancel&quot;: function(formData) {
+			if(this.cancellable) {
+				this.$emit(&quot;gaze-cancel&quot;, formData);
+			}
+		},
+		&quot;validate&quot;: function(formData) {
+			var violations = 0;
+			var f, v;
+			
+			for(f=0; f&lt;this.fields.length; f++) {
+				this.fields[f].errors = [];
+			}
+			
+			this.errors.splice(0);
+			if(!this.fields) {
+				this.errors.push({
+					&quot;message&quot;: &quot;No Form this.fields Specified&quot;
+				});
+			}
+			
+			for(f=0; f&lt;this.fields.length; f++) {
+				if(this.fields[f].validations &amp;&amp; this.fields[f].validations.length) {
+					for(v=0; v&lt;this.fields[f].validations[v].length; v++) {
+						switch(this.fields[f].validations[v].type) {
+							case &quot;length&quot;:
+								if(this.fields[f].validations[v].min !== undefined &amp;&amp; formData[this.fields[f].key] &amp;&amp; formData[this.fields[f].key].length &lt; this.fields[f].validations[v].min) {
+									this.fields[f].errors.push({
+										&quot;message&quot;: this.fields[f].validations[v].message || &quot;Failed validation of min &quot; + this.fields[f].validations[v].type,
+										&quot;validaiton&quot;: this.fields[f].validations[v],
+										&quot;field&quot;: this.fields[f],
+										&quot;violation&quot;: violations++
+									});
+								}
+								if(this.fields[f].validations[v].max !== undefined &amp;&amp; formData[this.fields[f].key] &amp;&amp; formData[this.fields[f].key].length &gt; this.fields[f].validations[v].max) {
+									this.fields[f].errors.push({
+										&quot;message&quot;: this.fields[f].validations[v].message || &quot;Failed validation of max &quot; + this.fields[f].validations[v].type,
+										&quot;validaiton&quot;: this.fields[f].validations[v],
+										&quot;field&quot;: this.fields[f],
+										&quot;violation&quot;: violations++
+									});
+								}
+								break;
+							default:
+								console.warn(&quot;Unknown field validation: &quot; + this.fields[f].validations[v].type);
+						}
+					}
+				}
+			}
+			
+			return violations;
 		},
 		&quot;receive&quot;: function(event) {
 			console.log(&quot;Response: &quot;, event);
@@ -129,6 +229,36 @@ Vue.component(&quot;gazeForm&quot;, {
 	&quot;template&quot;: Vue.templified(&quot;form/basic.html&quot;)
 });
 
+/**
+ * 
+ * @class gazeForm-Field
+ * @constructor
+ */
+
+/**
+ * 
+ * @property title
+ * @type String
+ */
+
+/**
+ * text, number, checkbox, paragraph
+ * @property type
+ * @type String
+ * @default text
+ */
+
+/**
+ * 
+ * @property placeholder
+ * @type String
+ */
+
+/**
+ * 
+ * @property placeholder
+ * @type String
+ */
     </pre>
 </div>
                     </div>

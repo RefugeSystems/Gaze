@@ -46,6 +46,7 @@
                                 <li><a href="../classes/Configuration.html">Configuration</a></li>
                                 <li><a href="../classes/EventEmitter.html">EventEmitter</a></li>
                                 <li><a href="../classes/gazeForm.html">gazeForm</a></li>
+                                <li><a href="../classes/gazeForm-Field.html">gazeForm-Field</a></li>
                                 <li><a href="../classes/LogSystem.html">LogSystem</a></li>
                                 <li><a href="../classes/ResourceTestData.html">ResourceTestData</a></li>
                                 <li><a href="../classes/SovereignConnection.html">SovereignConnection</a></li>
@@ -102,6 +103,8 @@
  * @param {Object} configuration Passed by Gaze to initialize the Mixin during defining.
  */
 Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
+	configuration = configuration || {};
+	
 	/**
 	 * 
 	 * @property instance
@@ -117,8 +120,35 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 	 * @private
 	 */
 	var debugging = configuration.debug || configuration.sovereign.debug;
-	if(debugging)
+	if(debugging) {
 		window.sovEmit = [];
+	}
+	
+	
+	/**
+	 * Key:Value pairs for headers to set on requests to Sovereign.
+	 * @property authenticator
+	 * @type Object
+	 * @private
+	 */
+	var authenticator = null;
+	configuration.authenticator = configuration.authenticator || {};
+	var buffer = JSON.parse(JSON.stringify(configuration.authenticator));
+	var defaultAuthenticator = {
+		&quot;type&quot;: &quot;localStorage&quot;,
+		&quot;key&quot;: &quot;authenticatorKey&quot;
+	};
+	Object.assign(configuration.authenticator, defaultAuthenticator, buffer);
+	
+	switch(configuration.authenticator.type) {
+		case &quot;localStorage&quot;:
+			authenticator = localStorage.getItem(configuration.authenticator.key) || null;
+			break;
+		default:
+			console.warn(&quot;Unable to determine Sovereign Connection authentication type&quot;);
+	};
+	
+	document.cookie = &quot;Test=example&quot;;
 	
 	/**
 	 * Tracks Constructs against whom the UI is listening for
@@ -157,7 +187,7 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 	
 	var SovereignConnection = function(url) {
 		var emitter = new Gaze.EventEmitter();
-		var socket = new WebSocket(url);
+		var socket = new WebSocket(url + &quot;?authenticator=&quot; + authenticator);
 		
 		this.eventNames = emitter.eventNames.bind(this);
 		this.once = emitter.once.bind(this);
@@ -215,12 +245,13 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 		},
 		&quot;methods&quot;: {
 			&quot;options&quot;: function(key, field) {
-				if(!field &amp;&amp; !key)
+				if(!field &amp;&amp; !key) {
 					return this.configuration;
-				else if(!field)
+				} else if(!field) {
 					return this.configuration[key];
-				else
+				} else {
 					this.configuration[key] = field;
+				}
 			},
 			&quot;getSovereignConnection&quot;: function(url) {
 				url = url || configuration.sovereign.url;
@@ -228,8 +259,9 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 				return connection[url];
 			},
 			&quot;getConstruct&quot;: function(ids) {
-				if(!ids || !ids.length)
+				if(!ids || !ids.length) {
 					throw new Error(&quot;No IDs passed&quot;);
+				}
 				return new Promise(function(done, fail) {
 					var x, fetch = [], returning = {};
 					
@@ -259,8 +291,9 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 				});
 			},
 			&quot;getResources&quot;: function(ids) {
-				if(!ids || !ids.length)
+				if(!ids || !ids.length) {
 					throw new Error(&quot;No IDs passed&quot;);
+				}
 				return new Promise(function(done, fail) {
 					var x, fetch = [], returning = [];
 					for(x=0; x&lt;ids.length; x++) {
@@ -275,8 +308,9 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 					if(fetch.length) {
 						// Fetch Missing
 						if(debugging) {
-							for(x=0; x&lt;fetch.length; x++)
+							for(x=0; x&lt;fetch.length; x++) {
 								returning.push(window.sovereignDebug.resources[fetch[x]]);
+							}
 							done(returning);
 						} else {
 							// TODO: Replace with live data
@@ -290,13 +324,15 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 				});
 			},
 			&quot;getRelations&quot;: function(ids) {
-				if(!ids || !ids.length)
+				if(!ids || !ids.length) {
 					throw new Error(&quot;No IDs passed&quot;);
+				}
 				return new Promise(function(done, fail) {
 					if(debugging) {
 						var x, fulfill = [];
-						for(x=0; x&lt;ids.length; x++)
+						for(x=0; x&lt;ids.length; x++) {
 							fulfill.push(window.sovereignDebug.relations[ids[x]]);
+						}
 						done(fulfill);
 					} else {
 						// TODO: Replace with live data
@@ -306,8 +342,10 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 				});
 			},
 			&quot;createResource&quot;: function(resource, construct) {
-				if(!resource)
+				if(!resource) {
 					throw new Error(&quot;No Resource passed&quot;);
+				}
+				
 				return new Promise(function(done, fail) {
 					if(debugging) {
 						
