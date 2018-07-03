@@ -4,6 +4,28 @@
 	width: 100%;
 }
 
+.view-create .aux-fields {
+	text-align: right;
+}
+
+.view-create .aux-fields .ctrl {
+	display: inline-block;
+	height: 30px;
+	width: 30px;
+}
+
+.view-create label {
+	font-size: 18px;
+	line-height: 20px;
+}
+
+.view-create input {
+	text-align: left;
+	font-size: 16px;
+	line-height: 20px;
+	padding: 3px;
+}
+
 .entry-formData {
 	/* Dev Settings */
 	background-color: #b8a0dc;
@@ -14,3 +36,5 @@
 	height: 100%;
 	width: 100%;
 }
+
+

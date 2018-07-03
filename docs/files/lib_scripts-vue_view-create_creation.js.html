@@ -140,23 +140,34 @@ Vue.component(&quot;gazesynth&quot;, {
 					&quot;max&quot;: 128
 				}]
 			}],
-			&quot;resource&quot;: {},
-			&quot;relation&quot;: {}
+			&quot;name&quot;: &quot;&quot;,
+			&quot;csv&quot;: {
+				&quot;resources&quot;: [],
+				&quot;relations&quot;: []
+			},
+			&quot;resource&quot;: {
+				&quot;fields&quot;:{}
+			},
+			&quot;relation&quot;: {
+				&quot;fields&quot;:{}
+			}
 		};
 	},
 	&quot;methods&quot;: {
 		&quot;submit&quot;: function(resources, relations) {
-			console.log(&quot;Submitting: &quot;, this, resources, relations);
+			console.log(&quot;Submitting - : &quot;, this, resources, relations);
 			var request = {};
 			if(resources !== undefined &amp;&amp; resources.constructor.name !== &quot;Array&quot;) {
 				resources = [resources];
+				this.newResource();
 			}
 			if(relations !== undefined &amp;&amp; relations.constructor.name !== &quot;Array&quot;) {
 				relations = [relations];
-			}
+				this.newRelation();
+			} 
 			
 			this.connection.send({
-				&quot;action&quot;: &quot;create&quot;,
+				&quot;key&quot;: &quot;create&quot;,
 				&quot;resources&quot;: resources,
 				&quot;relations&quot;: relations
 			});
@@ -172,6 +183,82 @@ Vue.component(&quot;gazesynth&quot;, {
 			switch(dir) {
 				
 			}
+		},
+		&quot;newResource&quot;: function() {
+			this.resource = {
+				&quot;fields&quot;: {}
+			};
+		},
+		&quot;newRelation&quot;: function() {
+			this.relation = {
+				&quot;fields&quot;: {}
+			};
+		},
+		&quot;addField&quot;: function(object, field) {
+			if(field) {
+				this.$set(object.fields, field, &quot;&quot;);
+			}
+		},
+		&quot;removeField&quot;: function(object, field) {
+			this.$delete(object.fields, field);
+		},
+		&quot;parseCSV&quot;: function(parsing) {
+			return new Promise(function(done, fail) {
+				var x, loaded, reader, text;
+				reader = new FileReader();
+				loaded = [];
+				
+				reader.onload = function(event) {
+					var loaded, loading, l, f, text, lines, header, fields;
+					
+					text = event.target.result;
+					lines = text.split(&quot;\n&quot;);
+					loaded = [];
+					
+					header = lines[0].trim().split(/[,;]/);
+					for(f=0; f&lt;header.length; f++) {
+						header[f] = header[f].trim();
+					}
+
+					for(l=1; l&lt;lines.length; l++) {
+						if(lines[l].length) {
+							fields = lines[l].trim().split(/[,;]/);
+							loading = {};
+							for(f=0; f&lt;fields.length; f++) {
+								loading[header[f]] = fields[f].trim();
+							}
+							loaded.push(loading);
+						}
+					}
+					
+					done(loaded);
+				};
+				
+				reader.onerror = function(error) {
+					fail(error);
+				};
+
+				console.log(&quot;Parsing: &quot;, parsing);
+				for(x=0; x&lt;parsing.files.length; x++) {
+					reader.readAsText(parsing.files[x]);
+				}
+			});
+		},
+		&quot;parseResourceCSV&quot;: function() {
+			var vm = this;
+			if(this.$refs.resourceCSV &amp;&amp; this.$refs.resourceCSV.files &amp;&amp; this.$refs.resourceCSV.files.length) {
+				this.parseCSV(this.$refs.resourceCSV)
+				.then(function(resources) {
+					vm.$set(vm.csv, &quot;resources&quot;, resources);
+				})
+				.catch(function(error) {
+					console.error(&quot;Parse Failure: &quot;, error, error.stack);
+					vm.$set(vm.csv, &quot;resError&quot;, error);
+				});
+			}
+		},
+		&quot;parseRelationCSV&quot;: function() {
+			
 		},
 		&quot;debug&quot;: function() {
 			console.log(&quot;Fields: &quot;, this.fields);

@@ -6,7 +6,8 @@
 		<div v-for="error in errors" class="error">{{error.message}}</div>
 	</div>
 	
-	<form v-on:submit.prevent="submit(formData)">
+	<!-- form v-on:submit.prevent="submit(formData)" -->
+	<form v-on:submit.prevent>
 		<div v-for="field in fields" class="field" :class="field.class || field.name">
 			<label v-if="field.type === 'text' || field.type === 'date'">
 				<span>{{field.title}}</span>

@@ -2,20 +2,90 @@
 	<div class="create-resource">
 		<h1>Synthesize Resource</h1>
 		<gaze-form :fields="resourceFields" :formData="resource" :text="resourceText" v-on:gaze-submit="submit($event)"></gaze-form>
+		<h2>Resource Fields</h2>
+		<table class="aux-fields">
+			<tr v-for="field in Object.keys(resource.fields)">
+				<td>
+					<label>
+						{{field}}
+						<input type="text" v-model="resource.fields[field]" />
+					</label>
+				</td>
+				<td>
+					<button class="fas fa-minus ctrl" v-on:click="removeField(resource, field)"></button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						Field Name
+						<input type="text" v-model="name" v-on:keydown.enter="addField(resource, name); name = ''" />
+					</label>
+				</td>
+				<td>
+					<button class="fas fa-plus ctrl" v-on:click="addField(resource, name); name = ''"></button>
+				</td>
+			</tr>
+		</table>
 	</div>
 	
 	<div class="create-relation">
 		<h1>Synthesize Relation</h1>
 		<gaze-form :fields="relationFields" :formData="relation" format="lcars"></gaze-form>
+		<h2>Relation Fields</h2>
+		<table class="aux-fields">
+			<tr v-for="field in Object.keys(relation.fields)">
+				<td>
+					<label>
+						{{field}}
+						<input type="text" v-model="relation[field]" />
+					</label>
+				</td>
+				<td>
+					<button class="fas fa-minus ctrl" v-on:click="removeField(relation, field)"></button>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<label>
+						Field Name
+						<input type="text" v-model="name" v-on:keydown.enter="addField(relation, name); name = ''" />
+					</label>
+				</td>
+				<td>
+					<button class="fas fa-plus ctrl" v-on:click="addField(relation, name); name = ''"></button>
+				</td>
+			</tr>
+		</table>
 	</div>
 	
 	<div class="upload-resources">
 		<h1>Synthesize Resources (CSV)</h1>
-		<gazecsv></gazecsv>
+		<div class="gaze csv-upload">
+			<input type="file" class="upload" ref="resourceCSV" v-on:change="parseResourceCSV()"/>
+			<div class="preview" v-if="csv.resources && csv.resources.length">
+				<table>
+					<tr>
+						<th>
+							Name
+						</th>
+					</tr>
+					<tr v-for="r in csv.resources">
+						<td>
+							{{r.name}}
+						</td>
+					</tr>
+				</table>
+				<input type="submit" v-on:click.prevent="parse()" />
+			</div>
+		</div>
 	</div>
 	
 	<div class="upload-relation">
 		<h1>Synthesize Relations (CSV)</h1>
-		<gazecsv></gazecsv>
+		<div class="gaze csv-upload">
+			<input type="file" class="upload" />
+			<input type="submit" v-on:click.prevent="parse()" />
+		</div>
 	</div>
 </section>

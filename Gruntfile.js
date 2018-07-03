@@ -13,7 +13,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-karma");
 
 	var pkg = grunt.file.readJSON("package.json");
-	var footer = "\r\nGaze.version = \"V" + pkg.version + "\";\r\nVue.use(Gaze);";
+	var footer = "\r\nGaze.version = \"V" + pkg.version + "\";";
 	var config = {
 		"pkg": pkg,
 		"eslint": {

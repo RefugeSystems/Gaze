@@ -117,7 +117,7 @@
             "namespaces": {},
             "tag": "module",
             "file": "lib\\gaze.js",
-            "line": 308,
+            "line": 299,
             "description": "Global Reference: `Gaze`"
         }
     },
@@ -275,7 +275,7 @@
             "extension_for": [],
             "module": "Gaze",
             "file": "lib\\gaze.js",
-            "line": 256,
+            "line": 247,
             "description": "Global Reference: `Gaze`",
             "is_constructor": 1,
             "access": "private",
@@ -293,7 +293,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 195,
+            "line": 182,
             "is_constructor": 1
         },
         "LogSystem": {
@@ -307,7 +307,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 206,
+            "line": 193,
             "is_constructor": 1
         },
         "SyntheticConstruct": {
@@ -321,7 +321,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 267,
+            "line": 258,
             "extents": "EventEmitter",
             "is_constructor": 1
         },
@@ -336,7 +336,7 @@
             "module": "Gaze",
             "namespace": "",
             "file": "lib\\gaze.js",
-            "line": 308,
+            "line": 299,
             "is_constructor": 1
         }
     },
@@ -477,7 +477,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 106,
+            "line": 105,
             "description": "Acts as an initialization for Gaze in Vue.",
             "itemtype": "method",
             "name": "install",
@@ -498,7 +498,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 128,
+            "line": 115,
             "itemtype": "method",
             "name": "reconfigure",
             "params": [
@@ -518,7 +518,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 138,
+            "line": 125,
             "description": "Initializes Gaze with the configuration passed in options.",
             "itemtype": "method",
             "name": "initialize",
@@ -534,7 +534,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 164,
+            "line": 151,
             "itemtype": "method",
             "name": "getSubsystem",
             "params": [
@@ -554,7 +554,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 178,
+            "line": 165,
             "itemtype": "method",
             "name": "defineSubsystem",
             "params": [
@@ -574,7 +574,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 260,
+            "line": 251,
             "description": "The version of Gaze running.",
             "itemtype": "property",
             "name": "version",
@@ -585,7 +585,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 276,
+            "line": 267,
             "itemtype": "property",
             "name": "resources",
             "type": "Array",
@@ -594,7 +594,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 283,
+            "line": 274,
             "itemtype": "property",
             "name": "relations",
             "type": "Array",
@@ -603,7 +603,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 297,
+            "line": 288,
             "itemtype": "method",
             "name": "modify",
             "params": [
@@ -618,7 +618,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 315,
+            "line": 306,
             "itemtype": "method",
             "name": "eventNames",
             "return": {
@@ -630,7 +630,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 321,
+            "line": 312,
             "itemtype": "method",
             "name": "on",
             "params": [
@@ -650,7 +650,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 328,
+            "line": 319,
             "itemtype": "method",
             "name": "once",
             "params": [
@@ -670,7 +670,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 335,
+            "line": 326,
             "itemtype": "method",
             "name": "off",
             "params": [
@@ -690,7 +690,7 @@
         },
         {
             "file": "lib\\gaze.js",
-            "line": 342,
+            "line": 333,
             "itemtype": "method",
             "name": "emit",
             "params": [
@@ -720,7 +720,7 @@
         },
         {
             "message": "unknown tag: extents",
-            "line": " lib\\gaze.js:267"
+            "line": " lib\\gaze.js:258"
         }
     ]
 }

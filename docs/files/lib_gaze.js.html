@@ -176,7 +176,6 @@ window.Gaze = window._Gaze = (function() {
 	 * @private
 	 */
 	var defaults = {
-		&quot;element&quot;: &quot;#gaze&quot;,
 		&quot;debug&quot;: true,
 		&quot;mixins&quot;: {
 			&quot;missing&quot;: &quot;NotFound&quot;
@@ -206,18 +205,6 @@ window.Gaze = window._Gaze = (function() {
 	 */
 	gazing.install = function(Vue, options) {
 		initialize(options);
-		
-		gazing.vue = new Vue({
-			&quot;el&quot;: configuration.element,
-			&quot;data&quot;: {
-				&quot;g$Version&quot;: Gaze.version,
-				&quot;g$Start&quot;: Date.now()
-			},
-			methods: {
-				&quot;g$reconfigure&quot;: Gaze.reconfigure
-			},
-			computed: {}
-		});
 	};
 	
 	/**
@@ -339,6 +326,10 @@ window.Gaze = window._Gaze = (function() {
 	};
 	
 
+	gazing.app = function() {
+		
+	};
+	
 	return gazing;
 })();
 
