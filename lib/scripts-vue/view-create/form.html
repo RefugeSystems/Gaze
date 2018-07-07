@@ -1,4 +1,10 @@
 <section class="view-create" v-touch:swipe.prevent="shift">
+	<div class="errors">
+		<ul>
+			<li v-for="error in errors" v-on:click="dismiss(error)">{{error?error.message:"Null Error"}}</li>
+		</ul>
+	</div>
+
 	<div class="create-resource">
 		<h1>Synthesize Resource</h1>
 		<gaze-form :fields="resourceFields" :formData="resource" :text="resourceText" v-on:gaze-submit="submit($event)"></gaze-form>
@@ -31,7 +37,7 @@
 	
 	<div class="create-relation">
 		<h1>Synthesize Relation</h1>
-		<gaze-form :fields="relationFields" :formData="relation" format="lcars"></gaze-form>
+		<gaze-form :fields="relationFields" :formData="relation" format="lcars" v-on:gaze-submit="submit(undefined, $event)"></gaze-form>
 		<h2>Relation Fields</h2>
 		<table class="aux-fields">
 			<tr v-for="field in Object.keys(relation.fields)">

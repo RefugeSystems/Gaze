@@ -108,11 +108,20 @@ Vue.component(&quot;gazesynth&quot;, {
 	],
 	&quot;props&quot;: [&quot;field-limit&quot;, &quot;fields&quot;],
 	&quot;mounted&quot;: function() {
+		var creation = this;
+		
 		this.connection = this.getSovereignConnection();
+		
+		this.connection.on(&quot;error&quot;, function(error) {
+			console.error(&quot;Found Error: &quot;, error);
+			creation.errors.push(error);
+		});
 		console.log(&quot;Mounted: &quot;, this);
 	},
 	&quot;data&quot;: function() {
 		return {
+			&quot;name&quot;: &quot;&quot;,
+			&quot;errors&quot;: [],
 			&quot;resourceText&quot;: {
 				&quot;title&quot;: &quot;Synthesize Resource&quot;,
 				&quot;fieldErrorTitle&quot;: null,
@@ -123,6 +132,7 @@ Vue.component(&quot;gazesynth&quot;, {
 				&quot;placeholder&quot;: &quot;Resource Name...&quot;,
 				&quot;key&quot;: &quot;name&quot;,
 				&quot;type&quot;: &quot;text&quot;,
+				&quot;required&quot;: true,
 				&quot;validations&quot;: [{
 					&quot;type&quot;: &quot;length&quot;,
 					&quot;min&quot;: 1,
@@ -133,6 +143,29 @@ Vue.component(&quot;gazesynth&quot;, {
 				&quot;title&quot;: &quot;Name&quot;,
 				&quot;placeholder&quot;: &quot;Relation Name...&quot;,
 				&quot;key&quot;: &quot;name&quot;,
+				&quot;required&quot;: true,
+				&quot;type&quot;: &quot;text&quot;,
+				&quot;validations&quot;: [{
+					&quot;type&quot;: &quot;length&quot;,
+					&quot;min&quot;: 1,
+					&quot;max&quot;: 128
+				}]
+			}, {
+				&quot;title&quot;: &quot;Source&quot;,
+				&quot;placeholder&quot;: &quot;Relation Source Resource...&quot;,
+				&quot;key&quot;: &quot;sourceName&quot;,
+				&quot;required&quot;: true,
+				&quot;type&quot;: &quot;text&quot;,
+				&quot;validations&quot;: [{
+					&quot;type&quot;: &quot;length&quot;,
+					&quot;min&quot;: 1,
+					&quot;max&quot;: 128
+				}]
+			}, {
+				&quot;title&quot;: &quot;Target&quot;,
+				&quot;placeholder&quot;: &quot;Relation Target Resource...&quot;,
+				&quot;key&quot;: &quot;targetName&quot;,
+				&quot;required&quot;: true,
 				&quot;type&quot;: &quot;text&quot;,
 				&quot;validations&quot;: [{
 					&quot;type&quot;: &quot;length&quot;,
@@ -140,7 +173,6 @@ Vue.component(&quot;gazesynth&quot;, {
 					&quot;max&quot;: 128
 				}]
 			}],
-			&quot;name&quot;: &quot;&quot;,
 			&quot;csv&quot;: {
 				&quot;resources&quot;: [],
 				&quot;relations&quot;: []
@@ -259,6 +291,14 @@ Vue.component(&quot;gazesynth&quot;, {
 		},
 		&quot;parseRelationCSV&quot;: function() {
 			
+		},
+		&quot;dismiss&quot;: function(message) {
+			var index;
+			
+			index = this.errors.indexOf(message);
+			if(index !== -1) {
+				this.errors.splice(index, 1);
+			}
 		},
 		&quot;debug&quot;: function() {
 			console.log(&quot;Fields: &quot;, this.fields);

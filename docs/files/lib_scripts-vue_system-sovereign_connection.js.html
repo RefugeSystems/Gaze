@@ -208,9 +208,9 @@ Gaze.defineSubsystem(&quot;SoverignConnection&quot;, function(configuration) {
 		};
 
 		socket.onmessage = function(message) {
-			var event = JSON.parse(message.data);
-			emitter.emit(event.key, event);
-			console.log(&quot;Event Data: &quot;, event);
+			message = JSON.parse(message.data);
+			console.log(&quot;Event Data: &quot;, message);
+			emitter.emit(message.event?message.event._type:message.key, message.event || message.data);
 		};
 		
 		socket.onerror = function(error) {

@@ -168,6 +168,8 @@ Vue.component(&quot;resourceMap&quot;, {
 			&quot;name&quot;: &quot;cola&quot;,
 			&quot;infinite&quot;: true,
 			&quot;fit&quot;: false,
+			&quot;randomize&quot;: false,
+			&quot;animate&quot;: true,
 			&quot;linkDistance&quot;: 1000
 		});
 
@@ -195,18 +197,17 @@ Vue.component(&quot;resourceMap&quot;, {
 			};
 			core.cy.animate(options);
 		});
-
-		connection.on(&quot;addResource&quot;, function(data) {
+		
+		var addResource = function(data) {
 			core.cy.add({
 				&quot;id&quot;: data.id,
 				&quot;group&quot;: &quot;nodes&quot;,
 				&quot;data&quot;: data
 			});
 			core.rerunLayout();
-		});
-
-		connection.on(&quot;addRelation&quot;, function(data) {
-			console.log(&quot;Relation: &quot;, data);
+		};
+		
+		var addRelation = function(data) {
 			core.cy.add({
 				&quot;id&quot;: data.id,
 				&quot;group&quot;: &quot;edges&quot;,
@@ -215,7 +216,13 @@ Vue.component(&quot;resourceMap&quot;, {
 				&quot;data&quot;: data
 			});
 			core.rerunLayout();
-		});
+		};
+
+		connection.on(&quot;resource:create&quot;, addResource);
+		connection.on(&quot;resource:repeat&quot;, addResource);
+
+		connection.on(&quot;relation:create&quot;, addRelation);
+		connection.on(&quot;relation:repeat&quot;, addRelation);
 	},
 	&quot;data&quot;: function() {
 		return {
@@ -238,6 +245,8 @@ Vue.component(&quot;resourceMap&quot;, {
 					&quot;name&quot;: &quot;cola&quot;,
 					&quot;infinite&quot;: true,
 					&quot;fit&quot;: false,
+					&quot;randomize&quot;: false,
+					&quot;animate&quot;: true,
 					&quot;linkDistance&quot;: 1000,
 					&quot;complete&quot;: function() {
 						console.warn(&quot;Complete&quot;);

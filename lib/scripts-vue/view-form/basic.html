@@ -7,7 +7,7 @@
 	</div>
 	
 	<!-- form v-on:submit.prevent="submit(formData)" -->
-	<form v-on:submit.prevent>
+	<form v-on:submit.prevent class="gaze-form">
 		<div v-for="field in fields" class="field" :class="field.class || field.name">
 			<label v-if="field.type === 'text' || field.type === 'date'">
 				<span>{{field.title}}</span>

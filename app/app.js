@@ -11,23 +11,20 @@ Gaze.vue = new Vue({
 		"g$reconfigure": Gaze.reconfigure
 	},
 	mounted: function() {
-		var vm = this;
 		var update = function() {
 			Gaze.vue.route = window.location.hash.substring(2);
 		};
-		
 		window.addEventListener("hashchange", update);
 		window.addEventListener("popstate", update);
 	},
 	computed: {
 		ViewComponent () {
-			var template = Vue.templified("dashboards/" + this.route + ".html") || Vue.templified(this.route) || Vue.templified("dashboards/notfound.html");
 			return {
-				"template": template
+				"template": Vue.templified("dashboards/" + this.route + ".html") || Vue.templified(this.route) || Vue.templified("dashboards/notfound.html")
 			};
 		}
 	},
 	render (h) {
-		return h(this.ViewComponent)
+		return h(this.ViewComponent);
 	}
 });

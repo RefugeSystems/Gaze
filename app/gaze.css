@@ -56,6 +56,20 @@ body {
 }
 
 
+section .gaze-form {
+	display: table-body;
+}
+
+section .gaze-form label {
+	display: table-row;
+}
+
+section .gaze-form label span {
+	display: table-cell;
+	text-align: right;
+}
+
+
 #map .map.controls {
 	position: absolute;
 	right: 0px;

@@ -251,7 +251,7 @@ module.exports = function(grunt) {
 					},
 					"livereloadOnError": false
 				},
-				"files": ["lib/**/*.js", "lib/**/*.js", "lib/**/*.css", "lib/**/*.html", "app/index.html"],
+				"files": ["lib/**/*.js", "lib/**/*.js", "lib/**/*.css", "lib/**/*.html", "app/app.js", "app/index.html"],
 				"tasks": ["dev"]
 			},
 			"beta": {
