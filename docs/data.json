@@ -43,6 +43,13 @@
         "lib\\scripts-vue\\view-experiments\\basic.js": {
             "name": "lib\\scripts-vue\\view-experiments\\basic.js",
             "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-experiments\\experimental.js": {
+            "name": "lib\\scripts-vue\\view-experiments\\experimental.js",
+            "modules": {},
             "classes": {
                 "Component-Basic": 1
             },
@@ -53,8 +60,16 @@
             "name": "lib\\scripts-vue\\view-form\\form.js",
             "modules": {},
             "classes": {
-                "gazeForm": 1,
                 "gazeForm-Field": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-infini\\infini.js": {
+            "name": "lib\\scripts-vue\\view-infini\\infini.js",
+            "modules": {},
+            "classes": {
+                "gazeForm": 1
             },
             "fors": {},
             "namespaces": {}
@@ -194,7 +209,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "Gaze",
-            "file": "lib\\scripts-vue\\view-form\\form.js",
+            "file": "lib\\scripts-vue\\view-infini\\infini.js",
             "line": 2,
             "description": "Provides a simple form for creating a resource.",
             "is_constructor": 1,
@@ -215,7 +230,7 @@
             "plugin_for": [],
             "extension_for": [],
             "module": "Gaze",
-            "file": "lib\\scripts-vue\\view-experiments\\basic.js",
+            "file": "lib\\scripts-vue\\view-experiments\\experimental.js",
             "line": 2,
             "is_constructor": 1,
             "params": [

@@ -197,6 +197,8 @@ module.exports = function(grunt) {
 									"wss://tower.refugesystems.net:3443 " +
 									"ws://beta.refugesystems.net:3000 " +
 									"wss://beta.refugesystems.net:3443 " +
+									"ws://alpha.refugesystems.net:3000 " +
+									"wss://alpha.refugesystems.net:3443 " +
 									"http://d3js.org " +
 									"'unsafe-inline' " +
 									"'unsafe-eval'; " +

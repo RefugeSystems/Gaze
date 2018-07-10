@@ -1,0 +1,23 @@
+
+<div class="gaze-infini">
+	<div class="filter">
+		<label>
+			<span>Filter List:</span>
+			<input type="text" placeholder="Filter for..." />
+		</label>
+	</div>
+	
+	<div v-for="record in records" :key="record.id" class="record" v-bind:class="{ loaded: record._loaded }">
+		<div v-if="!record._loaded">{{record.id}} : {{!!record._loaded}}</div>
+		<div v-if="record._loaded">
+			<slot name="recordDisplay">
+				<div class="name">
+					{{record.name}}
+				</div>
+				<div class="description">
+					<p>{{record.name}}</p>
+				</div>
+			</slot>
+		</div>
+	</div>
+</div>

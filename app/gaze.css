@@ -57,16 +57,30 @@ body {
 
 
 section .gaze-form {
-	display: table-body;
 }
 
 section .gaze-form label {
-	display: table-row;
 }
 
 section .gaze-form label span {
-	display: table-cell;
 	text-align: right;
+}
+
+
+.gaze-infini {
+	
+}
+
+.gaze-infini .record .loaded {
+	min-height: 100px;
+}
+
+.gaze-infini label {
+	
+}
+
+.gaze-infini label span {
+	
 }
 
 
