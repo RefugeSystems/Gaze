@@ -1,0 +1,15 @@
+<section class="rs-panel">
+	<div class="controls">
+		<div class="block top left bar">
+		</div>
+		<div class="block bottom left bar">
+		</div>
+		<div class="block top left column">
+		</div>
+		<div class="block top right column">
+		</div>
+	</div>
+	<div class="container" v-bind:class="{'l':leftColumn && leftColumn.length, 'r':rightColumn && rightColumn.length, 't':topBar && topBar.length, 'b':bottomBar && bottomBar.length}">
+		<slot name="main"></slot>
+	</div>
+</section>

@@ -3,6 +3,7 @@ YUI.add("yuidoc-meta", function(Y) {
     "classes": [
         "Component-Basic",
         "Component-MapControls",
+        "Component-Panel",
         "Component-ResourceMap",
         "Component-gazesynth",
         "Configuration",

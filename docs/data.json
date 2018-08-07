@@ -74,6 +74,22 @@
             "fors": {},
             "namespaces": {}
         },
+        "lib\\scripts-vue\\view-panel\\panel.js": {
+            "name": "lib\\scripts-vue\\view-panel\\panel.js",
+            "modules": {},
+            "classes": {
+                "Component-Panel": 1
+            },
+            "fors": {},
+            "namespaces": {}
+        },
+        "lib\\scripts-vue\\view-resourcelist\\core.js": {
+            "name": "lib\\scripts-vue\\view-resourcelist\\core.js",
+            "modules": {},
+            "classes": {},
+            "fors": {},
+            "namespaces": {}
+        },
         "lib\\scripts-vue\\view-resourcemap\\core.js": {
             "name": "lib\\scripts-vue\\view-resourcemap\\core.js",
             "modules": {},
@@ -120,6 +136,7 @@
                 "gazeForm": 1,
                 "Component-Basic": 1,
                 "gazeForm-Field": 1,
+                "Component-Panel": 1,
                 "Component-ResourceMap": 1,
                 "Component-MapControls": 1,
                 "_Gaze": 1,
@@ -252,6 +269,20 @@
             "module": "Gaze",
             "file": "lib\\scripts-vue\\view-form\\form.js",
             "line": 137,
+            "is_constructor": 1
+        },
+        "Component-Panel": {
+            "name": "Component-Panel",
+            "shortname": "Component-Panel",
+            "classitems": [],
+            "plugins": [],
+            "extensions": [],
+            "plugin_for": [],
+            "extension_for": [],
+            "module": "Gaze",
+            "file": "lib\\scripts-vue\\view-panel\\panel.js",
+            "line": 2,
+            "description": "Panels serve as a basic top level compontent to wrap sub-components with\nnavigation and passive information.",
             "is_constructor": 1
         },
         "Component-ResourceMap": {

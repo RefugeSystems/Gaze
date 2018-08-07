@@ -1,22 +1,21 @@
 <?xml version="1.0"?>
-<testsuite name="Chrome 67.0.3396 (Windows 7 0.0.0)" package="" timestamp="2018-07-08T23:21:24" id="0" hostname="Anemoi" tests="9" errors="0" failures="0" time="0.008">
+<testsuite name="Chrome 67.0.3396 (Windows 7 0.0.0)" package="" timestamp="2018-08-06T03:34:47" id="0" hostname="Anemoi" tests="9" errors="0" failures="0" time="0.005">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36"/>
   </properties>
-  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Exists" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0.002" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Jasmine Exists" time="0.001" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing jQuery Exists" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.003" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <testcase name="Assumptions for unit testing VueJS Exists" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing">
     <skipped/>
   </testcase>
-  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.005" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Jasmine Exists" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Exists" time="0" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing jQuery Exists" time="0.002" classname="Chrome_67_0_3396_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <system-out>
-    <![CDATA[Chrome 67.0.3396 (Windows 7 0.0.0) LOG: 'open: ', Event{isTrusted: true}
-
+    <![CDATA[
 ]]>
   </system-out>
   <system-err/>

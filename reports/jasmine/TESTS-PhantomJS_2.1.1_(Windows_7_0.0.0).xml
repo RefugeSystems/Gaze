@@ -1,40 +1,39 @@
 <?xml version="1.0"?>
-<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-07-08T23:21:24" id="0" hostname="Anemoi" tests="9" errors="1" failures="3" time="0.013">
+<testsuite name="PhantomJS 2.1.1 (Windows 7 0.0.0)" package="" timestamp="2018-08-06T03:34:47" id="0" hostname="Anemoi" tests="9" errors="1" failures="3" time="0.014">
   <properties>
     <property name="browser.fullName" value="Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1"/>
   </properties>
+  <testcase name="Assumptions for unit testing jQuery Exists" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.008" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing VueJS Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <testcase name="Assumptions for unit testing VueJS Can mock appropriately" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
     <skipped/>
   </testcase>
-  <testcase name="Assumptions for unit testing VueJS Exists" time="0.003" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Can mock appropriately" time="0.007" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing AngularJS Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing jQuery Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
-  <testcase name="Assumptions for unit testing Promises Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
-    <failure type="">ReferenceError: Can't find variable: Promise in spec/_base-spec.js (line 13)
-spec/_base-spec.js:13:18
-&lt;Jasmine&gt;
-</failure>
-  </testcase>
-  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
+  <testcase name="Assumptions for unit testing Jasmine Exists" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
+  <testcase name="Assumptions for unit testing Promises Execute successfully" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
     <failure type="">ReferenceError: Can't find variable: Promise in spec/_base-spec.js (line 17)
 spec/_base-spec.js:17:29
 &lt;Jasmine&gt;
 </failure>
   </testcase>
-  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
+  <testcase name="Assumptions for unit testing Promises Exists" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
+    <failure type="">ReferenceError: Can't find variable: Promise in spec/_base-spec.js (line 13)
+spec/_base-spec.js:13:18
+&lt;Jasmine&gt;
+</failure>
+  </testcase>
+  <testcase name="Assumptions for unit testing Promises Fail correctly" time="0.001" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing">
     <failure type="">ReferenceError: Can't find variable: Promise in spec/_base-spec.js (line 27)
 spec/_base-spec.js:27:29
 &lt;Jasmine&gt;
 </failure>
   </testcase>
-  <testcase name="Assumptions for unit testing Jasmine Exists" time="0.002" classname="PhantomJS_2_1_1_(Windows_7_0_0_0).Assumptions for unit testing"/>
   <system-out>
-    <![CDATA[Chrome 67.0.3396 (Windows 7 0.0.0) LOG: 'open: ', Event{isTrusted: true}
-,PhantomJS 2.1.1 (Windows 7 0.0.0) ERROR
+    <![CDATA[PhantomJS 2.1.1 (Windows 7 0.0.0) ERROR
   {
-    "message": "An error was thrown in afterAll\nTypeError: undefined is not a constructor (evaluating 'Object.assign(configuration, defaults)')\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze",
-    "str": "An error was thrown in afterAll\nTypeError: undefined is not a constructor (evaluating 'Object.assign(configuration, defaults)')\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze"
+    "message": "An error was thrown in afterAll\nTypeError: undefined is not a constructor (evaluating 'Object.assign(configuration, defaults)')\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze",
+    "str": "An error was thrown in afterAll\nTypeError: undefined is not a constructor (evaluating 'Object.assign(configuration, defaults)')\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze\nReferenceError: Can't find variable: Gaze"
   }
 
 ]]>
