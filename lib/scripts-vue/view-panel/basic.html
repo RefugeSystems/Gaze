@@ -1,15 +1,48 @@
 <section class="rs-panel">
 	<div class="controls">
-		<div class="block top left bar">
+		<div class="block top left bar dyn">
+			<button v-for="nav in topBar" v-class="nav.classes">
+				<span v-if="nav.icon" class="icon fa" v-class="nav.icon"></span>
+				<span v-if="nav.prefix" class="prefix" v-class="nav.prefixClass">{{nav.prefix}}</span>
+				<span v-if="nav.indictor" class="indicator" v-class="nav.indicator">{{nav.indicator}}</span>
+				<span v-if="nav.text" class="text" v-class="nav.textClass">{{nav.text}}</span>
+				<span v-if="nav.suffix" class="suffix" v-class="nav.suffixClass">{{nav.suffix}}</span>
+				<span v-if="nav.ending" class="icon fa" v-class="nav.ending"></span>
+			</button>
 		</div>
-		<div class="block bottom left bar">
+		<div class="block bottom left bar dyn">
+			<button v-for="nav in bottomBar" v-class="nav.classes">
+				<span v-if="nav.icon" class="icon fa" v-class="nav.icon"></span>
+				<span v-if="nav.prefix" class="prefix" v-class="nav.prefixClass">{{nav.prefix}}</span>
+				<span v-if="nav.indictor" class="indicator" v-class="nav.indicator">{{nav.indicator}}</span>
+				<span v-if="nav.text" class="text" v-class="nav.textClass">{{nav.text}}</span>
+				<span v-if="nav.suffix" class="suffix" v-class="nav.suffixClass">{{nav.suffix}}</span>
+				<span v-if="nav.ending" class="icon fa" v-class="nav.ending"></span>
+			</button>
 		</div>
-		<div class="block top left column">
+		<div class="block top left column dyn" v-bind:class="{'t':topBar && topBar.length, 'b':bottomBar && bottomBar.length}">
+			<button v-for="nav in leftColumn" :class="nav.classes">
+				<span v-if="nav.icon" class="icon" :class="nav.icon"></span>
+				<span v-if="nav.prefix" class="prefix" :class="nav.prefix">{{nav.prefix.prefix}}</span>
+				<span v-if="nav.indictor" class="indicator" :class="nav.indicator">{{nav.indicator.indicator}}</span>
+				<span v-if="nav.text" class="text" :class="nav.text">{{nav.text.text}}</span>
+				<span v-if="nav.suffix" class="suffix" :class="suffix">{{nav.suffix.suffix}}</span>
+				<span v-if="nav.ending" class="icon" :class="nav.ending"></span>
+			</button>
 		</div>
-		<div class="block top right column">
+		<div class="block top right column dyn" v-bind:class="{'t':topBar && topBar.length, 'b':bottomBar && bottomBar.length}">
+			<button v-for="nav in rightColumn" v-class="nav.classes">
+				<span v-if="nav.icon" class="icon fa" v-class="nav.icon"></span>
+				<span v-if="nav.prefix" class="prefix" v-class="nav.prefixClass">{{nav.prefix}}</span>
+				<span v-if="nav.indictor" class="indicator" v-class="nav.indicator">{{nav.indicator}}</span>
+				<span v-if="nav.text" class="text" v-class="nav.textClass">{{nav.text}}</span>
+				<span v-if="nav.suffix" class="suffix" v-class="nav.suffixClass">{{nav.suffix}}</span>
+				<span v-if="nav.ending" class="icon fa" v-class="nav.ending"></span>
+			</button>
 		</div>
 	</div>
-	<div class="container" v-bind:class="{'l':leftColumn && leftColumn.length, 'r':rightColumn && rightColumn.length, 't':topBar && topBar.length, 'b':bottomBar && bottomBar.length}">
-		<slot name="main"></slot>
+	<div class="container dyn" v-bind:class="{'l':leftColumn && leftColumn.length, 'r':rightColumn && rightColumn.length, 't':topBar && topBar.length, 'b':bottomBar && bottomBar.length}">
+		<slot name="main">
+		</slot>
 	</div>
 </section>

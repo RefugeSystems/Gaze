@@ -109,27 +109,27 @@ Vue.component(&quot;rsPanel&quot;, {
 	],
 	&quot;props&quot;: {
 		&quot;topBar&quot;: {
-			&quot;type&quot;: Object,
+			&quot;type&quot;: Array,
 			&quot;default&quot;: function() {
-				return null;
+				return [];
 			}
 		},
 		&quot;rightColumn&quot;: {
-			&quot;type&quot;: Object,
+			&quot;type&quot;: Array,
 			&quot;default&quot;: function() {
-				return null;
+				return [];
 			}
 		},
 		&quot;bottomBar&quot;: {
-			&quot;type&quot;: Object,
+			&quot;type&quot;: Array,
 			&quot;default&quot;: function() {
-				return null;
+				return [];
 			}
 		},
 		&quot;leftColumn&quot;: {
-			&quot;type&quot;: Object,
+			&quot;type&quot;: Array,
 			&quot;default&quot;: function() {
-				return null;
+				return [];
 			}
 		}
 	},
@@ -137,7 +137,14 @@ Vue.component(&quot;rsPanel&quot;, {
 		return {};
 	},
 	&quot;mounted&quot;: function() {
-		
+		this.leftColumn.push({
+			&quot;icon&quot;: {
+				&quot;fa fa-user&quot;: true
+			},
+			&quot;text&quot;: {
+				&quot;text&quot;: &quot;Homie&quot; 
+			}
+		});
 	},
 	&quot;methods&quot;: {
 		
