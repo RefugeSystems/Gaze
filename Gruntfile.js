@@ -9,11 +9,13 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-yuidoc");
 	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-contrib-less");
 	grunt.loadNpmTasks("grunt-mkdir");
 	grunt.loadNpmTasks("grunt-karma");
 
 	var pkg = grunt.file.readJSON("package.json");
 	var footer = "\r\nGaze.version = \"V" + pkg.version + "\";";
+	var fs = require("fs");
 	var config = {
 		"pkg": pkg,
 		"eslint": {
@@ -95,9 +97,25 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		"less": {
+			"styling": {
+				/*"options": {
+					"sourceMap": false,
+					"sourceMapFilename": "app/less.css",
+					"paths": [
+						"lib/scripts-vue"
+					]
+				},
+				*/
+				"files": {
+					"build/less.css": "lib/scripts-vue/*/*.less"
+				}
+			}
+		},
 		"concat": {
 			"appCSS": {
 				"src": [
+					"build/less.css",
 					"lib/**/*.css"
 				],
 				"dest": "app/gaze.css"
@@ -524,8 +542,8 @@ module.exports = function(grunt) {
 	grunt.registerTask("default", ["mkdir:build", "lint", "concurrent:development"]);
 
 	grunt.registerTask("lint", ["eslint:lib"]);
-	grunt.registerTask("dev", ["eslint:lib", "templify:vue", "templify:angular", "concat:cytoscape", "concat:appCSS", "concat:appJS"]);
-	grunt.registerTask("beta", ["eslint:lib", "templify:vue", "templify:angular", "concat:cytoscape","concat:appCSS", "uglify:app"]);
+	grunt.registerTask("dev", ["eslint:lib", "templify:vue", "templify:angular", "concat:cytoscape", "less:styling", "concat:appCSS", "concat:appJS"]);
+	grunt.registerTask("beta",["eslint:lib", "templify:vue", "templify:angular", "concat:cytoscape", "less:styling", "concat:appCSS", "uglify:app"]);
 
 	grunt.registerTask("document", ["yuidoc", "connect:docs", "open:docs", "watch:docs"]);
 	grunt.registerTask("testing", ["templify:vue", "templify:angular", "open:karma", "karma:continuous"]);
@@ -534,5 +552,5 @@ module.exports = function(grunt) {
 	grunt.registerTask("beta-test", ["beta", "connect:server", "open:app", "watch:beta"]);
 	grunt.registerTask("test", ["eslint:client", "templify:testing", "karma:deployment"]);
 	
-	grunt.registerTask("distribute", ["mkdir:build", "templify:vue", "uglify:angular", "uglify:vue", "concat:css"]);
+	grunt.registerTask("distribute", ["mkdir:build", "templify:vue", "uglify:angular", "uglify:vue", "less:styling", "concat:css"]);
 };
