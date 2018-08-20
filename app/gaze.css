@@ -1,3 +1,36 @@
+.view-create {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+.view-create .aux-fields {
+  text-align: right;
+}
+.view-create .aux-fields .ctrl {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+.view-create label {
+  font-size: 18px;
+  line-height: 20px;
+}
+.view-create input {
+  text-align: left;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 3px;
+}
+.view-create .view-create .page {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+.entry-formData {
+  /* Dev Settings */
+  background-color: #b8a0dc;
+}
+
 /*!
  * Font Awesome Free 5.0.13 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -84,6 +117,17 @@ section .gaze-form label span {
 }
 
 
+.rs-panel .controls .block button,
+.rs-panel .controls .block div {
+	position: relative;
+	width: 100%;
+	height: 70px;
+	margin: 0px;
+	border: 0px;
+	padding: 10px;
+}
+
+
 section.rs-panel {
 	position: relative;
 	background-color: black;
@@ -96,65 +140,65 @@ section.rs-panel {
 
 section.rs-panel .container {
 	position: absolute;
-	border: 1px solid red;
+	background-color: purple;
 	z-index: 2;
-	poadding: 0px;
+	padding: 0px;
 	margin: 0px;
-	border: 0px;
+	/*border: 0px;*/
 	bottom: 0px;
 	right: 0px;
 	left: 0px;
 	top: 0px;
 }
 
-section.rs-panel .container.b {
-	bottom: 70px;
+section.rs-panel .dyn.b {
+	bottom: 70px !important;
 }
 
-section.rs-panel .container.r {
-	right: 200px;
+section.rs-panel .dyn.r {
+	right: 200px !important;
 }
 
-section.rs-panel .container.l {
-	left: 200px;
+section.rs-panel .dyn.l {
+	left: 200px !important;
 }
 
-section.rs-panel .container.t {
-	top: 70px;
+section.rs-panel .dyn.t {
+	top: 70px !important;
 }
 
 section.rs-panel .controls {
 	position: absolute;
-	border: 1px solid red;
+	background-color: blue;
 	z-index: 1;
 	width: 100%;
 	height: 100%;
-	poadding: 0px;
+	padding: 0px;
 	margin: 0px;
 	border: 0px;
 }
 
 section.rs-panel .controls .block {
 	position: absolute;
-	border: 1px solid red;
+	background-color: red;
 }
 
 section.rs-panel .controls .bar {
-	width: 100%;
 	height: 70px;
 }
 
 section.rs-panel .controls .column {
 	width: 200px;
-	height: 100%;
 }
 
 section.rs-panel .controls .top {
 	top: 0px;
+	bottom: 0px;
 }
 
 section.rs-panel .controls .left {
 	left: 0px;
+	right: 0px;
 }
 
 section.rs-panel .controls .right {

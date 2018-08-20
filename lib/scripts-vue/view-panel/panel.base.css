@@ -11,65 +11,65 @@ section.rs-panel {
 
 section.rs-panel .container {
 	position: absolute;
-	border: 1px solid red;
+	background-color: purple;
 	z-index: 2;
-	poadding: 0px;
+	padding: 0px;
 	margin: 0px;
-	border: 0px;
+	/*border: 0px;*/
 	bottom: 0px;
 	right: 0px;
 	left: 0px;
 	top: 0px;
 }
 
-section.rs-panel .container.b {
-	bottom: 70px;
+section.rs-panel .dyn.b {
+	bottom: 70px !important;
 }
 
-section.rs-panel .container.r {
-	right: 200px;
+section.rs-panel .dyn.r {
+	right: 200px !important;
 }
 
-section.rs-panel .container.l {
-	left: 200px;
+section.rs-panel .dyn.l {
+	left: 200px !important;
 }
 
-section.rs-panel .container.t {
-	top: 70px;
+section.rs-panel .dyn.t {
+	top: 70px !important;
 }
 
 section.rs-panel .controls {
 	position: absolute;
-	border: 1px solid red;
+	background-color: blue;
 	z-index: 1;
 	width: 100%;
 	height: 100%;
-	poadding: 0px;
+	padding: 0px;
 	margin: 0px;
 	border: 0px;
 }
 
 section.rs-panel .controls .block {
 	position: absolute;
-	border: 1px solid red;
+	background-color: red;
 }
 
 section.rs-panel .controls .bar {
-	width: 100%;
 	height: 70px;
 }
 
 section.rs-panel .controls .column {
 	width: 200px;
-	height: 100%;
 }
 
 section.rs-panel .controls .top {
 	top: 0px;
+	bottom: 0px;
 }
 
 section.rs-panel .controls .left {
 	left: 0px;
+	right: 0px;
 }
 
 section.rs-panel .controls .right {
