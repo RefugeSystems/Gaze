@@ -1,3 +1,36 @@
+.view-create {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+.view-create .aux-fields {
+  text-align: right;
+}
+.view-create .aux-fields .ctrl {
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+}
+.view-create label {
+  font-size: 18px;
+  line-height: 20px;
+}
+.view-create input {
+  text-align: left;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 3px;
+}
+.view-create .view-create .page {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+}
+.entry-formData {
+  /* Dev Settings */
+  background-color: #b8a0dc;
+}
+
 /*!
  * Font Awesome Free 5.0.13 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
